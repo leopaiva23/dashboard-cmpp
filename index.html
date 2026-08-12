@@ -1,334 +1,535 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard — Memoriais RSC-PCCTAE | CMPP</title>
+<title>Dashboard Executivo — Memoriais RSC-PCCTAE | UFPI</title>
 <style>
-:root {
-  --bg:#f5f7fb; --card:#ffffff; --text:#172033; --muted:#6b7280;
-  --line:#e5e7eb; --accent:#0b4f8a; --accent2:#1769aa; --soft:#eaf3fb;
-  --gold:#b7791f; --shadow:0 8px 24px rgba(20,35,60,.08);
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text)}
-.container{max-width:1400px;margin:auto;padding:28px}
-.header{background:linear-gradient(135deg,#0b4f8a,#123b63);color:white;border-radius:20px;padding:28px 32px;box-shadow:var(--shadow)}
-.header h1{margin:0 0 6px;font-size:30px}
-.header p{margin:0;opacity:.86}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:18px 0}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
-.kpi-label{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
-.kpi{font-size:30px;font-weight:800;margin-top:8px}
-.kpi small{font-size:14px;font-weight:600;color:var(--muted)}
-.main{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
-.section-title{font-size:17px;font-weight:750;margin:0 0 14px}
-.chart-wrap{height:300px;position:relative}
-svg{width:100%;height:100%}
-.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
-input,select{border:1px solid var(--line);background:white;border-radius:10px;padding:10px 12px;font-size:14px;outline:none}
-input:focus,select:focus{border-color:var(--accent2);box-shadow:0 0 0 3px #dceeff}
-.highlight{border:2px solid #d6a34a;background:#fffaf0}
-.highlight .rank{font-size:34px;font-weight:900;color:var(--gold)}
-.table-card{margin-top:18px}
-.table-scroll{max-height:560px;overflow:auto;border:1px solid var(--line);border-radius:12px}
-table{width:100%;border-collapse:collapse;background:white}
-th,td{padding:11px 12px;border-bottom:1px solid var(--line);font-size:13px;text-align:left;white-space:nowrap}
-th{position:sticky;top:0;background:#f8fafc;z-index:2;color:#4b5563}
-tr:hover td{background:#f7fbff}
-.myrow td{background:#fff7df;font-weight:650}
-.badge{display:inline-block;padding:4px 8px;border-radius:999px;background:var(--soft);color:var(--accent);font-size:12px;font-weight:700}
-.footer{color:var(--muted);font-size:12px;margin:16px 2px}
-.legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:5px}
-.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);margin-right:5px}
-@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}.main{grid-template-columns:1fr}}
-@media(max-width:650px){.container{padding:14px}.grid,.main{grid-template-columns:1fr}.header{padding:24px}.header h1{font-size:22px}}
+:root{--bg:#f3f6fa;--card:#fff;--text:#172033;--muted:#64748b;--line:#e2e8f0;--navy:#123b63;--blue:#0b4f8a;--blue2:#1769aa;--green:#15803d;--amber:#b45309;--red:#b91c1c;--shadow:0 10px 30px rgba(15,35,60,.07)}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#eef3f8 0,#f7f9fc 260px,#f3f6fa 100%);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text)}
+.container{max-width:1480px;margin:auto;padding:28px 30px 36px}.header{position:relative;overflow:hidden;border-radius:22px;padding:28px 32px;background:linear-gradient(135deg,#092f54,#0b4f8a 55%,#1769aa);box-shadow:0 16px 38px rgba(9,47,84,.18);color:#fff}.header:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;right:-90px;top:-140px;background:rgba(255,255,255,.08)}
+.header h1{margin:0 0 6px;font-size:27px;position:relative;z-index:1}.header p{margin:0;font-size:13px;opacity:.9;position:relative;z-index:1}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:16px 0}.card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:18px;box-shadow:var(--shadow)}.kpi-card{min-height:128px}.kpi-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:9px}.ib{background:#e8f1fb;color:#0b4f8a}.ig{background:#fff4d8;color:#a56a00}.igr{background:#e8f7ef;color:#15803d}.ia{background:#fff7df;color:#b45309}
+.kpi-label{font-size:10px;font-weight:800;letter-spacing:.07em;color:#718096;text-transform:uppercase}.kpi{font-size:27px;font-weight:850;letter-spacing:-.03em;margin-top:6px}.sub{font-size:10px;color:#718096;margin-top:4px}
+.section-title{font-size:15px;margin:0 0 12px;color:#24364d}.compare{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.campus-card{padding:17px}.campus-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.campus-name{font-weight:850;font-size:16px}.campus-total{font-size:22px;font-weight:850;color:var(--blue)}
+.bar{height:8px;border-radius:99px;background:#edf2f7;overflow:hidden;display:flex;margin:7px 0 12px}.seg{height:100%}.seg-def{background:#2e8b57}.seg-and{background:#f2a900}.seg-ind{background:#c62828}.metric-row{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#667085;margin-top:7px}.metric-row strong{color:#24364d}.pill{display:inline-flex;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:800;background:#edf4fa;color:#0b4f8a}
+.compare-note{margin-top:10px;font-size:11px;color:#64748b}.highlight{border:1px solid #cfe0ef;background:linear-gradient(180deg,#fff,#f8fbff)}
+.chart-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:15px}.chart-wrap{height:275px;position:relative}.chart-wrap svg{width:100%;height:100%;display:block}
+.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}input,select{border:1px solid #d8e0ea;background:#fbfcfe;border-radius:10px;padding:10px 12px;font-size:13px;outline:none}input:focus,select:focus{border-color:var(--blue2);box-shadow:0 0 0 3px #dceeff}
+.table-card{margin-top:15px}.table-scroll{max-height:620px;overflow:auto;border:1px solid #e1e7ef;border-radius:14px}table{width:100%;border-collapse:collapse}th,td{padding:11px 12px;border-bottom:1px solid #e2e8f0;font-size:12px;text-align:left;white-space:nowrap}th{position:sticky;top:0;background:#f4f7fb;z-index:2;color:#52657b;text-transform:uppercase;font-size:9px;letter-spacing:.06em}tr:hover td{background:#f8fbff}.rank-pill{display:inline-flex;min-width:31px;height:28px;align-items:center;justify-content:center;border-radius:8px;background:#f1f5f9;font-weight:850}.level-badge,.campus-badge,.status-badge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:8px;font-size:10px;font-weight:800}.level-v{background:#eef4ff;color:#315ea8}.level-vi{background:#f1ecff;color:#6941c6}.level-iii{background:#edf8f3;color:#16704a}.campus-badge{background:#edf4fa;color:#0b4f8a}.status-badge{border-radius:999px;gap:5px}.status-badge:before{content:"";width:6px;height:6px;border-radius:50%;background:#16a34a}.status-deferido{background:#e9f8ef;color:#15803d}.status-andamento{background:#fff5df;color:#b45309}.status-andamento:before{background:#f59e0b}.status-indeferido{background:#fdecec;color:#b91c1c}.status-indeferido:before{background:#dc2626}.publication-date{display:inline-flex;flex-direction:column;gap:2px;line-height:1.1}.publication-date small{font-size:10px;color:#64748b;font-weight:600}.footer{color:#64748b;font-size:11px;margin-top:15px;border-top:1px solid #e1e7ef;padding-top:13px;line-height:1.5}
 
-.kpi-card{position:relative;overflow:hidden}
-.kpi-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px}
-.icon-blue{background:#e8f1fb;color:#0b4f8a}.icon-gold{background:#fff4d8;color:#a56a00}.icon-green{background:#e8f7ef;color:#15803d}.icon-amber{background:#fff7df;color:#b45309}
-.status-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:800}
-.status-badge:before{content:"";width:7px;height:7px;border-radius:50%}
-.status-deferido{background:#e9f8ef;color:#15803d}.status-deferido:before{background:#16a34a}
-.status-andamento{background:#fff5df;color:#b45309}.status-andamento:before{background:#f59e0b}
-.status-indeferido{background:#fdecec;color:#b91c1c}.status-indeferido:before{background:#dc2626}
-.level-badge{display:inline-flex;padding:5px 9px;border-radius:8px;font-size:12px;font-weight:800}
-.level-v{background:#eef4ff;color:#315ea8}.level-vi{background:#f1ecff;color:#6941c6}.level-iii{background:#edf8f3;color:#16704a}
-.rank-pill{display:inline-flex;min-width:34px;height:30px;padding:0 8px;align-items:center;justify-content:center;border-radius:9px;background:#f1f5f9;font-weight:850}
+.daily-card{margin-top:15px}
+.daily-chart-wrap{height:290px;width:100%}
+.daily-chart-wrap svg{width:100%;height:100%;display:block}
+.daily-caption{font-size:11px;color:var(--muted);margin-top:4px}
+.daily-line{fill:none;stroke:var(--blue2);stroke-width:3}
+.daily-area{fill:rgba(23,105,170,.10)}
+.daily-point{fill:var(--blue2);stroke:var(--card);stroke-width:2}
 
-/* ===== VISUAL EXECUTIVO ===== */
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}.compare{grid-template-columns:repeat(2,1fr)}.chart-grid{grid-template-columns:1fr 1fr}.main{display:block}}
+@media(max-width:650px){.container{padding:10px}.header{padding:20px 18px;border-radius:16px}.header h1{font-size:21px;line-height:1.2}.header p{font-size:11px;line-height:1.45}.grid{grid-template-columns:1fr 1fr;gap:8px}.card{padding:13px;border-radius:14px}.kpi-card{min-height:0}.kpi-icon{width:33px;height:33px;font-size:16px}.kpi-label{font-size:8px}.kpi{font-size:21px}.compare,.chart-grid{display:block}.campus-card,.chart-grid .card{margin-bottom:9px}.campus-name{font-size:14px}.campus-total{font-size:20px}.chart-wrap{height:225px}.filters{display:grid;grid-template-columns:1fr;gap:7px}.filters input,.filters select{width:100%;min-height:41px}.table-scroll{max-height:none;overflow:visible;border:0}table,tbody{display:block;width:100%}thead{display:none}tbody{display:grid;gap:8px}tbody tr{display:grid;grid-template-columns:1fr 1fr;padding:11px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;box-shadow:0 5px 16px rgba(15,35,60,.05)}tbody td{display:flex;justify-content:space-between;white-space:normal;border:0;padding:5px 0;font-size:11px;gap:8px}tbody td:before{content:attr(data-label);font-size:8px;font-weight:800;text-transform:uppercase;color:#7b8798}tbody td:nth-child(2){grid-column:1/-1;order:-2;display:block;border-bottom:1px solid #edf1f5;padding-bottom:8px;margin-bottom:2px}tbody td:nth-child(2):before{display:block;margin-bottom:3px}tbody td:nth-child(2) strong{font-size:12px}.footer{font-size:9px}}
+@media(max-width:380px){.grid{grid-template-columns:1fr}.header h1{font-size:20px}}
+
+/* ===== THEME SYSTEM ===== */
 :root{
-  --bg:#f3f6fa;--card:#fff;--text:#172033;--muted:#64748b;
-  --line:#e2e8f0;--navy:#123b63;--blue:#0b4f8a;--blue2:#1769aa;
-  --green:#15803d;--green-soft:#eaf7ef;--amber:#b45309;--amber-soft:#fff6df;
-  --red:#b91c1c;--red-soft:#fdecec;--shadow:0 10px 30px rgba(15,35,60,.07);
+  --bg:#f3f6fa; --bg2:#f8fafc; --card:#ffffff; --card2:#fbfdff;
+  --text:#172033; --muted:#64748b; --line:#e2e8f0;
+  --navy:#092f54; --blue:#0b4f8a; --blue2:#1769aa;
+  --green:#15803d; --amber:#b45309; --red:#b91c1c;
+  --header1:#092f54; --header2:#0b4f8a; --header3:#1769aa;
+  --shadow:0 10px 30px rgba(15,35,60,.07);
+  --input:#fbfcfe; --tablehead:#f4f7fb; --hover:#f8fbff;
 }
-body{background:linear-gradient(180deg,#eef3f8 0,#f7f9fc 260px,#f3f6fa 100%)}
-.container{max-width:1480px;padding:30px 32px 36px}
+html[data-theme="dark"]{
+  --bg:#0b1220; --bg2:#0f172a; --card:#111c2e; --card2:#152238;
+  --text:#e8eef7; --muted:#9aabc0; --line:#26364d;
+  --navy:#dbeafe; --blue:#69a7df; --blue2:#86bff0;
+  --header1:#071c33; --header2:#0b3d68; --header3:#135b8d;
+  --green:#4ade80; --amber:#fbbf24; --red:#f87171;
+  --shadow:0 12px 32px rgba(0,0,0,.24);
+  --input:#0c1728; --tablehead:#162338; --hover:#152238;
+}
+body{
+  background:linear-gradient(180deg,var(--bg2) 0,var(--bg) 300px);
+  color:var(--text);
+  transition:background .25s ease,color .25s ease;
+}
+.card,.table-card{background:var(--card);border-color:var(--line);box-shadow:var(--shadow)}
+.header{background:linear-gradient(135deg,var(--header1),var(--header2) 55%,var(--header3))}
+.section-title,.campus-name{color:var(--text)}
+.kpi-label,.sub,.compare-note,.footer,.metric-row{color:var(--muted)}
+input,select{background:var(--input);color:var(--text);border-color:var(--line)}
+th{background:var(--tablehead);color:var(--muted);border-color:var(--line)}
+td{border-color:var(--line)}
+tr:hover td{background:var(--hover)}
+.table-scroll{border-color:var(--line)}
+.publication-date small{color:var(--muted)}
+.highlight{background:linear-gradient(180deg,var(--card),var(--card2));border-color:var(--line)}
+.rank-pill{background:var(--tablehead);color:var(--text)}
+.campus-badge{background:rgba(23,105,170,.12);color:var(--blue2)}
+.level-v{background:rgba(49,94,168,.15);color:#5f9be0}
+.level-vi{background:rgba(105,65,198,.15);color:#a78bfa}
+.level-iii{background:rgba(22,112,74,.15);color:#5ee6a1}
+.pill{background:rgba(23,105,170,.12);color:var(--blue2)}
+
+
+.theme-toggle{
+  position:absolute;right:22px;top:20px;z-index:5;
+  display:inline-flex;align-items:center;gap:7px;
+  min-width:92px;justify-content:center;
+  border:1px solid rgba(255,255,255,.24);
+  background:rgba(255,255,255,.12);color:#fff;
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-radius:999px;padding:8px 12px;
+  font-size:11px;font-weight:800;cursor:pointer;
+  transition:all .2s ease;
+}
+.theme-toggle:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
+#themeIcon{font-size:16px;line-height:1}
+@media(max-width:650px){
+  .theme-toggle{right:12px;top:12px;min-width:40px;width:40px;height:40px;padding:0}
+  #themeLabel{display:none}
+  .header h1{padding-right:45px}
+}
+
+
+.header,.card,.theme-toggle,input,select,.campus-card,.table-scroll,.rank-pill,.pill,.campus-badge,.status-badge,.level-badge{
+  transition:background-color .25s ease,border-color .25s ease,color .25s ease,box-shadow .25s ease,transform .2s ease;
+}
+.campus-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(15,35,60,.10)}
+html[data-theme="dark"] .campus-card:hover{box-shadow:0 12px 28px rgba(0,0,0,.28)}
+html[data-theme="dark"] .icon-blue{background:rgba(105,167,223,.14);color:#8fc5f3}
+html[data-theme="dark"] .icon-gold{background:rgba(251,191,36,.13);color:#f6c85f}
+html[data-theme="dark"] .icon-green{background:rgba(74,222,128,.13);color:#6ee7a1}
+html[data-theme="dark"] .icon-amber{background:rgba(251,191,36,.13);color:#f6c85f}
+
+
+/* ===== SENIOR / EXECUTIVE VISUAL SYSTEM ===== */
+:root{
+  --accent:#0b4f8a;
+  --accent-2:#1769aa;
+  --accent-soft:rgba(23,105,170,.10);
+  --success:#16845a;
+  --warning:#b7791f;
+  --danger:#c24141;
+  --grid:rgba(100,116,139,.16);
+  --tooltip:#111827;
+}
+html[data-theme="dark"]{
+  --accent:#78b6e8;
+  --accent-2:#9acbf4;
+  --accent-soft:rgba(120,182,232,.12);
+  --success:#52c991;
+  --warning:#f2bd55;
+  --danger:#f17a7a;
+  --grid:rgba(148,163,184,.16);
+  --tooltip:#f8fafc;
+}
+body{letter-spacing:-.005em}
+.container{max-width:1540px;padding-top:24px}
 .header{
-  position:relative;overflow:hidden;border-radius:22px;padding:30px 34px;
-  background:linear-gradient(135deg,#092f54 0%,#0b4f8a 55%,#1769aa 100%);
-  box-shadow:0 16px 38px rgba(9,47,84,.18)
+  padding:31px 34px;
+  border-radius:18px;
+  box-shadow:0 18px 44px rgba(9,47,84,.16);
 }
-.header:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;
-  right:-80px;top:-130px;background:rgba(255,255,255,.08)}
-.header h1{font-size:28px;letter-spacing:-.02em;position:relative;z-index:1}
-.header p{font-size:13px;position:relative;z-index:1}
-.grid{grid-template-columns:repeat(5,1fr);gap:14px;margin:18px 0}
-.card{border:1px solid rgba(226,232,240,.95);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
-.kpi-card{min-height:142px}
-.kpi-label{font-size:11px;font-weight:800;letter-spacing:.07em;color:#718096}
-.kpi{font-size:29px;letter-spacing:-.03em}
-.main{gap:16px}
-.section-title{font-size:15px;letter-spacing:.01em;color:#24364d}
-input,select{border-color:#d8e0ea;border-radius:10px;background:#fbfcfe}
-.table-card{margin-top:16px}
-.table-scroll{max-height:600px;border:1px solid #e1e7ef;border-radius:14px}
-table{border-radius:14px;overflow:hidden}
-th{background:#f4f7fb;color:#52657b;text-transform:uppercase;font-size:10px;letter-spacing:.06em}
-th,td{padding:12px 13px}
-tr:hover td{background:#f8fbff}
-.publication-date{display:inline-flex;flex-direction:column;gap:2px;line-height:1.1}
-.publication-date small{font-size:11px;color:#64748b;font-weight:600}
-.footer{border-top:1px solid #e1e7ef;padding-top:14px}
-
-
-/* ===== MOBILE / RESPONSIVE ===== */
-@media (max-width: 650px){
-  body{font-size:14px}
-  .container{width:100%;padding:10px}
-  .header{border-radius:16px;padding:20px 18px;margin-bottom:12px}
-  .header h1{font-size:21px;line-height:1.18;margin-bottom:8px}
-  .header p{font-size:12px;line-height:1.45}
-
-  .grid{grid-template-columns:1fr 1fr!important;gap:9px;margin:10px 0}
-  .card{border-radius:14px;padding:14px}
-  .kpi-card{min-height:0;padding:13px}
-  .kpi-icon{width:34px;height:34px;border-radius:10px;font-size:17px;margin-bottom:8px}
-  .kpi-label{font-size:9px;letter-spacing:.045em;line-height:1.25}
-  .kpi{font-size:22px;margin-top:5px}
-  #firstName,#lastName{font-size:9px!important;line-height:1.2;margin-top:4px}
-
-  .main{display:block}
-  .main>.card{margin-bottom:10px}
-  .section-title{font-size:14px;margin-bottom:10px}
-
-  .chart-wrap{height:210px}
-  .filters{display:grid;grid-template-columns:1fr;gap:7px;margin-bottom:10px}
-  .filters input,.filters select{width:100%;min-height:42px;font-size:13px}
-
-  .table-card{margin-top:10px}
-  .table-scroll{max-height:none;overflow:visible;border:0}
-  table,tbody{display:block;width:100%}
-  thead{display:none}
-  tbody{display:grid;gap:9px}
-  tbody tr{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:0 10px;
-    padding:12px;
-    border:1px solid #e2e8f0;
-    border-radius:13px;
-    background:#fff;
-    box-shadow:0 5px 16px rgba(15,35,60,.055);
-  }
-  tbody tr td{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
-    white-space:normal;
-    border:0;
-    padding:6px 0;
-    font-size:12px;
-    min-width:0;
-  }
-  tbody tr td:before{
-    content:attr(data-label);
-    color:#7b8798;
-    font-size:9px;
-    font-weight:800;
-    text-transform:uppercase;
-    letter-spacing:.04em;
-    flex:0 0 auto;
-  }
-  tbody tr td:nth-child(2){
-    grid-column:1 / -1;
-    order:-1;
-    display:block;
-    padding:2px 0 9px;
-    border-bottom:1px solid #edf1f5;
-    margin-bottom:3px;
-  }
-  tbody tr td:nth-child(2):before{display:block;margin-bottom:3px}
-  tbody tr td:nth-child(2) strong{font-size:13px;line-height:1.25}
-  tbody tr td:nth-child(3),tbody tr td:nth-child(5){justify-content:flex-start}
-  .rank-pill{min-width:29px;height:27px;font-size:11px}
-  .level-badge,.status-badge{font-size:10px;padding:4px 7px}
-  .publication-date strong{font-size:11px}
-  .publication-date small{font-size:9px}
-
-  .footer{font-size:10px;line-height:1.4}
-  .legend{gap:8px;font-size:10px;flex-wrap:wrap}
+.header h1{font-size:26px;font-weight:800;letter-spacing:-.035em}
+.header p{max-width:920px}
+.grid{gap:12px;margin:14px 0}
+.card{
+  border-radius:14px;
+  box-shadow:0 4px 18px rgba(15,35,60,.055);
 }
-@media (max-width: 380px){
-  .grid{grid-template-columns:1fr!important}
-  .header h1{font-size:20px}
-  .chart-wrap{height:190px}
-  tbody tr{grid-template-columns:1fr}
-  tbody tr td:nth-child(2){grid-column:auto}
+.kpi-card{
+  min-height:124px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
+.kpi{font-variant-numeric:tabular-nums}
+.section-title{
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:-.01em;
+}
+.compare{gap:12px}
+.campus-card{
+  border-radius:13px;
+  box-shadow:0 3px 14px rgba(15,35,60,.045);
+}
+.campus-card:hover{transform:translateY(-2px)}
+.chart-grid{gap:12px}
+.chart-wrap,.daily-chart-wrap{height:300px}
+.daily-card{margin-top:12px}
+.daily-caption{font-size:10px}
+.table-card{margin-top:12px}
+.table-scroll{border-radius:12px}
+th{font-weight:850}
+td{font-variant-numeric:tabular-nums}
+.filters{margin-bottom:11px}
+input,select{height:40px}
+.footer{font-size:10px}
+
+/* Chart interaction */
+.chart-svg{overflow:visible}
+.chart-hit{cursor:crosshair}
+.chart-hit:hover{filter:brightness(1.05)}
+.chart-dot{cursor:pointer}
+.chart-dot:hover{stroke-width:3}
+.chart-bar{cursor:pointer}
+.chart-bar:hover{opacity:.82}
+.chart-slice{cursor:pointer;transition:opacity .15s ease,transform .15s ease;transform-box:fill-box;transform-origin:center}
+.chart-slice:hover{opacity:.82}
+.chart-legend-item{cursor:default}
+.chart-axis{font-family:Segoe UI,Arial,sans-serif;font-size:10px;fill:var(--muted)}
+.chart-value{font-family:Segoe UI,Arial,sans-serif;font-size:10px;font-weight:800;fill:var(--text)}
+.chart-gridline{stroke:var(--grid);stroke-width:1}
+.chart-zero{stroke:var(--line);stroke-width:1}
+
+/* Custom tooltip */
+#chartTooltip{
+  position:fixed;
+  z-index:9999;
+  pointer-events:none;
+  min-width:165px;
+  max-width:260px;
+  padding:10px 12px;
+  border-radius:10px;
+  background:rgba(17,24,39,.96);
+  color:#fff;
+  box-shadow:0 10px 28px rgba(0,0,0,.22);
+  font-family:Segoe UI,Arial,sans-serif;
+  font-size:11px;
+  line-height:1.45;
+  opacity:0;
+  transform:translateY(4px);
+  transition:opacity .12s ease,transform .12s ease;
+}
+#chartTooltip.show{opacity:1;transform:translateY(0)}
+#chartTooltip .tt-title{font-weight:800;font-size:12px;margin-bottom:5px}
+#chartTooltip .tt-row{display:flex;justify-content:space-between;gap:16px;color:#dbe5f0}
+#chartTooltip .tt-value{font-weight:800;color:#fff}
+html[data-theme="dark"] #chartTooltip{background:rgba(248,250,252,.98);color:#172033}
+html[data-theme="dark"] #chartTooltip .tt-row{color:#475569}
+html[data-theme="dark"] #chartTooltip .tt-value{color:#172033}
 
 </style>
-</head>
+
+<style>
+@media(max-width:650px){
+  .table-scroll{max-height:620px;overflow-x:auto!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch}
+  table{display:table!important;width:850px!important;min-width:850px!important}
+  thead{display:table-header-group!important}
+  tbody{display:table-row-group!important}
+  tr{display:table-row!important}
+  th,td{display:table-cell!important;white-space:nowrap!important}
+  tbody td:before{display:none!important}
+}
+</style></head>
 <body>
 <div class="container">
-  <header class="header">
-    <h1>Memoriais RSC-PCCTAE — CMPP</h1>
-    <p>Ranking cronológico por <strong>data e hora de publicação</strong>, do mais antigo para o mais recente.</p>
-  </header>
+<header class="header">
+<button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema" title="Alternar modo claro/escuro">
+  <span id="themeIcon">☾</span>
+  <span id="themeLabel">Escuro</span>
+</button>
+<h1>Memoriais RSC-PCCTAE — Comparativo por Campus</h1><p>Visão executiva dos memoriais publicados, comparando <strong>volume, situação e nível de RSC</strong> entre os campi.</p></header>
 
-  <section class="grid">
-    <div class="card kpi-card"><div class="kpi-icon icon-blue">▦</div><div class="kpi-label">Total CMPP</div><div class="kpi" id="total">—</div></div>
-    <div class="card kpi-card"><div class="kpi-icon icon-gold">◷</div><div class="kpi-label">1º publicado</div><div class="kpi" id="first">—</div><div id="firstName" class="kpi-label"></div></div>
-    <div class="card kpi-card"><div class="kpi-icon icon-blue">↗</div><div class="kpi-label">Último publicado</div><div class="kpi" id="last">—</div><div id="lastName" class="kpi-label"></div></div>
-    <div class="card kpi-card"><div class="kpi-icon icon-green">✓</div><div class="kpi-label">Deferidos</div><div class="kpi" id="deferidos">—</div><div id="deferidosPct" class="kpi-label"></div></div>
-    <div class="card kpi-card"><div class="kpi-icon icon-amber">⏳</div><div class="kpi-label">Em andamento</div><div class="kpi" id="andamento">—</div></div>
-  </section>
+<section class="grid">
+<div class="card kpi-card"><div class="kpi-icon ib">▦</div><div class="kpi-label">Total de memoriais</div><div class="kpi" id="total">—</div></div>
+<div class="sub">participação no total</div></div>
+<div class="card kpi-card"><div class="kpi-icon igr">✓</div><div class="kpi-label">Deferidos</div><div class="kpi" id="deferidos">—</div><div class="sub" id="deferidosPct"></div></div>
+<div class="card kpi-card"><div class="kpi-icon ia">⏳</div><div class="kpi-label">Em andamento</div><div class="kpi" id="andamento">—</div></div>
+</section>
 
-  <section class="main">
-    <div class="card">
-      <h2 class="section-title">Publicações por dia</h2>
-      <div class="chart-wrap"><svg id="dailyChart" viewBox="0 0 900 300" preserveAspectRatio="none"></svg></div>
-      <div class="legend"><span><span class="dot"></span>Quantidade de memoriais publicados</span></div>
-    </div>
-    <div class="card">
-      <h2 class="section-title">Distribuição por nível</h2>
-      <div class="chart-wrap"><svg id="levelChart" viewBox="0 0 600 300" preserveAspectRatio="none"></svg></div>
-    </div>
-  </section>
+<section class="card">
+<h2 class="section-title">Comparação direta entre os campi</h2>
+<div class="compare" id="campusCards"></div>
+<div class="compare-note">A comparação usa a quantidade de memoriais identificados por campus na base enviada. “Deferido” e “Em Andamento” são os status encontrados nos registros.</div>
+</section>
 
-  <section class="card table-card">
-    <h2 class="section-title">Situação dos processos</h2>
-    <div class="chart-wrap"><svg id="statusChart" viewBox="0 0 900 260" preserveAspectRatio="none"></svg></div>
-  </section>
 
-  <section class="card table-card">
-    <h2 class="section-title">Ranking de publicações</h2>
-    <div class="filters">
-      <input id="search" type="search" placeholder="Pesquisar servidor...">
-      <select id="levelFilter"><option value="">Todos os níveis</option></select>
-      <select id="dayFilter"><option value="">Todas as datas</option></select><select id="statusFilter"><option value="">Todos os status</option><option value="Deferido">Deferido</option><option value="Indeferido">Indeferido</option><option value="Em Andamento">Em andamento</option></select>
-    </div>
-    <div class="table-scroll">
-      <table>
-        <thead><tr><th>Pos.</th><th>Servidor</th><th>Nível</th><th>Publicação</th><th>Status</th></tr></thead>
-        <tbody id="tbody"></tbody>
-      </table>
-    </div>
-  </section>
-  <div class="footer">Fonte: arquivo fornecido na conversa. Critério: registros cujo SIAPE termina em CMPP; ordenação crescente pela data e hora de “Publicado em”.</div>
+<section class="card daily-card">
+  <h2 class="section-title">Evolução diária das publicações</h2><div class="sub">Quantidade de memoriais publicados por dia, com uma série independente para cada campus.</div>
+  <div class="daily-chart-wrap"><svg id="dailyLine" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-label="Série diária de memoriais publicados"></svg></div>
+  <div class="daily-caption">Quantidade de memoriais publicados por dia, com uma série para cada campus.</div>
+</section>
+<section class="chart-grid">
+<div class="card"><h2 class="section-title">Participação dos campi</h2><div class="sub">Distribuição do volume total de memoriais na base.</div><div class="chart-wrap"><svg id="campusDonut" viewBox="0 0 600 275"></svg></div></div>
+<div class="card"><h2 class="section-title">Situação por campus</h2><div class="sub">Comparação entre deferidos, em andamento e indeferidos.</div><div class="chart-wrap"><svg id="statusCampus" viewBox="0 0 600 275"></svg></div></div>
+<div class="card"><h2 class="section-title">Nível de RSC por campus</h2><div class="sub">Distribuição dos níveis registrados em cada campus.</div><div class="chart-wrap"><svg id="levelCampus" viewBox="0 0 600 275"></svg></div></div>
+</section>
+
+<section class="card table-card">
+<h2 class="section-title">Ranking completo de publicações</h2>
+<div class="filters"><input id="search" type="search" placeholder="Pesquisar servidor..."><select id="campusFilter"><option value="">Todos os campi</option></select><select id="levelFilter"><option value="">Todos os níveis</option></select><select id="statusFilter"><option value="">Todos os status</option><option>Deferido</option><option>Indeferido</option><option>Em Andamento</option></select></div>
+<div class="table-scroll"><table><thead><tr><th>Pos.</th><th>Servidor</th><th>Nível</th><th>Campus</th><th>Publicação</th><th>Status</th></tr></thead><tbody id="tbody"></tbody></table></div>
+</section>
+<div class="footer">Base: arquivo de memoriais enviado nesta conversa. Critério de campus: código associado ao registro (CMPP, CAFS, CSHNB ou CPCE). Ordenação do ranking: data e hora de publicação, da mais antiga para a mais recente.</div>
 </div>
-
+<div id="chartTooltip" role="tooltip"></div>
 <script>
-const rows = [{"name": "DELMÁRCIO DE MOURA SOUSA", "level": "VI", "siape": "1671008", "date": "03/08/2026", "time": "17:33", "dt": "2026-08-03T17:33:00", "rank": 1, "status": "Deferido"}, {"name": "ANA KAROLINA SARAIVA DA SILVA", "level": "VI", "siape": "1637339", "date": "03/08/2026", "time": "17:47", "dt": "2026-08-03T17:47:00", "rank": 2, "status": "Deferido"}, {"name": "MARIA ELENICE PEREIRA DA SILVA", "level": "VI", "siape": "1129271", "date": "03/08/2026", "time": "17:49", "dt": "2026-08-03T17:49:00", "rank": 3, "status": "Deferido"}, {"name": "FRANCISCO KALIVAN OLIVEIRA BEZERRA", "level": "V", "siape": "2159836", "date": "03/08/2026", "time": "17:56", "dt": "2026-08-03T17:56:00", "rank": 4, "status": "Deferido"}, {"name": "ÊNIO CLAY DE ARAUJO RIOTINTO", "level": "V", "siape": "2164453", "date": "03/08/2026", "time": "18:14", "dt": "2026-08-03T18:14:00", "rank": 5, "status": "Deferido"}, {"name": "WALTON VALDOMIRO LUZ", "level": "V", "siape": "3137036", "date": "03/08/2026", "time": "18:22", "dt": "2026-08-03T18:22:00", "rank": 6, "status": "Deferido"}, {"name": "RAIANE SILVA DE SOUSA", "level": "V", "siape": "2182308", "date": "03/08/2026", "time": "18:40", "dt": "2026-08-03T18:40:00", "rank": 7, "status": "Deferido"}, {"name": "ALLINE VASCONCELOS DE MORAES MELLO CAVALCANTI NEGRINHO", "level": "VI", "siape": "3303903", "date": "03/08/2026", "time": "18:42", "dt": "2026-08-03T18:42:00", "rank": 8, "status": "Deferido"}, {"name": "ERIKA MONTEIRO MESQUITA DE ALMEIDA", "level": "VI", "siape": "1630005", "date": "03/08/2026", "time": "18:44", "dt": "2026-08-03T18:44:00", "rank": 9, "status": "Deferido"}, {"name": "ILANA MARIA DE MOURA SOUSA", "level": "VI", "siape": "3208828", "date": "03/08/2026", "time": "19:53", "dt": "2026-08-03T19:53:00", "rank": 10, "status": "Deferido"}, {"name": "RHUBENS EWALD MOURA RIBEIRO", "level": "VI", "siape": "2142510", "date": "03/08/2026", "time": "19:56", "dt": "2026-08-03T19:56:00", "rank": 11, "status": "Em Andamento"}, {"name": "ELIANE DA CRUZ MAGALHAES XAVIER", "level": "V", "siape": "2090569", "date": "03/08/2026", "time": "20:50", "dt": "2026-08-03T20:50:00", "rank": 12, "status": "Deferido"}, {"name": "LUCYANA OLIVEIRA BARBOSA", "level": "VI", "siape": "1475187", "date": "03/08/2026", "time": "21:10", "dt": "2026-08-03T21:10:00", "rank": 13, "status": "Deferido"}, {"name": "PATRICK ABREU DE OLIVEIRA", "level": "VI", "siape": "2345255", "date": "03/08/2026", "time": "21:32", "dt": "2026-08-03T21:32:00", "rank": 14, "status": "Deferido"}, {"name": "LUCIO PADUA REIS", "level": "V", "siape": "1682108", "date": "03/08/2026", "time": "21:36", "dt": "2026-08-03T21:36:00", "rank": 15, "status": "Em Andamento"}, {"name": "WASHINGTON LUIS MENEZES MOURA", "level": "VI", "siape": "2141569", "date": "03/08/2026", "time": "22:06", "dt": "2026-08-03T22:06:00", "rank": 16, "status": "Em Andamento"}, {"name": "FRANCIJANE DE OLIVEIRA BARBOSA", "level": "V", "siape": "1457710", "date": "03/08/2026", "time": "22:15", "dt": "2026-08-03T22:15:00", "rank": 17, "status": "Em Andamento"}, {"name": "CARLA ADRIANA RODRIGUES DE SOUSA BRITO", "level": "VI", "siape": "1457897", "date": "03/08/2026", "time": "22:42", "dt": "2026-08-03T22:42:00", "rank": 18, "status": "Em Andamento"}, {"name": "MARINA FREIRE MIRANDA", "level": "VI", "siape": "2049723", "date": "03/08/2026", "time": "22:47", "dt": "2026-08-03T22:47:00", "rank": 19, "status": "Em Andamento"}, {"name": "JAMES DA LUZ DIAS", "level": "VI", "siape": "1125049", "date": "03/08/2026", "time": "23:09", "dt": "2026-08-03T23:09:00", "rank": 20, "status": "Em Andamento"}, {"name": "SIMONNE SARAIVA NUNES SANTANA", "level": "VI", "siape": "1984338", "date": "03/08/2026", "time": "23:09", "dt": "2026-08-03T23:09:00", "rank": 21, "status": "Em Andamento"}, {"name": "ERICA CECILIA DE SOUSA SOARES", "level": "VI", "siape": "1620620", "date": "03/08/2026", "time": "23:21", "dt": "2026-08-03T23:21:00", "rank": 22, "status": "Em Andamento"}, {"name": "ADNNY FERNANDA LIMA CAMPOS", "level": "V", "siape": "3315110", "date": "03/08/2026", "time": "23:42", "dt": "2026-08-03T23:42:00", "rank": 23, "status": "Em Andamento"}, {"name": "LORENA CARVALHO PEREIRA", "level": "VI", "siape": "1998302", "date": "04/08/2026", "time": "07:40", "dt": "2026-08-04T07:40:00", "rank": 24, "status": "Em Andamento"}, {"name": "AMANDO SANTOS ARAÚJO", "level": "VI", "siape": "1177467", "date": "04/08/2026", "time": "10:18", "dt": "2026-08-04T10:18:00", "rank": 25, "status": "Em Andamento"}, {"name": "VALERIA NOGUEIRA DE AREIA LEAO SARMENTO", "level": "V", "siape": "1552366", "date": "04/08/2026", "time": "10:19", "dt": "2026-08-04T10:19:00", "rank": 26, "status": "Em Andamento"}, {"name": "FRANCISCA DAS CHAGAS DA SILVA MOTA", "level": "V", "siape": "1511967", "date": "04/08/2026", "time": "10:32", "dt": "2026-08-04T10:32:00", "rank": 27, "status": "Em Andamento"}, {"name": "ROBSON ARAUJO CASTELO BRANCO", "level": "V", "siape": "1980459", "date": "04/08/2026", "time": "10:45", "dt": "2026-08-04T10:45:00", "rank": 28, "status": "Em Andamento"}, {"name": "KLEBER CRAVEIRO DA CUNHA", "level": "VI", "siape": "1640446", "date": "04/08/2026", "time": "10:58", "dt": "2026-08-04T10:58:00", "rank": 29, "status": "Em Andamento"}, {"name": "GAIO SOUSA QUARESMA", "level": "V", "siape": "3215248", "date": "04/08/2026", "time": "10:59", "dt": "2026-08-04T10:59:00", "rank": 30, "status": "Em Andamento"}, {"name": "MARIA DE JESUS ARAUJO RAMOS VIANA", "level": "VI", "siape": "3063015", "date": "04/08/2026", "time": "11:22", "dt": "2026-08-04T11:22:00", "rank": 31, "status": "Em Andamento"}, {"name": "HERMÍNIO JOSÉ DA ROCHA NETO", "level": "VI", "siape": "2167521", "date": "04/08/2026", "time": "11:34", "dt": "2026-08-04T11:34:00", "rank": 32, "status": "Em Andamento"}, {"name": "IANA MOURA CRONEMBERGER", "level": "V", "siape": "1136212", "date": "04/08/2026", "time": "12:09", "dt": "2026-08-04T12:09:00", "rank": 33, "status": "Em Andamento"}, {"name": "SANMYA PATRÍCIA SILVA SANTOS", "level": "VI", "siape": "1669819", "date": "04/08/2026", "time": "12:21", "dt": "2026-08-04T12:21:00", "rank": 34, "status": "Em Andamento"}, {"name": "JOCIARA DE FATIMA LIMA", "level": "V", "siape": "2246670", "date": "04/08/2026", "time": "12:31", "dt": "2026-08-04T12:31:00", "rank": 35, "status": "Em Andamento"}, {"name": "LIVIA FERNANDA LEAL MACEDO", "level": "VI", "siape": "1583874", "date": "04/08/2026", "time": "12:32", "dt": "2026-08-04T12:32:00", "rank": 36, "status": "Em Andamento"}, {"name": "LEONARDO DE SOUSA PAIVA", "level": "VI", "siape": "2190134", "date": "04/08/2026", "time": "12:43", "dt": "2026-08-04T12:43:00", "rank": 37, "status": "Em Andamento"}, {"name": "MARIA ELIZANA MARTINS DE MENESES CARVALHO", "level": "VI", "siape": "1529176", "date": "04/08/2026", "time": "12:53", "dt": "2026-08-04T12:53:00", "rank": 38, "status": "Em Andamento"}, {"name": "ARIANE CAVALCANTE LIMA", "level": "V", "siape": "2227635", "date": "04/08/2026", "time": "12:56", "dt": "2026-08-04T12:56:00", "rank": 39, "status": "Em Andamento"}, {"name": "TARCISO ATAIDE DE SALES JUNIOR", "level": "V", "siape": "1642192", "date": "04/08/2026", "time": "13:37", "dt": "2026-08-04T13:37:00", "rank": 40, "status": "Em Andamento"}, {"name": "MAIRA DANUSE SANTOS DE OLIVEIRA", "level": "VI", "siape": "1564959", "date": "04/08/2026", "time": "13:45", "dt": "2026-08-04T13:45:00", "rank": 41, "status": "Em Andamento"}, {"name": "ARILANNE KELLYNE BARBOZA VILARINHO", "level": "VI", "siape": "1147946", "date": "04/08/2026", "time": "14:32", "dt": "2026-08-04T14:32:00", "rank": 42, "status": "Em Andamento"}, {"name": "DELSON FERREIRA BONFIM", "level": "VI", "siape": "423627", "date": "04/08/2026", "time": "14:55", "dt": "2026-08-04T14:55:00", "rank": 43, "status": "Em Andamento"}, {"name": "ULISSES DE CARVALHO MEIRELES", "level": "V", "siape": "1625852", "date": "04/08/2026", "time": "15:21", "dt": "2026-08-04T15:21:00", "rank": 44, "status": "Em Andamento"}, {"name": "CHRYSTIANE CAMPELO DA SILVA", "level": "VI", "siape": "1086859", "date": "04/08/2026", "time": "15:55", "dt": "2026-08-04T15:55:00", "rank": 45, "status": "Em Andamento"}, {"name": "IGOR SILVA PINTO", "level": "VI", "siape": "1553563", "date": "04/08/2026", "time": "16:27", "dt": "2026-08-04T16:27:00", "rank": 46, "status": "Em Andamento"}, {"name": "MATHEUS DE MENESES CAMPANHÃ SOUZA", "level": "VI", "siape": "2326068", "date": "04/08/2026", "time": "16:50", "dt": "2026-08-04T16:50:00", "rank": 47, "status": "Em Andamento"}, {"name": "MAURICIO RIBEIRO SENA", "level": "V", "siape": "1792907", "date": "04/08/2026", "time": "18:15", "dt": "2026-08-04T18:15:00", "rank": 48, "status": "Em Andamento"}, {"name": "ZELIA GUIMARAES DE OLIVEIRA PINHEIRO", "level": "V", "siape": "1475449", "date": "04/08/2026", "time": "18:16", "dt": "2026-08-04T18:16:00", "rank": 49, "status": "Em Andamento"}, {"name": "RODRIGO CARVALHO SOUSA", "level": "VI", "siape": "2248150", "date": "04/08/2026", "time": "18:21", "dt": "2026-08-04T18:21:00", "rank": 50, "status": "Em Andamento"}, {"name": "GUSTAVO ALVES DE ARAUJO", "level": "III", "siape": "423683", "date": "04/08/2026", "time": "19:31", "dt": "2026-08-04T19:31:00", "rank": 51, "status": "Em Andamento"}, {"name": "RAFAELLA SANTIAGO SOUSA FREITAS", "level": "VI", "siape": "2248787", "date": "04/08/2026", "time": "21:30", "dt": "2026-08-04T21:30:00", "rank": 52, "status": "Em Andamento"}, {"name": "FILIPE HUDSON DE MACEDO PAZ", "level": "V", "siape": "3253799", "date": "04/08/2026", "time": "22:14", "dt": "2026-08-04T22:14:00", "rank": 53, "status": "Em Andamento"}, {"name": "ITALBERTO FIGUEIRA DANTAS", "level": "VI", "siape": "1667862", "date": "05/08/2026", "time": "00:20", "dt": "2026-08-05T00:20:00", "rank": 54, "status": "Em Andamento"}, {"name": "FRANCISCO SAVIO DE MOURA MARTINS", "level": "VI", "siape": "1098737", "date": "05/08/2026", "time": "04:14", "dt": "2026-08-05T04:14:00", "rank": 55, "status": "Em Andamento"}, {"name": "RICARDO DE ARAÚJO", "level": "VI", "siape": "1457694", "date": "05/08/2026", "time": "09:37", "dt": "2026-08-05T09:37:00", "rank": 56, "status": "Em Andamento"}, {"name": "SELMA MARIA DOS REIS", "level": "VI", "siape": "1567528", "date": "05/08/2026", "time": "10:18", "dt": "2026-08-05T10:18:00", "rank": 57, "status": "Em Andamento"}, {"name": "DANNYLO RODRIGUES DE SOUSA", "level": "V", "siape": "2248197", "date": "05/08/2026", "time": "10:34", "dt": "2026-08-05T10:34:00", "rank": 58, "status": "Em Andamento"}, {"name": "DANIELA ROSA ALVES DA SILVA PEREIRA", "level": "VI", "siape": "2869508", "date": "05/08/2026", "time": "10:38", "dt": "2026-08-05T10:38:00", "rank": 59, "status": "Em Andamento"}, {"name": "VANECY MATIAS DA SILVA", "level": "VI", "siape": "1554592", "date": "05/08/2026", "time": "10:59", "dt": "2026-08-05T10:59:00", "rank": 60, "status": "Em Andamento"}, {"name": "ALLAN KARDEC MACEDO DE MIRANDA", "level": "V", "siape": "1475746", "date": "05/08/2026", "time": "11:00", "dt": "2026-08-05T11:00:00", "rank": 61, "status": "Em Andamento"}, {"name": "WELLINGTON SILVA LIMA", "level": "V", "siape": "1654865", "date": "05/08/2026", "time": "11:20", "dt": "2026-08-05T11:20:00", "rank": 62, "status": "Em Andamento"}, {"name": "FRANCISCA COSTA DA SILVA", "level": "VI", "siape": "1628892", "date": "05/08/2026", "time": "11:47", "dt": "2026-08-05T11:47:00", "rank": 63, "status": "Em Andamento"}, {"name": "TICIARA DE SOUSA E SILVA FERREIRA", "level": "V", "siape": "2242703", "date": "05/08/2026", "time": "15:17", "dt": "2026-08-05T15:17:00", "rank": 64, "status": "Em Andamento"}, {"name": "JOSÉ MAURO GOMES DE JESÚS", "level": "V", "siape": "1733088", "date": "05/08/2026", "time": "16:39", "dt": "2026-08-05T16:39:00", "rank": 65, "status": "Em Andamento"}, {"name": "RENATA GONCALVES DE OLIVEIRA", "level": "V", "siape": "1940618", "date": "05/08/2026", "time": "17:15", "dt": "2026-08-05T17:15:00", "rank": 66, "status": "Em Andamento"}, {"name": "MARCOS VINICIUS NUNES SAMPAIO", "level": "VI", "siape": "1637846", "date": "05/08/2026", "time": "17:23", "dt": "2026-08-05T17:23:00", "rank": 67, "status": "Em Andamento"}, {"name": "HELVIDIO FERNANDES DE OLIVEIRA", "level": "V", "siape": "1167671", "date": "05/08/2026", "time": "17:54", "dt": "2026-08-05T17:54:00", "rank": 68, "status": "Em Andamento"}, {"name": "KLEYSON MATOS SILVA", "level": "V", "siape": "2091325", "date": "05/08/2026", "time": "18:08", "dt": "2026-08-05T18:08:00", "rank": 69, "status": "Em Andamento"}, {"name": "LARISSA NAIANA MENDES DE SOUSA", "level": "VI", "siape": "1638174", "date": "05/08/2026", "time": "18:30", "dt": "2026-08-05T18:30:00", "rank": 70, "status": "Em Andamento"}, {"name": "JOSE ALVES DE MACEDO NETO", "level": "VI", "siape": "1963576", "date": "05/08/2026", "time": "18:54", "dt": "2026-08-05T18:54:00", "rank": 71, "status": "Em Andamento"}, {"name": "MARIA LARA CRISTINA SANTOS DE MACÊDO", "level": "VI", "siape": "1569347", "date": "05/08/2026", "time": "19:11", "dt": "2026-08-05T19:11:00", "rank": 72, "status": "Em Andamento"}, {"name": "SÂMIA ALVES DOS SANTOS", "level": "VI", "siape": "1673359", "date": "05/08/2026", "time": "21:41", "dt": "2026-08-05T21:41:00", "rank": 73, "status": "Em Andamento"}, {"name": "LUIZ ANTONIO DE MENESES WAQUIM SILVA", "level": "V", "siape": "1638726", "date": "05/08/2026", "time": "23:17", "dt": "2026-08-05T23:17:00", "rank": 74, "status": "Em Andamento"}, {"name": "CANDICE DE OLIVEIRA ALEXANDRINO", "level": "V", "siape": "1980153", "date": "06/08/2026", "time": "02:39", "dt": "2026-08-06T02:39:00", "rank": 75, "status": "Em Andamento"}, {"name": "SEBASTIAO SILVA CHAVES", "level": "V", "siape": "423303", "date": "06/08/2026", "time": "07:09", "dt": "2026-08-06T07:09:00", "rank": 76, "status": "Em Andamento"}, {"name": "ANDRE LUIZ DE MORAES CORREIA", "level": "V", "siape": "1026114", "date": "06/08/2026", "time": "09:31", "dt": "2026-08-06T09:31:00", "rank": 77, "status": "Em Andamento"}, {"name": "ALBERTO SILVA DE OLIVEIRA", "level": "V", "siape": "422752", "date": "06/08/2026", "time": "10:28", "dt": "2026-08-06T10:28:00", "rank": 78, "status": "Em Andamento"}, {"name": "BRUNA MARIA MARTINS RIBEIRO MASCARENHAS", "level": "VI", "siape": "3261701", "date": "06/08/2026", "time": "10:34", "dt": "2026-08-06T10:34:00", "rank": 79, "status": "Em Andamento"}, {"name": "ROMULO JOSE PEREIRA LIMA", "level": "V", "siape": "2352225", "date": "06/08/2026", "time": "11:19", "dt": "2026-08-06T11:19:00", "rank": 80, "status": "Em Andamento"}, {"name": "ANATHÁLIA CRISTINA SANTANA DE SOUSA", "level": "VI", "siape": "1475240", "date": "06/08/2026", "time": "11:29", "dt": "2026-08-06T11:29:00", "rank": 81, "status": "Em Andamento"}, {"name": "KAMYLA LOPES NUNES SOBREIRO", "level": "V", "siape": "3301901", "date": "06/08/2026", "time": "11:37", "dt": "2026-08-06T11:37:00", "rank": 82, "status": "Em Andamento"}, {"name": "TAMYRES MAYANE NORBERTA DE MOURA", "level": "V", "siape": "1330491", "date": "06/08/2026", "time": "11:45", "dt": "2026-08-06T11:45:00", "rank": 83, "status": "Em Andamento"}, {"name": "GLEYCE MARIA SIMPLÍCIO REVOREDO", "level": "VI", "siape": "1638212", "date": "06/08/2026", "time": "12:51", "dt": "2026-08-06T12:51:00", "rank": 84, "status": "Em Andamento"}, {"name": "FRANCISCO ALEXANDRO SILVA DOS SANTOS", "level": "V", "siape": "1153433", "date": "06/08/2026", "time": "13:02", "dt": "2026-08-06T13:02:00", "rank": 85, "status": "Em Andamento"}, {"name": "RANGEL DE SALES MEIRELES", "level": "VI", "siape": "1568884", "date": "06/08/2026", "time": "14:56", "dt": "2026-08-06T14:56:00", "rank": 86, "status": "Em Andamento"}, {"name": "GUSTAVO CARDOSO TELES DODTH", "level": "V", "siape": "2160150", "date": "06/08/2026", "time": "15:25", "dt": "2026-08-06T15:25:00", "rank": 87, "status": "Em Andamento"}, {"name": "MARIA JOSE CARVALHO SILVA", "level": "VI", "siape": "422887", "date": "06/08/2026", "time": "15:34", "dt": "2026-08-06T15:34:00", "rank": 88, "status": "Em Andamento"}, {"name": "PAULO RICARDO FIRMIANO DA CUNHA", "level": "V", "siape": "1816169", "date": "06/08/2026", "time": "15:40", "dt": "2026-08-06T15:40:00", "rank": 89, "status": "Em Andamento"}, {"name": "LIVIA MARIA SILVA TEIXEIRA", "level": "VI", "siape": "2793281", "date": "06/08/2026", "time": "15:42", "dt": "2026-08-06T15:42:00", "rank": 90, "status": "Em Andamento"}, {"name": "BELCHIOR DA SILVA MARTINS", "level": "VI", "siape": "2167857", "date": "06/08/2026", "time": "17:38", "dt": "2026-08-06T17:38:00", "rank": 91, "status": "Em Andamento"}, {"name": "LUANE PEREIRA DE CARVALHO", "level": "V", "siape": "2156823", "date": "06/08/2026", "time": "17:49", "dt": "2026-08-06T17:49:00", "rank": 92, "status": "Em Andamento"}, {"name": "NICOLE FERNANDA ROCHA SILVA", "level": "VI", "siape": "3013030", "date": "06/08/2026", "time": "18:29", "dt": "2026-08-06T18:29:00", "rank": 93, "status": "Em Andamento"}, {"name": "KATIANE MARIA DE ARAUJO CARVALHO", "level": "V", "siape": "2233990", "date": "06/08/2026", "time": "18:45", "dt": "2026-08-06T18:45:00", "rank": 94, "status": "Em Andamento"}, {"name": "CREMILDA MONTEIRO LIMA", "level": "VI", "siape": "2090566", "date": "06/08/2026", "time": "19:05", "dt": "2026-08-06T19:05:00", "rank": 95, "status": "Em Andamento"}, {"name": "ANA LÍDIA BEZERRA MATIAS VASCONCELOS", "level": "VI", "siape": "1670661", "date": "06/08/2026", "time": "19:24", "dt": "2026-08-06T19:24:00", "rank": 96, "status": "Em Andamento"}, {"name": "JOCIEDE DA SILVA REIS", "level": "V", "siape": "1649214", "date": "06/08/2026", "time": "20:06", "dt": "2026-08-06T20:06:00", "rank": 97, "status": "Em Andamento"}, {"name": "ADRIANA A'URY SILVA LIMA LOPES", "level": "VI", "siape": "1575308", "date": "06/08/2026", "time": "20:58", "dt": "2026-08-06T20:58:00", "rank": 98, "status": "Em Andamento"}, {"name": "FILIPE SOARES VIANA", "level": "VI", "siape": "2254906", "date": "06/08/2026", "time": "21:14", "dt": "2026-08-06T21:14:00", "rank": 99, "status": "Em Andamento"}, {"name": "MARTA SUANE TEIXEIRA PEREIRA DE SENA FREITAS", "level": "V", "siape": "1113969", "date": "06/08/2026", "time": "21:21", "dt": "2026-08-06T21:21:00", "rank": 100, "status": "Em Andamento"}, {"name": "LHAIS SUELEN SOARES LEAL", "level": "VI", "siape": "1125256", "date": "07/08/2026", "time": "00:08", "dt": "2026-08-07T00:08:00", "rank": 101, "status": "Em Andamento"}, {"name": "HELENILDA NUNES SOARES DE BRITO", "level": "VI", "siape": "1511944", "date": "07/08/2026", "time": "00:43", "dt": "2026-08-07T00:43:00", "rank": 102, "status": "Em Andamento"}, {"name": "LARISSA LOPES OLIVEIRA", "level": "VI", "siape": "1774956", "date": "07/08/2026", "time": "07:29", "dt": "2026-08-07T07:29:00", "rank": 103, "status": "Em Andamento"}, {"name": "LUCAS RÊGO ALVES", "level": "V", "siape": "2219748", "date": "07/08/2026", "time": "07:50", "dt": "2026-08-07T07:50:00", "rank": 104, "status": "Em Andamento"}, {"name": "DIRCEU RODRIGUES LOPES", "level": "VI", "siape": "1867891", "date": "07/08/2026", "time": "09:22", "dt": "2026-08-07T09:22:00", "rank": 105, "status": "Em Andamento"}, {"name": "JOYCE ELÂNY DOS SANTOS SILVA", "level": "VI", "siape": "2239934", "date": "07/08/2026", "time": "09:44", "dt": "2026-08-07T09:44:00", "rank": 106, "status": "Em Andamento"}, {"name": "HENRIQUE MAURICIO DA SILVA", "level": "V", "siape": "2249301", "date": "07/08/2026", "time": "11:05", "dt": "2026-08-07T11:05:00", "rank": 107, "status": "Em Andamento"}, {"name": "LUIS EDUARDO SOARES LOPES", "level": "V", "siape": "1883492", "date": "07/08/2026", "time": "11:29", "dt": "2026-08-07T11:29:00", "rank": 108, "status": "Em Andamento"}, {"name": "KARINA CARDOSO DE SOUSA", "level": "VI", "siape": "1904098", "date": "07/08/2026", "time": "11:34", "dt": "2026-08-07T11:34:00", "rank": 109, "status": "Em Andamento"}, {"name": "RICHARD ATILA DE SOUSA", "level": "VI", "siape": "1532238", "date": "07/08/2026", "time": "13:30", "dt": "2026-08-07T13:30:00", "rank": 110, "status": "Em Andamento"}, {"name": "MARCOS VINICIUS SOARES SENNA", "level": "VI", "siape": "2299011", "date": "07/08/2026", "time": "14:02", "dt": "2026-08-07T14:02:00", "rank": 111, "status": "Em Andamento"}, {"name": "MARCO AURÉLIO MEDEIROS DO NASCIMENTO", "level": "VI", "siape": "1000083", "date": "07/08/2026", "time": "14:28", "dt": "2026-08-07T14:28:00", "rank": 112, "status": "Em Andamento"}, {"name": "HAMILTON JOSE BARBOSA NASCIMENTO", "level": "V", "siape": "1526014", "date": "07/08/2026", "time": "14:44", "dt": "2026-08-07T14:44:00", "rank": 113, "status": "Em Andamento"}, {"name": "AUGUSTO DOS SANTOS BRAGANCA NETO", "level": "V", "siape": "3208975", "date": "07/08/2026", "time": "15:19", "dt": "2026-08-07T15:19:00", "rank": 114, "status": "Em Andamento"}, {"name": "KELSON SOARES BRITO", "level": "VI", "siape": "1567561", "date": "07/08/2026", "time": "15:55", "dt": "2026-08-07T15:55:00", "rank": 115, "status": "Em Andamento"}, {"name": "MIQUÉIAS SOUSA SILVA", "level": "V", "siape": "2164326", "date": "07/08/2026", "time": "16:29", "dt": "2026-08-07T16:29:00", "rank": 116, "status": "Em Andamento"}, {"name": "DELCILENE DE SOUSA MELO", "level": "VI", "siape": "3121312", "date": "07/08/2026", "time": "16:42", "dt": "2026-08-07T16:42:00", "rank": 117, "status": "Em Andamento"}, {"name": "ERICA FERNANDA MIRANDA SOUSA", "level": "V", "siape": "1995426", "date": "07/08/2026", "time": "16:48", "dt": "2026-08-07T16:48:00", "rank": 118, "status": "Em Andamento"}, {"name": "FABIOLA NUNES BRASILINO", "level": "VI", "siape": "1588649", "date": "07/08/2026", "time": "16:52", "dt": "2026-08-07T16:52:00", "rank": 119, "status": "Em Andamento"}, {"name": "VALDECI OTAVIANO DO NASCIMENTO", "level": "V", "siape": "422776", "date": "07/08/2026", "time": "17:00", "dt": "2026-08-07T17:00:00", "rank": 120, "status": "Em Andamento"}, {"name": "TARIANNA LUSTOSA SANTOS", "level": "VI", "siape": "1640528", "date": "07/08/2026", "time": "17:33", "dt": "2026-08-07T17:33:00", "rank": 121, "status": "Em Andamento"}, {"name": "JONAS RAFAEL DE LIMA SOUSA", "level": "V", "siape": "3211602", "date": "07/08/2026", "time": "17:48", "dt": "2026-08-07T17:48:00", "rank": 122, "status": "Em Andamento"}, {"name": "FELIPE BANDEIRA ROCHA", "level": "V", "siape": "1421624", "date": "07/08/2026", "time": "17:49", "dt": "2026-08-07T17:49:00", "rank": 123, "status": "Em Andamento"}, {"name": "RAIMUNDA VIRGÍNIA SILVA", "level": "VI", "siape": "2475042", "date": "07/08/2026", "time": "17:49", "dt": "2026-08-07T17:49:00", "rank": 124, "status": "Em Andamento"}, {"name": "VANESSA MELO CASTELO BRANCO", "level": "VI", "siape": "2196570", "date": "07/08/2026", "time": "18:02", "dt": "2026-08-07T18:02:00", "rank": 125, "status": "Em Andamento"}, {"name": "MARIA DOS REMEDIOS ALVES MONTEIRO", "level": "VI", "siape": "1458852", "date": "07/08/2026", "time": "18:28", "dt": "2026-08-07T18:28:00", "rank": 126, "status": "Em Andamento"}, {"name": "SHISLENE GOMES ARAUJO AMORIM", "level": "VI", "siape": "1919339", "date": "07/08/2026", "time": "19:40", "dt": "2026-08-07T19:40:00", "rank": 127, "status": "Em Andamento"}, {"name": "LIVIA DANIELE DOS SANTOS COSTA", "level": "V", "siape": "2157394", "date": "07/08/2026", "time": "21:12", "dt": "2026-08-07T21:12:00", "rank": 128, "status": "Em Andamento"}, {"name": "LÚCIA DE FÁTIMA DA LUZ COELHO", "level": "VI", "siape": "1630135", "date": "08/08/2026", "time": "02:41", "dt": "2026-08-08T02:41:00", "rank": 129, "status": "Em Andamento"}, {"name": "ANA CRISTINA GUIMARAES CARVALHO", "level": "VI", "siape": "1758846", "date": "08/08/2026", "time": "14:47", "dt": "2026-08-08T14:47:00", "rank": 130, "status": "Em Andamento"}, {"name": "JOARA DA SILVA ARAÚJO", "level": "VI", "siape": "2271900", "date": "08/08/2026", "time": "17:36", "dt": "2026-08-08T17:36:00", "rank": 131, "status": "Em Andamento"}, {"name": "ANA CLAUDIA LOPES ARAUJO", "level": "V", "siape": "1300678", "date": "09/08/2026", "time": "13:30", "dt": "2026-08-09T13:30:00", "rank": 132, "status": "Em Andamento"}, {"name": "MICHELLY DE CASTRO BANDEIRA", "level": "V", "siape": "1165216", "date": "09/08/2026", "time": "14:02", "dt": "2026-08-09T14:02:00", "rank": 133, "status": "Em Andamento"}, {"name": "MARIA DO PERPETUO SOCORRO MOURA COIMBRA", "level": "VI", "siape": "1457677", "date": "09/08/2026", "time": "20:48", "dt": "2026-08-09T20:48:00", "rank": 134, "status": "Em Andamento"}, {"name": "FLORA DANIELLE RIBEIRO GALVÃO DE SÁ", "level": "V", "siape": "3212013", "date": "09/08/2026", "time": "22:32", "dt": "2026-08-09T22:32:00", "rank": 135, "status": "Em Andamento"}, {"name": "MARIA RITA BARBOSA DE SOUSA", "level": "VI", "siape": "1787885", "date": "10/08/2026", "time": "00:15", "dt": "2026-08-10T00:15:00", "rank": 136, "status": "Em Andamento"}, {"name": "SAVIA RENATA CARVALHO BRAGA DO VALE", "level": "V", "siape": "2156720", "date": "10/08/2026", "time": "09:59", "dt": "2026-08-10T09:59:00", "rank": 137, "status": "Em Andamento"}, {"name": "IONARA DE MOURA SANTOS", "level": "V", "siape": "1757771", "date": "10/08/2026", "time": "10:40", "dt": "2026-08-10T10:40:00", "rank": 138, "status": "Em Andamento"}, {"name": "DELLANO JOSE GADELHA SANTOS", "level": "V", "siape": "1450438", "date": "10/08/2026", "time": "11:43", "dt": "2026-08-10T11:43:00", "rank": 139, "status": "Em Andamento"}, {"name": "FABIO NAPOLEAO DO REGO PAIVA DIAS", "level": "VI", "siape": "53265", "date": "10/08/2026", "time": "12:39", "dt": "2026-08-10T12:39:00", "rank": 140, "status": "Em Andamento"}, {"name": "JOSEFINA MARIA DE LOURDES NUNES DOS SANTOS SARAIVA", "level": "V", "siape": "422164", "date": "10/08/2026", "time": "13:44", "dt": "2026-08-10T13:44:00", "rank": 141, "status": "Em Andamento"}, {"name": "JOIMARA LIMA SANTOS", "level": "VI", "siape": "1614016", "date": "10/08/2026", "time": "16:04", "dt": "2026-08-10T16:04:00", "rank": 142, "status": "Em Andamento"}, {"name": "EDILAYANE DE MENESES SOUSA SENA", "level": "VI", "siape": "1788478", "date": "10/08/2026", "time": "16:24", "dt": "2026-08-10T16:24:00", "rank": 143, "status": "Em Andamento"}, {"name": "ALBENIR REGO BARBOSA", "level": "VI", "siape": "1825383", "date": "10/08/2026", "time": "16:59", "dt": "2026-08-10T16:59:00", "rank": 144, "status": "Em Andamento"}, {"name": "RIGOBERTO VELOSO DE CARVALHO", "level": "VI", "siape": "1614443", "date": "10/08/2026", "time": "17:13", "dt": "2026-08-10T17:13:00", "rank": 145, "status": "Em Andamento"}, {"name": "ADRIANA LOPES DA SILVA", "level": "V", "siape": "1794902", "date": "10/08/2026", "time": "18:30", "dt": "2026-08-10T18:30:00", "rank": 146, "status": "Em Andamento"}, {"name": "GERCIANE MARIA DA COSTA SILVA", "level": "V", "siape": "2258513", "date": "10/08/2026", "time": "23:34", "dt": "2026-08-10T23:34:00", "rank": 147, "status": "Em Andamento"}, {"name": "ALEXSANDRO SARAIVA DE MOURA", "level": "V", "siape": "1475547", "date": "11/08/2026", "time": "09:30", "dt": "2026-08-11T09:30:00", "rank": 148, "status": "Em Andamento"}, {"name": "MARIA AUXILIADORA VILARINHO CASTELO BRANCO", "level": "VI", "siape": "1167840", "date": "11/08/2026", "time": "09:50", "dt": "2026-08-11T09:50:00", "rank": 149, "status": "Em Andamento"}, {"name": "DOMINGOS DE SOUSA CASTRO", "level": "V", "siape": "423470", "date": "11/08/2026", "time": "10:01", "dt": "2026-08-11T10:01:00", "rank": 150, "status": "Em Andamento"}, {"name": "MILANE BATISTA DA SILVA", "level": "VI", "siape": "1644756", "date": "11/08/2026", "time": "11:29", "dt": "2026-08-11T11:29:00", "rank": 151, "status": "Em Andamento"}, {"name": "SILVIO ROBERTO LIMA DA SILVA", "level": "V", "siape": "1756214", "date": "11/08/2026", "time": "12:20", "dt": "2026-08-11T12:20:00", "rank": 152, "status": "Em Andamento"}, {"name": "FRANCISCO MAURICIO DO NASCIMENTO", "level": "V", "siape": "1152550", "date": "11/08/2026", "time": "12:43", "dt": "2026-08-11T12:43:00", "rank": 153, "status": "Em Andamento"}, {"name": "EVERTON GOMES DIAS", "level": "V", "siape": "1796529", "date": "11/08/2026", "time": "12:49", "dt": "2026-08-11T12:49:00", "rank": 154, "status": "Em Andamento"}, {"name": "DANIELLE SANTOS MACIEL", "level": "V", "siape": "1853840", "date": "11/08/2026", "time": "15:56", "dt": "2026-08-11T15:56:00", "rank": 155, "status": "Em Andamento"}, {"name": "SONIA REGINA MONTEIRO DE AZEVEDO", "level": "V", "siape": "1502533", "date": "11/08/2026", "time": "16:01", "dt": "2026-08-11T16:01:00", "rank": 156, "status": "Em Andamento"}, {"name": "RAFAEL DE SOUSA LEAL MARTINS MOURA", "level": "VI", "siape": "1220686", "date": "11/08/2026", "time": "16:51", "dt": "2026-08-11T16:51:00", "rank": 157, "status": "Em Andamento"}, {"name": "HERNANDES ANDRADE SILVA", "level": "VI", "siape": "1555061", "date": "11/08/2026", "time": "17:02", "dt": "2026-08-11T17:02:00", "rank": 158, "status": "Em Andamento"}, {"name": "RICARDO LIMA SOUSA", "level": "V", "siape": "2180955", "date": "11/08/2026", "time": "17:22", "dt": "2026-08-11T17:22:00", "rank": 159, "status": "Em Andamento"}, {"name": "EMERSON RIBEIRO RAMOS", "level": "V", "siape": "1846334", "date": "11/08/2026", "time": "18:06", "dt": "2026-08-11T18:06:00", "rank": 160, "status": "Em Andamento"}];
-
-const fmtDate = d => d.split('-').reverse().join('/');
-const dateTime = r => new Date(r.dt);
-const byDay = {};
-rows.forEach(r => byDay[r.date] = (byDay[r.date]||0)+1);
-
-document.getElementById('total').textContent = rows.length;
-document.getElementById('first').textContent = rows[0]?.date + ' ' + rows[0]?.time;
-document.getElementById('firstName').textContent = rows[0]?.name || '';
-document.getElementById('last').textContent = rows.at(-1)?.date + ' ' + rows.at(-1)?.time;
-document.getElementById('lastName').textContent = rows.at(-1)?.name || '';
-const statusCounts = {};
-rows.forEach(r => statusCounts[r.status] = (statusCounts[r.status]||0)+1);
-document.getElementById('deferidos').textContent = statusCounts['Deferido'] || 0;
-document.getElementById('deferidosPct').textContent = rows.length ? ((statusCounts['Deferido']||0)/rows.length*100).toFixed(1) + '% do total' : '';
-document.getElementById('andamento').textContent = statusCounts['Em Andamento'] || 0;
-
-
-const levelFilter = document.getElementById('levelFilter');
-[...new Set(rows.map(r=>r.level))].sort().forEach(v => {
-  const o=document.createElement('option'); o.value=v; o.textContent='RSC-TAE '+v; levelFilter.appendChild(o);
+const rows=[{"name": "GLAUCIA NONATO PORTO", "level": "V", "campus": "CSHNB", "date": "03/08/2026", "time": "17:29", "status": "Deferido", "dt": "2026-08-03T17:29:00", "rank": 1}, {"name": "JOSIVAN BERNARDES DE ARAÚJO", "level": "VI", "campus": "CSHNB", "date": "03/08/2026", "time": "17:32", "status": "Deferido", "dt": "2026-08-03T17:32:00", "rank": 2}, {"name": "DELMÁRCIO DE MOURA SOUSA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "17:33", "status": "Deferido", "dt": "2026-08-03T17:33:00", "rank": 3}, {"name": "ANA KAROLINA SARAIVA DA SILVA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "17:47", "status": "Deferido", "dt": "2026-08-03T17:47:00", "rank": 4}, {"name": "MARIA ELENICE PEREIRA DA SILVA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "17:49", "status": "Deferido", "dt": "2026-08-03T17:49:00", "rank": 5}, {"name": "FRANCISCO KALIVAN OLIVEIRA BEZERRA", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "17:56", "status": "Deferido", "dt": "2026-08-03T17:56:00", "rank": 6}, {"name": "ÊNIO CLAY DE ARAUJO RIOTINTO", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "18:14", "status": "Deferido", "dt": "2026-08-03T18:14:00", "rank": 7}, {"name": "JAKELINE LEAL EVANGELISTA", "level": "V", "campus": "CSHNB", "date": "03/08/2026", "time": "18:18", "status": "Deferido", "dt": "2026-08-03T18:18:00", "rank": 8}, {"name": "WALTON VALDOMIRO LUZ", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "18:22", "status": "Deferido", "dt": "2026-08-03T18:22:00", "rank": 9}, {"name": "FRANCISCA NILCELIA MACEDO BARROSO", "level": "VI", "campus": "CSHNB", "date": "03/08/2026", "time": "18:28", "status": "Deferido", "dt": "2026-08-03T18:28:00", "rank": 10}, {"name": "RAIANE SILVA DE SOUSA", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "18:40", "status": "Deferido", "dt": "2026-08-03T18:40:00", "rank": 11}, {"name": "ALLINE VASCONCELOS DE MORAES MELLO CAVALCANTI NEGRINHO", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "18:42", "status": "Deferido", "dt": "2026-08-03T18:42:00", "rank": 12}, {"name": "ERIKA MONTEIRO MESQUITA DE ALMEIDA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "18:44", "status": "Deferido", "dt": "2026-08-03T18:44:00", "rank": 13}, {"name": "ANTÔNIO LUIS DE SOUSA NUNES", "level": "VI", "campus": "CAFS", "date": "03/08/2026", "time": "19:04", "status": "Deferido", "dt": "2026-08-03T19:04:00", "rank": 14}, {"name": "DENISE LEAL REIS", "level": "V", "campus": "CAFS", "date": "03/08/2026", "time": "19:09", "status": "Deferido", "dt": "2026-08-03T19:09:00", "rank": 15}, {"name": "ILANA MARIA DE MOURA SOUSA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "19:53", "status": "Deferido", "dt": "2026-08-03T19:53:00", "rank": 16}, {"name": "RHUBENS EWALD MOURA RIBEIRO", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "19:56", "status": "Em Andamento", "dt": "2026-08-03T19:56:00", "rank": 17}, {"name": "ALEX DOS SANTOS ALVES", "level": "VI", "campus": "CAFS", "date": "03/08/2026", "time": "20:01", "status": "Deferido", "dt": "2026-08-03T20:01:00", "rank": 18}, {"name": "ELIANE DA CRUZ MAGALHAES XAVIER", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "20:50", "status": "Deferido", "dt": "2026-08-03T20:50:00", "rank": 19}, {"name": "JÔDE VECTURINE VIEIRA DE ARAÚJO CASTRO", "level": "VI", "campus": "CSHNB", "date": "03/08/2026", "time": "20:51", "status": "Deferido", "dt": "2026-08-03T20:51:00", "rank": 20}, {"name": "LUCYANA OLIVEIRA BARBOSA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "21:10", "status": "Deferido", "dt": "2026-08-03T21:10:00", "rank": 21}, {"name": "FERNANDO ANTONIO DA SILVA", "level": "V", "campus": "CSHNB", "date": "03/08/2026", "time": "21:28", "status": "Em Andamento", "dt": "2026-08-03T21:28:00", "rank": 22}, {"name": "PATRICK ABREU DE OLIVEIRA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "21:32", "status": "Deferido", "dt": "2026-08-03T21:32:00", "rank": 23}, {"name": "LUCIO PADUA REIS", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "21:36", "status": "Em Andamento", "dt": "2026-08-03T21:36:00", "rank": 24}, {"name": "WASHINGTON LUIS MENEZES MOURA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "22:06", "status": "Em Andamento", "dt": "2026-08-03T22:06:00", "rank": 25}, {"name": "FRANCIJANE DE OLIVEIRA BARBOSA", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "22:15", "status": "Em Andamento", "dt": "2026-08-03T22:15:00", "rank": 26}, {"name": "CARLA ADRIANA RODRIGUES DE SOUSA BRITO", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "22:42", "status": "Em Andamento", "dt": "2026-08-03T22:42:00", "rank": 27}, {"name": "MARINA FREIRE MIRANDA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "22:47", "status": "Em Andamento", "dt": "2026-08-03T22:47:00", "rank": 28}, {"name": "JAMES DA LUZ DIAS", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "23:09", "status": "Em Andamento", "dt": "2026-08-03T23:09:00", "rank": 29}, {"name": "SIMONNE SARAIVA NUNES SANTANA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "23:09", "status": "Em Andamento", "dt": "2026-08-03T23:09:00", "rank": 30}, {"name": "MARCIO FRANK RODRIGUES", "level": "VI", "campus": "CAFS", "date": "03/08/2026", "time": "23:21", "status": "Deferido", "dt": "2026-08-03T23:21:00", "rank": 31}, {"name": "ERICA CECILIA DE SOUSA SOARES", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "23:21", "status": "Em Andamento", "dt": "2026-08-03T23:21:00", "rank": 32}, {"name": "ADNNY FERNANDA LIMA CAMPOS", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "23:42", "status": "Em Andamento", "dt": "2026-08-03T23:42:00", "rank": 33}, {"name": "NONATO RODRIGUES DE SALES CARVALHO", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "06:36", "status": "Em Andamento", "dt": "2026-08-04T06:36:00", "rank": 34}, {"name": "LORENA CARVALHO PEREIRA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "07:40", "status": "Em Andamento", "dt": "2026-08-04T07:40:00", "rank": 35}, {"name": "IARA LUCIA RODRIGUES BARBOSA SANTIAGO", "level": "V", "campus": "CAFS", "date": "04/08/2026", "time": "08:23", "status": "Deferido", "dt": "2026-08-04T08:23:00", "rank": 36}, {"name": "LUANA ANDRADE DA COSTA", "level": "VI", "campus": "CPCE", "date": "04/08/2026", "time": "08:26", "status": "Em Andamento", "dt": "2026-08-04T08:26:00", "rank": 37}, {"name": "SHYARA SANTOS VIEIRA", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "09:14", "status": "Em Andamento", "dt": "2026-08-04T09:14:00", "rank": 38}, {"name": "ADISON ALMEIDA DO NASCIMENTO", "level": "VI", "campus": "CAFS", "date": "04/08/2026", "time": "09:42", "status": "Deferido", "dt": "2026-08-04T09:42:00", "rank": 39}, {"name": "AMANDO SANTOS ARAÚJO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "10:18", "status": "Em Andamento", "dt": "2026-08-04T10:18:00", "rank": 40}, {"name": "VALERIA NOGUEIRA DE AREIA LEAO SARMENTO", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "10:19", "status": "Em Andamento", "dt": "2026-08-04T10:19:00", "rank": 41}, {"name": "WILSON SANTIAGO DE ARAÚJO", "level": "V", "campus": "CAFS", "date": "04/08/2026", "time": "10:22", "status": "Em Andamento", "dt": "2026-08-04T10:22:00", "rank": 42}, {"name": "FRANCISCA DAS CHAGAS DA SILVA MOTA", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "10:32", "status": "Em Andamento", "dt": "2026-08-04T10:32:00", "rank": 43}, {"name": "KLEBER CRAVEIRO DA CUNHA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "10:58", "status": "Em Andamento", "dt": "2026-08-04T10:58:00", "rank": 44}, {"name": "GAIO SOUSA QUARESMA", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "10:59", "status": "Em Andamento", "dt": "2026-08-04T10:59:00", "rank": 45}, {"name": "CLAUDIANE ALVES DA SILVA", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "11:06", "status": "Em Andamento", "dt": "2026-08-04T11:06:00", "rank": 46}, {"name": "MARIA DE JESUS ARAUJO RAMOS VIANA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "11:22", "status": "Em Andamento", "dt": "2026-08-04T11:22:00", "rank": 47}, {"name": "HERMÍNIO JOSÉ DA ROCHA NETO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "11:34", "status": "Em Andamento", "dt": "2026-08-04T11:34:00", "rank": 48}, {"name": "MARIA JOSÉ CASTRO DIÓGENES", "level": "VI", "campus": "CPCE", "date": "04/08/2026", "time": "11:37", "status": "Em Andamento", "dt": "2026-08-04T11:37:00", "rank": 49}, {"name": "ADALGISA COSTA MELO", "level": "VI", "campus": "CAFS", "date": "04/08/2026", "time": "11:46", "status": "Deferido", "dt": "2026-08-04T11:46:00", "rank": 50}, {"name": "EDINARA CONRADO LOPES FLORENTINO", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "11:47", "status": "Deferido", "dt": "2026-08-04T11:47:00", "rank": 51}, {"name": "SAYONARA LEAL BRITO", "level": "V", "campus": "CSHNB", "date": "04/08/2026", "time": "12:08", "status": "Em Andamento", "dt": "2026-08-04T12:08:00", "rank": 52}, {"name": "IANA MOURA CRONEMBERGER", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "12:09", "status": "Em Andamento", "dt": "2026-08-04T12:09:00", "rank": 53}, {"name": "SANMYA PATRÍCIA SILVA SANTOS", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "12:21", "status": "Em Andamento", "dt": "2026-08-04T12:21:00", "rank": 54}, {"name": "LIVIA FERNANDA LEAL MACEDO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "12:32", "status": "Em Andamento", "dt": "2026-08-04T12:32:00", "rank": 55}, {"name": "SAMIRA DA SILVA MACIEL", "level": "VI", "campus": "CAFS", "date": "04/08/2026", "time": "12:38", "status": "Deferido", "dt": "2026-08-04T12:38:00", "rank": 56}, {"name": "LEONARDO DE SOUSA PAIVA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "12:43", "status": "Em Andamento", "dt": "2026-08-04T12:43:00", "rank": 57}, {"name": "MARIA ELIZANA MARTINS DE MENESES CARVALHO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "12:53", "status": "Em Andamento", "dt": "2026-08-04T12:53:00", "rank": 58}, {"name": "ARIANE CAVALCANTE LIMA", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "12:56", "status": "Em Andamento", "dt": "2026-08-04T12:56:00", "rank": 59}, {"name": "ANDERSON JOSÉ DA SILVA", "level": "VI", "campus": "CAFS", "date": "04/08/2026", "time": "13:15", "status": "Deferido", "dt": "2026-08-04T13:15:00", "rank": 60}, {"name": "TARCISO ATAIDE DE SALES JUNIOR", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "13:37", "status": "Em Andamento", "dt": "2026-08-04T13:37:00", "rank": 61}, {"name": "MAIRA DANUSE SANTOS DE OLIVEIRA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "13:45", "status": "Em Andamento", "dt": "2026-08-04T13:45:00", "rank": 62}, {"name": "ARILANNE KELLYNE BARBOZA VILARINHO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "14:32", "status": "Em Andamento", "dt": "2026-08-04T14:32:00", "rank": 63}, {"name": "DELSON FERREIRA BONFIM", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "14:55", "status": "Em Andamento", "dt": "2026-08-04T14:55:00", "rank": 64}, {"name": "KELIANA DE SOUSA CARVALHO", "level": "V", "campus": "CAFS", "date": "04/08/2026", "time": "14:59", "status": "Deferido", "dt": "2026-08-04T14:59:00", "rank": 65}, {"name": "ANDERSON HENRIQUE MIRANDA DA SILVA", "level": "V", "campus": "CSHNB", "date": "04/08/2026", "time": "15:12", "status": "Em Andamento", "dt": "2026-08-04T15:12:00", "rank": 66}, {"name": "ULISSES DE CARVALHO MEIRELES", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "15:21", "status": "Em Andamento", "dt": "2026-08-04T15:21:00", "rank": 67}, {"name": "CHRYSTIANE CAMPELO DA SILVA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "15:55", "status": "Em Andamento", "dt": "2026-08-04T15:55:00", "rank": 68}, {"name": "IGOR SILVA PINTO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "16:27", "status": "Em Andamento", "dt": "2026-08-04T16:27:00", "rank": 69}, {"name": "RAFAELLA SA CARVALHO SOUSA", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "16:30", "status": "Em Andamento", "dt": "2026-08-04T16:30:00", "rank": 70}, {"name": "ELIZETH LEAL DE SOUSA", "level": "V", "campus": "CSHNB", "date": "04/08/2026", "time": "16:46", "status": "Em Andamento", "dt": "2026-08-04T16:46:00", "rank": 71}, {"name": "MATHEUS DE MENESES CAMPANHÃ SOUZA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "16:50", "status": "Em Andamento", "dt": "2026-08-04T16:50:00", "rank": 72}, {"name": "MAURICIO RIBEIRO SENA", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "18:15", "status": "Em Andamento", "dt": "2026-08-04T18:15:00", "rank": 73}, {"name": "ZELIA GUIMARAES DE OLIVEIRA PINHEIRO", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "18:16", "status": "Em Andamento", "dt": "2026-08-04T18:16:00", "rank": 74}, {"name": "RODRIGO CARVALHO SOUSA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "18:21", "status": "Em Andamento", "dt": "2026-08-04T18:21:00", "rank": 75}, {"name": "EDER DE SOUSA CARVALHO", "level": "V", "campus": "CSHNB", "date": "04/08/2026", "time": "19:20", "status": "Em Andamento", "dt": "2026-08-04T19:20:00", "rank": 76}, {"name": "GUSTAVO ALVES DE ARAUJO", "level": "III", "campus": "CMPP", "date": "04/08/2026", "time": "19:31", "status": "Em Andamento", "dt": "2026-08-04T19:31:00", "rank": 77}, {"name": "RAFAELLA SANTIAGO SOUSA FREITAS", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "21:30", "status": "Em Andamento", "dt": "2026-08-04T21:30:00", "rank": 78}, {"name": "FILIPE HUDSON DE MACEDO PAZ", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "22:14", "status": "Em Andamento", "dt": "2026-08-04T22:14:00", "rank": 79}, {"name": "ITALBERTO FIGUEIRA DANTAS", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "00:20", "status": "Em Andamento", "dt": "2026-08-05T00:20:00", "rank": 80}, {"name": "ELIZIANE OLIVEIRA DE LIMA", "level": "VI", "campus": "CAFS", "date": "05/08/2026", "time": "04:07", "status": "Em Andamento", "dt": "2026-08-05T04:07:00", "rank": 81}, {"name": "FRANCISCO SAVIO DE MOURA MARTINS", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "04:14", "status": "Em Andamento", "dt": "2026-08-05T04:14:00", "rank": 82}, {"name": "TARCISIO GOMES DE LACERDA", "level": "V", "campus": "CSHNB", "date": "05/08/2026", "time": "08:37", "status": "Deferido", "dt": "2026-08-05T08:37:00", "rank": 83}, {"name": "ALAN MARQUES DE SOUSA", "level": "V", "campus": "CSHNB", "date": "05/08/2026", "time": "09:18", "status": "Em Andamento", "dt": "2026-08-05T09:18:00", "rank": 84}, {"name": "RICARDO DE ARAÚJO", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "09:37", "status": "Em Andamento", "dt": "2026-08-05T09:37:00", "rank": 85}, {"name": "SELMA MARIA DOS REIS", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "10:18", "status": "Em Andamento", "dt": "2026-08-05T10:18:00", "rank": 86}, {"name": "DANNYLO RODRIGUES DE SOUSA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "10:34", "status": "Em Andamento", "dt": "2026-08-05T10:34:00", "rank": 87}, {"name": "DANIELA ROSA ALVES DA SILVA PEREIRA", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "10:38", "status": "Em Andamento", "dt": "2026-08-05T10:38:00", "rank": 88}, {"name": "VANECY MATIAS DA SILVA", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "10:59", "status": "Em Andamento", "dt": "2026-08-05T10:59:00", "rank": 89}, {"name": "ALLAN KARDEC MACEDO DE MIRANDA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "11:00", "status": "Em Andamento", "dt": "2026-08-05T11:00:00", "rank": 90}, {"name": "IVANILDO FRANCISCO DA LUZ", "level": "V", "campus": "CSHNB", "date": "05/08/2026", "time": "11:07", "status": "Em Andamento", "dt": "2026-08-05T11:07:00", "rank": 91}, {"name": "WELLINGTON SILVA LIMA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "11:20", "status": "Em Andamento", "dt": "2026-08-05T11:20:00", "rank": 92}, {"name": "JOCIEL DE CARVALHO SANTOS", "level": "V", "campus": "CAFS", "date": "05/08/2026", "time": "11:28", "status": "Em Andamento", "dt": "2026-08-05T11:28:00", "rank": 93}, {"name": "FRANCISCA COSTA DA SILVA", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "11:47", "status": "Em Andamento", "dt": "2026-08-05T11:47:00", "rank": 94}, {"name": "ANA KLISSE SILVA ARAUJO", "level": "VI", "campus": "CSHNB", "date": "05/08/2026", "time": "14:20", "status": "Em Andamento", "dt": "2026-08-05T14:20:00", "rank": 95}, {"name": "TICIARA DE SOUSA E SILVA FERREIRA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "15:17", "status": "Em Andamento", "dt": "2026-08-05T15:17:00", "rank": 96}, {"name": "JOSÉ MAURO GOMES DE JESÚS", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "16:39", "status": "Em Andamento", "dt": "2026-08-05T16:39:00", "rank": 97}, {"name": "RENATA GONCALVES DE OLIVEIRA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "17:15", "status": "Em Andamento", "dt": "2026-08-05T17:15:00", "rank": 98}, {"name": "MARCOS VINICIUS NUNES SAMPAIO", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "17:23", "status": "Em Andamento", "dt": "2026-08-05T17:23:00", "rank": 99}, {"name": "HELVIDIO FERNANDES DE OLIVEIRA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "17:54", "status": "Em Andamento", "dt": "2026-08-05T17:54:00", "rank": 100}, {"name": "KLEYSON MATOS SILVA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "18:08", "status": "Em Andamento", "dt": "2026-08-05T18:08:00", "rank": 101}, {"name": "LARISSA NAIANA MENDES DE SOUSA", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "18:30", "status": "Em Andamento", "dt": "2026-08-05T18:30:00", "rank": 102}, {"name": "JOSE ALVES DE MACEDO NETO", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "18:54", "status": "Em Andamento", "dt": "2026-08-05T18:54:00", "rank": 103}, {"name": "MARIA LARA CRISTINA SANTOS DE MACÊDO", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "19:11", "status": "Em Andamento", "dt": "2026-08-05T19:11:00", "rank": 104}, {"name": "SÂMIA ALVES DOS SANTOS", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "21:41", "status": "Em Andamento", "dt": "2026-08-05T21:41:00", "rank": 105}, {"name": "LUIZ ANTONIO DE MENESES WAQUIM SILVA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "23:17", "status": "Em Andamento", "dt": "2026-08-05T23:17:00", "rank": 106}, {"name": "CANDICE DE OLIVEIRA ALEXANDRINO", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "02:39", "status": "Em Andamento", "dt": "2026-08-06T02:39:00", "rank": 107}, {"name": "SEBASTIAO SILVA CHAVES", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "07:09", "status": "Em Andamento", "dt": "2026-08-06T07:09:00", "rank": 108}, {"name": "PEDRO FEITOSA BARROS", "level": "V", "campus": "CAFS", "date": "06/08/2026", "time": "09:27", "status": "Em Andamento", "dt": "2026-08-06T09:27:00", "rank": 109}, {"name": "ANDRE LUIZ DE MORAES CORREIA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "09:31", "status": "Em Andamento", "dt": "2026-08-06T09:31:00", "rank": 110}, {"name": "ALBERTO SILVA DE OLIVEIRA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "10:28", "status": "Em Andamento", "dt": "2026-08-06T10:28:00", "rank": 111}, {"name": "BRUNA MARIA MARTINS RIBEIRO MASCARENHAS", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "10:34", "status": "Em Andamento", "dt": "2026-08-06T10:34:00", "rank": 112}, {"name": "ROMULO JOSE PEREIRA LIMA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "11:19", "status": "Em Andamento", "dt": "2026-08-06T11:19:00", "rank": 113}, {"name": "ANATHÁLIA CRISTINA SANTANA DE SOUSA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "11:29", "status": "Em Andamento", "dt": "2026-08-06T11:29:00", "rank": 114}, {"name": "KAMYLA LOPES NUNES SOBREIRO", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "11:37", "status": "Em Andamento", "dt": "2026-08-06T11:37:00", "rank": 115}, {"name": "TAMYRES MAYANE NORBERTA DE MOURA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "11:45", "status": "Em Andamento", "dt": "2026-08-06T11:45:00", "rank": 116}, {"name": "NILMAR DIAS DE ARAUJO", "level": "VI", "campus": "CPCE", "date": "06/08/2026", "time": "11:49", "status": "Em Andamento", "dt": "2026-08-06T11:49:00", "rank": 117}, {"name": "DEBORA LARIELLY RAMALHO DA SILVA RIBEIRO", "level": "V", "campus": "CAFS", "date": "06/08/2026", "time": "12:34", "status": "Em Andamento", "dt": "2026-08-06T12:34:00", "rank": 118}, {"name": "GLEYCE MARIA SIMPLÍCIO REVOREDO", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "12:51", "status": "Em Andamento", "dt": "2026-08-06T12:51:00", "rank": 119}, {"name": "FRANCISCO ALEXANDRO SILVA DOS SANTOS", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "13:02", "status": "Em Andamento", "dt": "2026-08-06T13:02:00", "rank": 120}, {"name": "RANGEL DE SALES MEIRELES", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "14:56", "status": "Em Andamento", "dt": "2026-08-06T14:56:00", "rank": 121}, {"name": "GUSTAVO CARDOSO TELES DODTH", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "15:25", "status": "Em Andamento", "dt": "2026-08-06T15:25:00", "rank": 122}, {"name": "MARIA JOSE CARVALHO SILVA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "15:34", "status": "Em Andamento", "dt": "2026-08-06T15:34:00", "rank": 123}, {"name": "PAULO RICARDO FIRMIANO DA CUNHA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "15:40", "status": "Em Andamento", "dt": "2026-08-06T15:40:00", "rank": 124}, {"name": "LIVIA MARIA SILVA TEIXEIRA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "15:42", "status": "Em Andamento", "dt": "2026-08-06T15:42:00", "rank": 125}, {"name": "JESSIANE RODRIGUES ROCHA", "level": "V", "campus": "CSHNB", "date": "06/08/2026", "time": "16:34", "status": "Em Andamento", "dt": "2026-08-06T16:34:00", "rank": 126}, {"name": "BELCHIOR DA SILVA MARTINS", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "17:38", "status": "Em Andamento", "dt": "2026-08-06T17:38:00", "rank": 127}, {"name": "LUANE PEREIRA DE CARVALHO", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "17:49", "status": "Em Andamento", "dt": "2026-08-06T17:49:00", "rank": 128}, {"name": "NICOLE FERNANDA ROCHA SILVA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "18:29", "status": "Em Andamento", "dt": "2026-08-06T18:29:00", "rank": 129}, {"name": "KATIANE MARIA DE ARAUJO CARVALHO", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "18:45", "status": "Em Andamento", "dt": "2026-08-06T18:45:00", "rank": 130}, {"name": "CREMILDA MONTEIRO LIMA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "19:05", "status": "Em Andamento", "dt": "2026-08-06T19:05:00", "rank": 131}, {"name": "ANA LÍDIA BEZERRA MATIAS VASCONCELOS", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "19:24", "status": "Em Andamento", "dt": "2026-08-06T19:24:00", "rank": 132}, {"name": "JOCIEDE DA SILVA REIS", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "20:06", "status": "Em Andamento", "dt": "2026-08-06T20:06:00", "rank": 133}, {"name": "ADRIANA A'URY SILVA LIMA LOPES", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "20:58", "status": "Em Andamento", "dt": "2026-08-06T20:58:00", "rank": 134}, {"name": "FILIPE SOARES VIANA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "21:14", "status": "Em Andamento", "dt": "2026-08-06T21:14:00", "rank": 135}, {"name": "MARTA SUANE TEIXEIRA PEREIRA DE SENA FREITAS", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "21:21", "status": "Em Andamento", "dt": "2026-08-06T21:21:00", "rank": 136}, {"name": "LHAIS SUELEN SOARES LEAL", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "00:08", "status": "Em Andamento", "dt": "2026-08-07T00:08:00", "rank": 137}, {"name": "HELENILDA NUNES SOARES DE BRITO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "00:43", "status": "Em Andamento", "dt": "2026-08-07T00:43:00", "rank": 138}, {"name": "LARISSA LOPES OLIVEIRA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "07:29", "status": "Em Andamento", "dt": "2026-08-07T07:29:00", "rank": 139}, {"name": "LUCAS RÊGO ALVES", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "07:50", "status": "Em Andamento", "dt": "2026-08-07T07:50:00", "rank": 140}, {"name": "DIRCEU RODRIGUES LOPES", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "09:22", "status": "Em Andamento", "dt": "2026-08-07T09:22:00", "rank": 141}, {"name": "JOYCE ELÂNY DOS SANTOS SILVA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "09:44", "status": "Em Andamento", "dt": "2026-08-07T09:44:00", "rank": 142}, {"name": "HENRIQUE MAURICIO DA SILVA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "11:05", "status": "Em Andamento", "dt": "2026-08-07T11:05:00", "rank": 143}, {"name": "ALDO RHAK ALVES ALEXANDRE", "level": "V", "campus": "CSHNB", "date": "07/08/2026", "time": "11:23", "status": "Em Andamento", "dt": "2026-08-07T11:23:00", "rank": 144}, {"name": "LUIS EDUARDO SOARES LOPES", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "11:29", "status": "Em Andamento", "dt": "2026-08-07T11:29:00", "rank": 145}, {"name": "KARINA CARDOSO DE SOUSA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "11:34", "status": "Em Andamento", "dt": "2026-08-07T11:34:00", "rank": 146}, {"name": "RICHARD ATILA DE SOUSA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "13:30", "status": "Em Andamento", "dt": "2026-08-07T13:30:00", "rank": 147}, {"name": "MARCOS VINICIUS SOARES SENNA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "14:02", "status": "Em Andamento", "dt": "2026-08-07T14:02:00", "rank": 148}, {"name": "MARCO AURÉLIO MEDEIROS DO NASCIMENTO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "14:28", "status": "Em Andamento", "dt": "2026-08-07T14:28:00", "rank": 149}, {"name": "HAMILTON JOSE BARBOSA NASCIMENTO", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "14:44", "status": "Em Andamento", "dt": "2026-08-07T14:44:00", "rank": 150}, {"name": "AUGUSTO DOS SANTOS BRAGANCA NETO", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "15:19", "status": "Em Andamento", "dt": "2026-08-07T15:19:00", "rank": 151}, {"name": "MOISES MOURA DA SILVA", "level": "III", "campus": "CSHNB", "date": "07/08/2026", "time": "15:26", "status": "Deferido", "dt": "2026-08-07T15:26:00", "rank": 152}, {"name": "KELSON SOARES BRITO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "15:55", "status": "Em Andamento", "dt": "2026-08-07T15:55:00", "rank": 153}, {"name": "MIQUÉIAS SOUSA SILVA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "16:29", "status": "Em Andamento", "dt": "2026-08-07T16:29:00", "rank": 154}, {"name": "DELCILENE DE SOUSA MELO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "16:42", "status": "Em Andamento", "dt": "2026-08-07T16:42:00", "rank": 155}, {"name": "ERICA FERNANDA MIRANDA SOUSA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "16:48", "status": "Em Andamento", "dt": "2026-08-07T16:48:00", "rank": 156}, {"name": "FABIOLA NUNES BRASILINO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "16:52", "status": "Em Andamento", "dt": "2026-08-07T16:52:00", "rank": 157}, {"name": "VALDECI OTAVIANO DO NASCIMENTO", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "17:00", "status": "Em Andamento", "dt": "2026-08-07T17:00:00", "rank": 158}, {"name": "JOSANE DE MENESES VELOSO MIRANDA", "level": "VI", "campus": "CSHNB", "date": "07/08/2026", "time": "17:10", "status": "Em Andamento", "dt": "2026-08-07T17:10:00", "rank": 159}, {"name": "TARIANNA LUSTOSA SANTOS", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "17:33", "status": "Em Andamento", "dt": "2026-08-07T17:33:00", "rank": 160}, {"name": "JONAS RAFAEL DE LIMA SOUSA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "17:48", "status": "Em Andamento", "dt": "2026-08-07T17:48:00", "rank": 161}, {"name": "FELIPE BANDEIRA ROCHA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "17:49", "status": "Em Andamento", "dt": "2026-08-07T17:49:00", "rank": 162}, {"name": "RAIMUNDA VIRGÍNIA SILVA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "17:49", "status": "Em Andamento", "dt": "2026-08-07T17:49:00", "rank": 163}, {"name": "VANESSA MELO CASTELO BRANCO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "18:02", "status": "Em Andamento", "dt": "2026-08-07T18:02:00", "rank": 164}, {"name": "MARIA DOS REMEDIOS ALVES MONTEIRO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "18:28", "status": "Em Andamento", "dt": "2026-08-07T18:28:00", "rank": 165}, {"name": "LOURISA PEREIRA SANTOS", "level": "V", "campus": "CAFS", "date": "07/08/2026", "time": "19:18", "status": "Em Andamento", "dt": "2026-08-07T19:18:00", "rank": 166}, {"name": "SHISLENE GOMES ARAUJO AMORIM", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "19:40", "status": "Em Andamento", "dt": "2026-08-07T19:40:00", "rank": 167}, {"name": "LIVIA DANIELE DOS SANTOS COSTA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "21:12", "status": "Em Andamento", "dt": "2026-08-07T21:12:00", "rank": 168}, {"name": "LÚCIA DE FÁTIMA DA LUZ COELHO", "level": "VI", "campus": "CMPP", "date": "08/08/2026", "time": "02:41", "status": "Em Andamento", "dt": "2026-08-08T02:41:00", "rank": 169}, {"name": "ANA CRISTINA GUIMARAES CARVALHO", "level": "VI", "campus": "CMPP", "date": "08/08/2026", "time": "14:47", "status": "Em Andamento", "dt": "2026-08-08T14:47:00", "rank": 170}, {"name": "JOARA DA SILVA ARAÚJO", "level": "VI", "campus": "CMPP", "date": "08/08/2026", "time": "17:36", "status": "Em Andamento", "dt": "2026-08-08T17:36:00", "rank": 171}, {"name": "REGINALDO DE SOUSA ANDRADE", "level": "VI", "campus": "CSHNB", "date": "09/08/2026", "time": "11:55", "status": "Em Andamento", "dt": "2026-08-09T11:55:00", "rank": 172}, {"name": "ANA CLAUDIA LOPES ARAUJO", "level": "V", "campus": "CMPP", "date": "09/08/2026", "time": "13:30", "status": "Em Andamento", "dt": "2026-08-09T13:30:00", "rank": 173}, {"name": "MICHELLY DE CASTRO BANDEIRA", "level": "V", "campus": "CMPP", "date": "09/08/2026", "time": "14:02", "status": "Em Andamento", "dt": "2026-08-09T14:02:00", "rank": 174}, {"name": "MARIA DO PERPETUO SOCORRO MOURA COIMBRA", "level": "VI", "campus": "CMPP", "date": "09/08/2026", "time": "20:48", "status": "Em Andamento", "dt": "2026-08-09T20:48:00", "rank": 175}, {"name": "FLORA DANIELLE RIBEIRO GALVÃO DE SÁ", "level": "V", "campus": "CMPP", "date": "09/08/2026", "time": "22:32", "status": "Em Andamento", "dt": "2026-08-09T22:32:00", "rank": 176}, {"name": "MARIA RITA BARBOSA DE SOUSA", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "00:15", "status": "Em Andamento", "dt": "2026-08-10T00:15:00", "rank": 177}, {"name": "SAVIA RENATA CARVALHO BRAGA DO VALE", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "09:59", "status": "Em Andamento", "dt": "2026-08-10T09:59:00", "rank": 178}, {"name": "IONARA DE MOURA SANTOS", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "10:40", "status": "Em Andamento", "dt": "2026-08-10T10:40:00", "rank": 179}, {"name": "THIAGO ABEL TEIXEIRA ROCHA", "level": "V", "campus": "CSHNB", "date": "10/08/2026", "time": "10:53", "status": "Em Andamento", "dt": "2026-08-10T10:53:00", "rank": 180}, {"name": "DELLANO JOSE GADELHA SANTOS", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "11:43", "status": "Em Andamento", "dt": "2026-08-10T11:43:00", "rank": 181}, {"name": "FABIO NAPOLEAO DO REGO PAIVA DIAS", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "12:39", "status": "Em Andamento", "dt": "2026-08-10T12:39:00", "rank": 182}, {"name": "JOSEFINA MARIA DE LOURDES NUNES DOS SANTOS SARAIVA", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "13:44", "status": "Em Andamento", "dt": "2026-08-10T13:44:00", "rank": 183}, {"name": "ELISIENE BORGES LEAL", "level": "VI", "campus": "CSHNB", "date": "10/08/2026", "time": "14:51", "status": "Em Andamento", "dt": "2026-08-10T14:51:00", "rank": 184}, {"name": "JOIMARA LIMA SANTOS", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "16:04", "status": "Em Andamento", "dt": "2026-08-10T16:04:00", "rank": 185}, {"name": "EDILAYANE DE MENESES SOUSA SENA", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "16:24", "status": "Em Andamento", "dt": "2026-08-10T16:24:00", "rank": 186}, {"name": "ALBENIR REGO BARBOSA", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "16:59", "status": "Em Andamento", "dt": "2026-08-10T16:59:00", "rank": 187}, {"name": "RIGOBERTO VELOSO DE CARVALHO", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "17:13", "status": "Em Andamento", "dt": "2026-08-10T17:13:00", "rank": 188}, {"name": "ADRIANA LOPES DA SILVA", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "18:30", "status": "Em Andamento", "dt": "2026-08-10T18:30:00", "rank": 189}, {"name": "ANNA KATARINE FERREIRA LIMA NEIVA", "level": "VI", "campus": "CSHNB", "date": "10/08/2026", "time": "21:01", "status": "Em Andamento", "dt": "2026-08-10T21:01:00", "rank": 190}, {"name": "GLEIDIANY DA COSTA MOREIRA", "level": "VI", "campus": "CAFS", "date": "10/08/2026", "time": "21:15", "status": "Em Andamento", "dt": "2026-08-10T21:15:00", "rank": 191}, {"name": "GERCIANE MARIA DA COSTA SILVA", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "23:34", "status": "Em Andamento", "dt": "2026-08-10T23:34:00", "rank": 192}, {"name": "MARIA DA CONCEIÇÃO ROCHA", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "07:56", "status": "Em Andamento", "dt": "2026-08-11T07:56:00", "rank": 193}, {"name": "ROSÂNGELA FEITOSA DE FRANÇA", "level": "VI", "campus": "CAFS", "date": "11/08/2026", "time": "09:15", "status": "Em Andamento", "dt": "2026-08-11T09:15:00", "rank": 194}, {"name": "ALEXSANDRO SARAIVA DE MOURA", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "09:30", "status": "Em Andamento", "dt": "2026-08-11T09:30:00", "rank": 195}, {"name": "MARIA AUXILIADORA VILARINHO CASTELO BRANCO", "level": "VI", "campus": "CMPP", "date": "11/08/2026", "time": "09:50", "status": "Em Andamento", "dt": "2026-08-11T09:50:00", "rank": 196}, {"name": "DOMINGOS DE SOUSA CASTRO", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "10:01", "status": "Em Andamento", "dt": "2026-08-11T10:01:00", "rank": 197}, {"name": "SERVULO FERNANDES DA SILVA NETO", "level": "V", "campus": "CSHNB", "date": "11/08/2026", "time": "10:05", "status": "Em Andamento", "dt": "2026-08-11T10:05:00", "rank": 198}, {"name": "MILANE BATISTA DA SILVA", "level": "VI", "campus": "CMPP", "date": "11/08/2026", "time": "11:29", "status": "Em Andamento", "dt": "2026-08-11T11:29:00", "rank": 199}, {"name": "CARLENE CARVALHO LIMA", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "12:02", "status": "Em Andamento", "dt": "2026-08-11T12:02:00", "rank": 200}, {"name": "SILVIO ROBERTO LIMA DA SILVA", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "12:20", "status": "Em Andamento", "dt": "2026-08-11T12:20:00", "rank": 201}, {"name": "FRANCISCO MAURICIO DO NASCIMENTO", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "12:43", "status": "Em Andamento", "dt": "2026-08-11T12:43:00", "rank": 202}, {"name": "EVERTON GOMES DIAS", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "12:49", "status": "Em Andamento", "dt": "2026-08-11T12:49:00", "rank": 203}, {"name": "JOSE MARIA FREITAS MEDEIROS", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "14:45", "status": "Em Andamento", "dt": "2026-08-11T14:45:00", "rank": 204}, {"name": "CLESIA MARIA DE SOUSA BARBOSA", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "15:14", "status": "Em Andamento", "dt": "2026-08-11T15:14:00", "rank": 205}, {"name": "WALLAS DE FREITAS SOARES", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "15:22", "status": "Em Andamento", "dt": "2026-08-11T15:22:00", "rank": 206}, {"name": "EDILBERTO PEREIRA DE SOUZA", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "15:45", "status": "Em Andamento", "dt": "2026-08-11T15:45:00", "rank": 207}, {"name": "DANIELLE SANTOS MACIEL", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "15:56", "status": "Em Andamento", "dt": "2026-08-11T15:56:00", "rank": 208}, {"name": "SONIA REGINA MONTEIRO DE AZEVEDO", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "16:01", "status": "Em Andamento", "dt": "2026-08-11T16:01:00", "rank": 209}, {"name": "ANTONIO WIUSTON MARTINS FORTES", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "16:32", "status": "Em Andamento", "dt": "2026-08-11T16:32:00", "rank": 210}, {"name": "RAFAEL DE SOUSA LEAL MARTINS MOURA", "level": "VI", "campus": "CMPP", "date": "11/08/2026", "time": "16:51", "status": "Em Andamento", "dt": "2026-08-11T16:51:00", "rank": 211}, {"name": "ALMIR BEZERRA DA LUZ", "level": "VI", "campus": "CAFS", "date": "11/08/2026", "time": "16:54", "status": "Em Andamento", "dt": "2026-08-11T16:54:00", "rank": 212}, {"name": "HERNANDES ANDRADE SILVA", "level": "VI", "campus": "CMPP", "date": "11/08/2026", "time": "17:02", "status": "Em Andamento", "dt": "2026-08-11T17:02:00", "rank": 213}, {"name": "RICARDO LIMA SOUSA", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "17:22", "status": "Em Andamento", "dt": "2026-08-11T17:22:00", "rank": 214}, {"name": "EMERSON RIBEIRO RAMOS", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "18:06", "status": "Em Andamento", "dt": "2026-08-11T18:06:00", "rank": 215}, {"name": "ROBSON ARAUJO CASTELO BRANCO", "level": "V", "campus": "CMPP", "date": "12/08/2026", "time": "01:02", "status": "Em Andamento", "dt": "2026-08-12T01:02:00", "rank": 216}, {"name": "ATHAN GONCALVES CARVALHO SOUZA", "level": "V", "campus": "CAFS", "date": "12/08/2026", "time": "03:44", "status": "Em Andamento", "dt": "2026-08-12T03:44:00", "rank": 217}, {"name": "JOCIARA DE FATIMA LIMA", "level": "V", "campus": "CMPP", "date": "12/08/2026", "time": "08:53", "status": "Em Andamento", "dt": "2026-08-12T08:53:00", "rank": 218}];
+const campusOrder=["CMPP","CAFS","CSHNB","CPCE"];
+const campusCounts={}, statusByCampus={}, levelByCampus={}, statusCounts={}, levelCounts={};
+rows.forEach(r=>{
+ campusCounts[r.campus]=(campusCounts[r.campus]||0)+1;
+ statusByCampus[r.campus]??={}; statusByCampus[r.campus][r.status]=(statusByCampus[r.campus][r.status]||0)+1;
+ levelByCampus[r.campus]??={}; levelByCampus[r.campus][r.level]=(levelByCampus[r.campus][r.level]||0)+1;
+ statusCounts[r.status]=(statusCounts[r.status]||0)+1;
+ levelCounts[r.level]=(levelCounts[r.level]||0)+1;
 });
-const statusFilter = document.getElementById('statusFilter');
-const dayFilter = document.getElementById('dayFilter');
-Object.keys(byDay).forEach(v => {
-  const o=document.createElement('option'); o.value=v; o.textContent=v; dayFilter.appendChild(o);
+const campusNames={CMPP:"CMPP",CAFS:"CAFS",CSHNB:"CSHNB",CPCE:"CPCE"};
+document.getElementById("total").textContent=rows.length;
+
+document.getElementById("deferidos").textContent=statusCounts["Deferido"]||0;
+document.getElementById("deferidosPct").textContent=`${((statusCounts["Deferido"]||0)/rows.length*100).toFixed(1)}% do total`;
+document.getElementById("andamento").textContent=statusCounts["Em Andamento"]||0;
+
+const cards=document.getElementById("campusCards");
+campusOrder.filter(c=>campusCounts[c]).forEach(c=>{
+ const total=campusCounts[c], def=statusByCampus[c]?.["Deferido"]||0, and=statusByCampus[c]?.["Em Andamento"]||0, ind=statusByCampus[c]?.["Indeferido"]||0;
+ const pct=(total/rows.length*100).toFixed(1), dp=(def/total*100).toFixed(1);
+ cards.innerHTML+=`<div class="campus-card """>
+ <div class="campus-head"><div><div class="campus-name">${campusNames[c]}</div><span class="pill">${pct}% do total</span></div><div class="campus-total">${total}</div></div>
+ <div class="bar"><span class="seg seg-def" style="width:${def/total*100}%"></span><span class="seg seg-and" style="width:${and/total*100}%"></span><span class="seg seg-ind" style="width:${ind/total*100}%"></span></div>
+ <div class="metric-row"><span>Deferidos</span><strong>${def} (${dp}%)</strong></div>
+ <div class="metric-row"><span>Em andamento</span><strong>${and}</strong></div>
+ <div class="metric-row"><span>Indeferidos</span><strong>${ind}</strong></div>
+ </div>`;
 });
+
+function opt(id,vals,labeler){const el=document.getElementById(id);vals.forEach(v=>{let o=document.createElement("option");o.value=v;o.textContent=labeler(v);el.appendChild(o)})}
+opt("campusFilter",campusOrder.filter(c=>campusCounts[c]),v=>v);
+opt("levelFilter",Object.keys(levelCounts).sort(),v=>"RSC-TAE "+v);
 
 function renderTable(){
-  const q=document.getElementById('search').value.toLowerCase();
-  const lv=levelFilter.value, day=dayFilter.value;
-  const filtered=rows.filter(r=>
-    (!q || r.name.toLowerCase().includes(q)) &&
-    (!lv || r.level===lv) &&
-    (!day || r.date===day) &&
-    (!statusFilter.value || r.status===statusFilter.value)
-  );
-  document.getElementById('tbody').innerHTML=filtered.map(r=>`
-    <tr>
-      <td data-label="Posição"><span class="rank-pill">${r.rank}</span></td>
-      <td data-label="Servidor"><strong>${r.name}</strong></td>
-      <td data-label="Nível"><span class="level-badge level-${r.level.toLowerCase()}">RSC-TAE ${r.level}</span></td>
-      <td data-label="Publicação"><span class="publication-date"><strong>${r.date}</strong><small>${r.time}</small></span></td>
-      <td data-label="Status"><span class="status-badge status-${r.status === 'Deferido' ? 'deferido' : r.status === 'Indeferido' ? 'indeferido' : 'andamento'}">${r.status}</span></td>
-    </tr>`).join('');
+ const q=document.getElementById("search").value.toLowerCase(),c=document.getElementById("campusFilter").value,l=document.getElementById("levelFilter").value,s=document.getElementById("statusFilter").value;
+ const f=rows.filter(r=>(!q||r.name.toLowerCase().includes(q))&&(!c||r.campus===c)&&(!l||r.level===l)&&(!s||r.status===s));
+ document.getElementById("tbody").innerHTML=f.map(r=>`<tr>
+ <td data-label="Posição"><span class="rank-pill">${r.rank}</span></td><td data-label="Servidor"><strong>${r.name}</strong></td>
+ <td data-label="Nível"><span class="level-badge level-${r.level.toLowerCase()}">RSC-TAE ${r.level}</span></td>
+ <td data-label="Campus"><span class="campus-badge">${r.campus}</span></td>
+ <td data-label="Publicação"><span class="publication-date"><strong>${r.date}</strong><small>${r.time}</small></span></td>
+ <td data-label="Status"><span class="status-badge status-${r.status==="Deferido"?"deferido":r.status==="Indeferido"?"indeferido":"andamento"}">${r.status}</span></td></tr>`).join("");
 }
-['search','levelFilter','dayFilter','statusFilter'].forEach(id=>document.getElementById(id).addEventListener('input',renderTable));
-renderTable();
+["search","campusFilter","levelFilter","statusFilter"].forEach(id=>document.getElementById(id).addEventListener("input",renderTable));renderTable();
 
-function svgText(x,y,text,size=12,anchor='middle',weight='400'){
-  return `<text x="${x}" y="${y}" font-family="Segoe UI,Arial" font-size="${size}" text-anchor="${anchor}" font-weight="${weight}" fill="#6b7280">${text}</text>`;
+
+function drawDailyLine(){
+ const svg=document.getElementById("dailyLine");
+ const data=[{"date": "03/08/2026", "CMPP": 23, "CAFS": 4, "CSHNB": 6, "CPCE": 0}, {"date": "04/08/2026", "CMPP": 28, "CAFS": 7, "CSHNB": 9, "CPCE": 2}, {"date": "05/08/2026", "CMPP": 21, "CAFS": 2, "CSHNB": 4, "CPCE": 0}, {"date": "06/08/2026", "CMPP": 26, "CAFS": 2, "CSHNB": 1, "CPCE": 1}, {"date": "07/08/2026", "CMPP": 28, "CAFS": 1, "CSHNB": 3, "CPCE": 0}, {"date": "08/08/2026", "CMPP": 3, "CAFS": 0, "CSHNB": 0, "CPCE": 0}, {"date": "09/08/2026", "CMPP": 4, "CAFS": 0, "CSHNB": 1, "CPCE": 0}, {"date": "10/08/2026", "CMPP": 12, "CAFS": 1, "CSHNB": 3, "CPCE": 0}, {"date": "11/08/2026", "CMPP": 13, "CAFS": 9, "CSHNB": 1, "CPCE": 0}, {"date": "12/08/2026", "CMPP": 2, "CAFS": 1, "CSHNB": 0, "CPCE": 0}];
+ const campuses=["CMPP", "CAFS", "CSHNB", "CPCE"];
+ const W=1000,H=300,L=55,R=22,T=30,B=52;
+ const max=Math.max(...data.flatMap(d=>campuses.map(c=>d[c]||0)),1);
+ const innerW=W-L-R, innerH=H-T-B;
+ const x=i=>data.length===1?L+innerW/2:L+i*(innerW/(data.length-1));
+ const y=v=>H-B-(v/max)*innerH;
+ const colors=["#0b4f8a","#2e8b57","#8b5cf6","#d97706"];
+ let s="";
+ for(let i=0;i<=4;i++){
+   const yy=T+i*innerH/4, val=Math.round(max-(max*i/4));
+   s+=`<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" stroke="var(--line)" stroke-width="1"/>`;
+   s+=`<text x="${L-10}" y="${yy+4}" font-family="Segoe UI,Arial" font-size="10" text-anchor="end" fill="var(--muted)">${val}</text>`;
+ }
+ campuses.forEach((campus,ci)=>{
+   const pts=data.map((d,i)=>[x(i),y(d[campus]||0)]);
+   s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${colors[ci]}" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round"/>`;
+   pts.forEach((p,i)=>{
+     s+=`<circle cx="${p[0]}" cy="${p[1]}" r="3.8" fill="${colors[ci]}" stroke="var(--card)" stroke-width="2"/>`;
+     if((data[i][campus]||0)>0) s+=`<title>${campus} — ${data[i].date}: ${data[i][campus]}</title>`;
+   });
+ });
+ const step=data.length<=18?1:Math.ceil(data.length/14);
+ data.forEach((d,i)=>{
+   if(i%step===0 || i===data.length-1)
+     s+=`<text x="${x(i)}" y="${H-18}" font-family="Segoe UI,Arial" font-size="10" text-anchor="middle" fill="var(--muted)">${d.date.slice(0,5)}</text>`;
+ });
+ campuses.forEach((c,i)=>{
+   const lx=145+i*150;
+   s+=`<circle cx="${lx}" cy="14" r="5" fill="${colors[i]}"/>`;
+   s+=`<text x="${lx+10}" y="18" font-family="Segoe UI,Arial" font-size="10" font-weight="700" fill="var(--muted)">${c}</text>`;
+ });
+ svg.innerHTML=s;
 }
-function drawDaily(){
-  const svg=document.getElementById('dailyChart'), dates=Object.keys(byDay);
-  const vals=dates.map(d=>byDay[d]), W=900,H=300,p=42;
-  const max=Math.max(...vals,1), step=(W-2*p)/Math.max(vals.length-1,1);
-  let s=`<line x1="${p}" y1="${H-p}" x2="${W-p}" y2="${H-p}" stroke="#dbe2ea"/>`;
-  s+=`<line x1="${p}" y1="${p}" x2="${p}" y2="${H-p}" stroke="#dbe2ea"/>`;
-  const pts=vals.map((v,i)=>[p+i*step,H-p-(v/max)*(H-2*p)]);
-  s+=`<polyline points="${pts.map(a=>a.join(',')).join(' ')}" fill="none" stroke="#0b4f8a" stroke-width="3"/>`;
-  pts.forEach((a,i)=>s+=`<circle cx="${a[0]}" cy="${a[1]}" r="4" fill="#0b4f8a"/>`);
-  vals.forEach((v,i)=>s+=svgText(pts[i][0],pts[i][1]-10,v,11,'middle','700'));
-  dates.forEach((d,i)=>s+=svgText(pts[i][0],H-15,d.slice(0,5),10));
-  s+=svgText(p-10,p+4,max,10,'end'); s+=svgText(p-10,H-p+4,0,10,'end');
-  svg.innerHTML=s;
+drawDailyLine();
+
+
+function esc(v){
+  return String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function txt(x,y,t,size=11,anchor="middle",weight="400",fill="var(--muted)"){
+  return `<text x="${x}" y="${y}" font-family="Segoe UI,Arial" font-size="${size}" text-anchor="${anchor}" font-weight="${weight}" fill="${fill}">${esc(t)}</text>`;
 }
 
-function drawStatus(){
-  const svg=document.getElementById('statusChart'), entries=Object.entries(statusCounts).sort();
-  const W=900,H=260,p=60,max=Math.max(...entries.map(x=>x[1]),1);
-  let s='';
-  const barH=38,gap=25;
-  entries.forEach(([k,v],i)=>{
-    const y=30+i*(barH+gap), w=(W-260)*(v/max);
-    s+=svgText(p,y+25,k,13,'start','700');
-    s+=`<rect x="180" y="${y}" width="${w}" height="${barH}" rx="9" fill="#0b4f8a" opacity="${0.65+i*0.12}"/>`;
-    s+=svgText(190+w,y+25,v,13,'start','700');
-  });
-  svg.innerHTML=s;
+/* ---------- Tooltips ---------- */
+const tooltip=document.getElementById("chartTooltip");
+function showTip(e,title,rows){
+  tooltip.innerHTML=`<div class="tt-title">${esc(title)}</div>`+
+    rows.map(r=>`<div class="tt-row"><span>${esc(r[0])}</span><span class="tt-value">${esc(r[1])}</span></div>`).join("");
+  tooltip.classList.add("show");
+  moveTip(e);
+}
+function moveTip(e){
+  const pad=14, rect=tooltip.getBoundingClientRect();
+  let x=e.clientX+16, y=e.clientY+16;
+  if(x+rect.width>window.innerWidth-pad) x=e.clientX-rect.width-16;
+  if(y+rect.height>window.innerHeight-pad) y=e.clientY-rect.height-16;
+  tooltip.style.left=Math.max(pad,x)+"px";
+  tooltip.style.top=Math.max(pad,y)+"px";
+}
+function hideTip(){tooltip.classList.remove("show")}
+document.addEventListener("mousemove",e=>{
+  if(tooltip.classList.contains("show")) moveTip(e);
+});
+
+/* ---------- Donut ---------- */
+const donutColors=["#0b4f8a","#1769aa","#4f7cac","#8aa8c2","#b6c8d9","#64748b"];
+function donut(id,entries){
+ const svg=document.getElementById(id),W=600,H=275,cx=175,cy=137,r=84,ir=54;
+ const total=entries.reduce((a,b)=>a+b[1],0)||1;
+ let a=-Math.PI/2,s="";
+ entries.forEach(([lab,v],i)=>{
+   const d=v/total*Math.PI*2,e=a+d;
+   const x1=cx+r*Math.cos(a),y1=cy+r*Math.sin(a),x2=cx+r*Math.cos(e),y2=cy+r*Math.sin(e);
+   const ix1=cx+ir*Math.cos(a),iy1=cy+ir*Math.sin(a),ix2=cx+ir*Math.cos(e),iy2=cy+ir*Math.sin(e);
+   const lg=d>Math.PI?1:0;
+   const path=`M${x1} ${y1}A${r} ${r} 0 ${lg} 1 ${x2} ${y2}L${ix2} ${iy2}A${ir} ${ir} 0 ${lg} 0 ${ix1} ${iy1}Z`;
+   s+=`<path class="chart-slice" d="${path}" fill="${donutColors[i%donutColors.length]}" stroke="var(--card)" stroke-width="2"
+      data-tip-title="${esc(lab)}" data-tip-rows="${esc(JSON.stringify([["Memoriais",v],["Participação",(v/total*100).toFixed(1)+"%"]]))}"/>`;
+   a=e;
+ });
+ s+=txt(cx,cy-3,total,29,"middle","850","var(--text)");
+ s+=txt(cx,cy+19,"memoriais",10,"middle","750","var(--muted)");
+ entries.forEach(([lab,v],i)=>{
+   const y=68+i*39;
+   s+=`<circle cx="325" cy="${y-4}" r="5" fill="${donutColors[i%donutColors.length]}"/>`;
+   s+=txt(340,y,lab,11,"start","800","var(--text)");
+   s+=txt(340,y+16,`${v} • ${(v/total*100).toFixed(1)}%`,10,"start","600","var(--muted)");
+ });
+ svg.innerHTML=s;
 }
 
-function drawLevel(){
-  const svg=document.getElementById('levelChart'), counts={};
-  rows.forEach(r=>counts[r.level]=(counts[r.level]||0)+1);
-  const entries=Object.entries(counts).sort(), W=600,H=300,p=50, max=Math.max(...entries.map(x=>x[1]));
-  let s='';
-  const barH=34, gap=22;
-  entries.forEach(([k,v],i)=>{
-    const y=35+i*(barH+gap), w=(W-180)*(v/max);
-    s+=svgText(p,y+22,'RSC-TAE '+k,12,'start','700');
-    s+=`<rect x="150" y="${y}" width="${w}" height="${barH}" rx="8" fill="#0b4f8a" opacity="${0.65+i*0.12}"/>`;
-    s+=svgText(160+w,y+22,v,12,'start','700');
-  });
-  svg.innerHTML=s;
+/* ---------- Grouped bars ---------- */
+function groupedChart(id,groupObj,groups,keys){
+ const svg=document.getElementById(id),W=600,H=275,left=48,right=18,top=30,bottom=48;
+ const palette=["#16845a","#d69e2e","#c24141"];
+ const max=Math.max(...groups.flatMap(g=>keys.map(k=>groupObj[g]?.[k]||0)),1);
+ const step=(W-left-right)/groups.length,bw=step*.66;
+ let s="";
+ for(let i=0;i<=4;i++){
+   const yy=top+i*(H-top-bottom)/4;
+   const val=Math.round(max-(max*i/4));
+   s+=`<line class="chart-gridline" x1="${left}" y1="${yy}" x2="${W-right}" y2="${yy}"/>`;
+   s+=txt(left-9,yy+4,val,9,"end","600","var(--muted)");
+ }
+ groups.forEach((g,i)=>{
+   const x0=left+i*step+(step-bw)/2;
+   keys.forEach((k,j)=>{
+     const v=groupObj[g]?.[k]||0;
+     const h=v/max*(H-top-bottom);
+     const x=x0+j*bw/keys.length,w=bw/keys.length-3,y=H-bottom-h;
+     s+=`<rect class="chart-bar" x="${x}" y="${y}" width="${w}" height="${Math.max(h,0)}" rx="4"
+       fill="${palette[j]}" data-tip-title="${esc(g)}"
+       data-tip-rows="${esc(JSON.stringify([[k,String(v)],["Participação no campus",((v/(groupObj[g] ? Object.values(groupObj[g]).reduce((a,b)=>a+b,0):1))*100).toFixed(1)+"%"]]))}"/>`;
+     if(v) s+=txt(x+w/2,y-5,v,9,"middle","800","var(--text)");
+   });
+   s+=txt(x0+bw/2,H-20,g,10,"middle","800","var(--text)");
+ });
+ keys.forEach((k,j)=>{
+   const lx=105+j*155;
+   s+=`<circle cx="${lx}" cy="13" r="5" fill="${palette[j]}"/>`;
+   s+=txt(lx+10,17,k,10,"start","700","var(--muted)");
+ });
+ svg.innerHTML=s;
 }
-drawDaily(); drawLevel(); drawStatus();
+
+/* ---------- Level bars ---------- */
+function levelChart(){
+ const svg=document.getElementById("levelCampus"),groups=campusOrder.filter(c=>campusCounts[c]),keys=["III","V","VI"];
+ const palette=["#16704a","#315ea8","#6941c6"],W=600,H=275,left=48,right=18,top=30,bottom=48;
+ const max=Math.max(...groups.flatMap(g=>keys.map(k=>levelByCampus[g]?.[k]||0)),1);
+ const step=(W-left-right)/groups.length,bw=step*.68;let s="";
+ for(let i=0;i<=4;i++){
+   const yy=top+i*(H-top-bottom)/4,val=Math.round(max-(max*i/4));
+   s+=`<line class="chart-gridline" x1="${left}" y1="${yy}" x2="${W-right}" y2="${yy}"/>`;
+   s+=txt(left-9,yy+4,val,9,"end","600","var(--muted)");
+ }
+ groups.forEach((g,i)=>{
+   const x0=left+i*step+(step-bw)/2;
+   keys.forEach((k,j)=>{
+     const v=levelByCampus[g]?.[k]||0,h=v/max*(H-top-bottom),x=x0+j*bw/3,w=bw/3-3,y=H-bottom-h;
+     s+=`<rect class="chart-bar" x="${x}" y="${y}" width="${w}" height="${Math.max(h,0)}" rx="4" fill="${palette[j]}"
+       data-tip-title="${esc(g)}" data-tip-rows="${esc(JSON.stringify([[`RSC-TAE ${k}`,String(v)],["Participação no campus",((v/(campusCounts[g]||1))*100).toFixed(1)+"%"]]))}"/>`;
+     if(v)s+=txt(x+w/2,y-5,v,9,"middle","800","var(--text)");
+   });
+   s+=txt(x0+bw/2,H-20,g,10,"middle","800","var(--text)");
+ });
+ keys.forEach((k,j)=>{
+   const lx=115+j*105;s+=`<circle cx="${lx}" cy="13" r="5" fill="${palette[j]}"/>`+txt(lx+10,17,k,10,"start","700","var(--muted)");
+ });
+ svg.innerHTML=s;
+}
+
+/* ---------- Daily line: one series per campus ---------- */
+function drawDailyLine(){
+ const svg=document.getElementById("dailyLine");
+ const data=DAILY_DATA;
+ const campuses=["CMPP","CAFS","CSHNB","CPCE"];
+ const colors=["#0b4f8a","#2e8b57","#8b5cf6","#d97706"];
+ const W=1000,H=300,L=55,R=22,T=34,B=52;
+ const max=Math.max(...data.flatMap(d=>campuses.map(c=>d[c]||0)),1);
+ const innerW=W-L-R,innerH=H-T-B;
+ const x=i=>data.length===1?L+innerW/2:L+i*(innerW/(data.length-1));
+ const y=v=>H-B-(v/max)*innerH;
+ let s="";
+ for(let i=0;i<=4;i++){
+   const yy=T+i*innerH/4,val=Math.round(max-(max*i/4));
+   s+=`<line class="chart-gridline" x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}"/>`;
+   s+=txt(L-10,yy+4,val,9,"end","600","var(--muted)");
+ }
+ campuses.forEach((campus,ci)=>{
+   const pts=data.map((d,i)=>[x(i),y(d[campus]||0)]);
+   s+=`<polyline class="chart-hit" points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${colors[ci]}" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round"/>`;
+   pts.forEach((p,i)=>{
+     const v=data[i][campus]||0;
+     s+=`<circle class="chart-dot" cx="${p[0]}" cy="${p[1]}" r="4.2" fill="${colors[ci]}" stroke="var(--card)" stroke-width="2"
+       data-tip-title="${esc(campus)} — ${esc(data[i].date)}"
+       data-tip-rows="${esc(JSON.stringify([["Memoriais publicados",String(v)]]))}"/>`;
+   });
+ });
+ const step=data.length<=18?1:Math.ceil(data.length/14);
+ data.forEach((d,i)=>{
+   if(i%step===0||i===data.length-1)s+=txt(x(i),H-18,d.date.slice(0,5),10,"middle","600","var(--muted)");
+ });
+ campuses.forEach((c,i)=>{
+   const lx=145+i*150;
+   s+=`<circle cx="${lx}" cy="15" r="5" fill="${colors[i]}"/>`+txt(lx+10,19,c,10,"start","800","var(--muted)");
+ });
+ svg.innerHTML=s;
+}
+
+/* ---------- Bind tooltip events to all interactive chart marks ---------- */
+function bindChartTooltips(){
+ document.querySelectorAll(".chart-slice,.chart-bar,.chart-dot").forEach(el=>{
+   el.addEventListener("mouseenter",e=>{
+     let rows=[];
+     try{rows=JSON.parse(el.getAttribute("data-tip-rows")||"[]")}catch(_){}
+     showTip(e,el.getAttribute("data-tip-title")||"Detalhes",rows);
+   });
+   el.addEventListener("mousemove",moveTip);
+   el.addEventListener("mouseleave",hideTip);
+ });
+}
+
+/* Data supplied by the dashboard */
+const DAILY_DATA=[{"date": "03/08/2026", "CMPP": 23, "CAFS": 4, "CSHNB": 6, "CPCE": 0}, {"date": "04/08/2026", "CMPP": 28, "CAFS": 7, "CSHNB": 9, "CPCE": 2}, {"date": "05/08/2026", "CMPP": 21, "CAFS": 2, "CSHNB": 4, "CPCE": 0}, {"date": "06/08/2026", "CMPP": 26, "CAFS": 2, "CSHNB": 1, "CPCE": 1}, {"date": "07/08/2026", "CMPP": 28, "CAFS": 1, "CSHNB": 3, "CPCE": 0}, {"date": "08/08/2026", "CMPP": 3, "CAFS": 0, "CSHNB": 0, "CPCE": 0}, {"date": "09/08/2026", "CMPP": 4, "CAFS": 0, "CSHNB": 1, "CPCE": 0}, {"date": "10/08/2026", "CMPP": 12, "CAFS": 1, "CSHNB": 3, "CPCE": 0}, {"date": "11/08/2026", "CMPP": 13, "CAFS": 9, "CSHNB": 1, "CPCE": 0}, {"date": "12/08/2026", "CMPP": 2, "CAFS": 1, "CSHNB": 0, "CPCE": 0}];
+
+drawDailyLine();
+donut("campusDonut",Object.entries(campusCounts).sort((a,b)=>b[1]-a[1]));
+groupedChart("statusCampus",statusByCampus,campusOrder.filter(c=>campusCounts[c]),["Deferido","Em Andamento","Indeferido"]);
+levelChart();
+bindChartTooltips();
+
 </script>
 </body>
 </html>
