@@ -1,535 +1,348 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
+
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Executivo — Memoriais RSC-PCCTAE | UFPI</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b4f8a">
+<meta name="description" content="Dashboard executivo dos Memoriais RSC-PCCTAE publicados na UFPI.">
+<title>Memoriais RSC-PCCTAE — Comparativo por Campus</title>
 <style>
-:root{--bg:#f3f6fa;--card:#fff;--text:#172033;--muted:#64748b;--line:#e2e8f0;--navy:#123b63;--blue:#0b4f8a;--blue2:#1769aa;--green:#15803d;--amber:#b45309;--red:#b91c1c;--shadow:0 10px 30px rgba(15,35,60,.07)}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#eef3f8 0,#f7f9fc 260px,#f3f6fa 100%);font-family:Inter,Segoe UI,Arial,sans-serif;color:var(--text)}
-.container{max-width:1480px;margin:auto;padding:28px 30px 36px}.header{position:relative;overflow:hidden;border-radius:22px;padding:28px 32px;background:linear-gradient(135deg,#092f54,#0b4f8a 55%,#1769aa);box-shadow:0 16px 38px rgba(9,47,84,.18);color:#fff}.header:after{content:"";position:absolute;width:280px;height:280px;border-radius:50%;right:-90px;top:-140px;background:rgba(255,255,255,.08)}
-.header h1{margin:0 0 6px;font-size:27px;position:relative;z-index:1}.header p{margin:0;font-size:13px;opacity:.9;position:relative;z-index:1}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:16px 0}.card{background:#fff;border:1px solid #e2e8f0;border-radius:18px;padding:18px;box-shadow:var(--shadow)}.kpi-card{min-height:128px}.kpi-icon{width:40px;height:40px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:9px}.ib{background:#e8f1fb;color:#0b4f8a}.ig{background:#fff4d8;color:#a56a00}.igr{background:#e8f7ef;color:#15803d}.ia{background:#fff7df;color:#b45309}
-.kpi-label{font-size:10px;font-weight:800;letter-spacing:.07em;color:#718096;text-transform:uppercase}.kpi{font-size:27px;font-weight:850;letter-spacing:-.03em;margin-top:6px}.sub{font-size:10px;color:#718096;margin-top:4px}
-.section-title{font-size:15px;margin:0 0 12px;color:#24364d}.compare{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.campus-card{padding:17px}.campus-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:13px}.campus-name{font-weight:850;font-size:16px}.campus-total{font-size:22px;font-weight:850;color:var(--blue)}
-.bar{height:8px;border-radius:99px;background:#edf2f7;overflow:hidden;display:flex;margin:7px 0 12px}.seg{height:100%}.seg-def{background:#2e8b57}.seg-and{background:#f2a900}.seg-ind{background:#c62828}.metric-row{display:flex;justify-content:space-between;gap:8px;font-size:11px;color:#667085;margin-top:7px}.metric-row strong{color:#24364d}.pill{display:inline-flex;border-radius:999px;padding:4px 8px;font-size:10px;font-weight:800;background:#edf4fa;color:#0b4f8a}
-.compare-note{margin-top:10px;font-size:11px;color:#64748b}.highlight{border:1px solid #cfe0ef;background:linear-gradient(180deg,#fff,#f8fbff)}
-.chart-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:15px}.chart-wrap{height:275px;position:relative}.chart-wrap svg{width:100%;height:100%;display:block}
-.filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:12px}input,select{border:1px solid #d8e0ea;background:#fbfcfe;border-radius:10px;padding:10px 12px;font-size:13px;outline:none}input:focus,select:focus{border-color:var(--blue2);box-shadow:0 0 0 3px #dceeff}
-.table-card{margin-top:15px}.table-scroll{max-height:620px;overflow:auto;border:1px solid #e1e7ef;border-radius:14px}table{width:100%;border-collapse:collapse}th,td{padding:11px 12px;border-bottom:1px solid #e2e8f0;font-size:12px;text-align:left;white-space:nowrap}th{position:sticky;top:0;background:#f4f7fb;z-index:2;color:#52657b;text-transform:uppercase;font-size:9px;letter-spacing:.06em}tr:hover td{background:#f8fbff}.rank-pill{display:inline-flex;min-width:31px;height:28px;align-items:center;justify-content:center;border-radius:8px;background:#f1f5f9;font-weight:850}.level-badge,.campus-badge,.status-badge{display:inline-flex;align-items:center;padding:4px 8px;border-radius:8px;font-size:10px;font-weight:800}.level-v{background:#eef4ff;color:#315ea8}.level-vi{background:#f1ecff;color:#6941c6}.level-iii{background:#edf8f3;color:#16704a}.campus-badge{background:#edf4fa;color:#0b4f8a}.status-badge{border-radius:999px;gap:5px}.status-badge:before{content:"";width:6px;height:6px;border-radius:50%;background:#16a34a}.status-deferido{background:#e9f8ef;color:#15803d}.status-andamento{background:#fff5df;color:#b45309}.status-andamento:before{background:#f59e0b}.status-indeferido{background:#fdecec;color:#b91c1c}.status-indeferido:before{background:#dc2626}.publication-date{display:inline-flex;flex-direction:column;gap:2px;line-height:1.1}.publication-date small{font-size:10px;color:#64748b;font-weight:600}.footer{color:#64748b;font-size:11px;margin-top:15px;border-top:1px solid #e1e7ef;padding-top:13px;line-height:1.5}
-
-.daily-card{margin-top:15px}
-.daily-chart-wrap{height:290px;width:100%}
-.daily-chart-wrap svg{width:100%;height:100%;display:block}
-.daily-caption{font-size:11px;color:var(--muted);margin-top:4px}
-.daily-line{fill:none;stroke:var(--blue2);stroke-width:3}
-.daily-area{fill:rgba(23,105,170,.10)}
-.daily-point{fill:var(--blue2);stroke:var(--card);stroke-width:2}
-
-@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}.compare{grid-template-columns:repeat(2,1fr)}.chart-grid{grid-template-columns:1fr 1fr}.main{display:block}}
-@media(max-width:650px){.container{padding:10px}.header{padding:20px 18px;border-radius:16px}.header h1{font-size:21px;line-height:1.2}.header p{font-size:11px;line-height:1.45}.grid{grid-template-columns:1fr 1fr;gap:8px}.card{padding:13px;border-radius:14px}.kpi-card{min-height:0}.kpi-icon{width:33px;height:33px;font-size:16px}.kpi-label{font-size:8px}.kpi{font-size:21px}.compare,.chart-grid{display:block}.campus-card,.chart-grid .card{margin-bottom:9px}.campus-name{font-size:14px}.campus-total{font-size:20px}.chart-wrap{height:225px}.filters{display:grid;grid-template-columns:1fr;gap:7px}.filters input,.filters select{width:100%;min-height:41px}.table-scroll{max-height:none;overflow:visible;border:0}table,tbody{display:block;width:100%}thead{display:none}tbody{display:grid;gap:8px}tbody tr{display:grid;grid-template-columns:1fr 1fr;padding:11px;border:1px solid #e2e8f0;border-radius:12px;background:#fff;box-shadow:0 5px 16px rgba(15,35,60,.05)}tbody td{display:flex;justify-content:space-between;white-space:normal;border:0;padding:5px 0;font-size:11px;gap:8px}tbody td:before{content:attr(data-label);font-size:8px;font-weight:800;text-transform:uppercase;color:#7b8798}tbody td:nth-child(2){grid-column:1/-1;order:-2;display:block;border-bottom:1px solid #edf1f5;padding-bottom:8px;margin-bottom:2px}tbody td:nth-child(2):before{display:block;margin-bottom:3px}tbody td:nth-child(2) strong{font-size:12px}.footer{font-size:9px}}
-@media(max-width:380px){.grid{grid-template-columns:1fr}.header h1{font-size:20px}}
-
-/* ===== THEME SYSTEM ===== */
 :root{
-  --bg:#f3f6fa; --bg2:#f8fafc; --card:#ffffff; --card2:#fbfdff;
-  --text:#172033; --muted:#64748b; --line:#e2e8f0;
-  --navy:#092f54; --blue:#0b4f8a; --blue2:#1769aa;
-  --green:#15803d; --amber:#b45309; --red:#b91c1c;
-  --header1:#092f54; --header2:#0b4f8a; --header3:#1769aa;
-  --shadow:0 10px 30px rgba(15,35,60,.07);
-  --input:#fbfcfe; --tablehead:#f4f7fb; --hover:#f8fbff;
+ --bg:#f3f6fa;--surface:#ffffff;--surface-2:#f8fafc;--surface-3:#eef3f8;
+ --text:#172033;--muted:#66758a;--line:#dbe3ec;--brand:#0b4f8a;--brand-2:#1769aa;
+ --brand-soft:#e7f0f8;--ok:#15845b;--ok-soft:#e8f6ef;--warn:#a86f12;--warn-soft:#fff5dc;
+ --bad:#c23d45;--bad-soft:#fdebed;--purple:#6841c6;--purple-soft:#f1ecff;
+ --shadow:0 8px 30px rgba(20,45,75,.07);--radius:16px;
+ --chart-text:#172033;--chart-muted:#66758a;--chart-grid:rgba(100,116,139,.18);
+ --chart-zero:#cbd5e1;--chart-tooltip-bg:#111827;--chart-tooltip-text:#fff;
+ --c-cmpp:#0b4f8a;--c-cafs:#2e8b57;--c-cshnb:#7a55c7;--c-cpce:#d97706;
+ --font:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
 }
 html[data-theme="dark"]{
-  --bg:#0b1220; --bg2:#0f172a; --card:#111c2e; --card2:#152238;
-  --text:#e8eef7; --muted:#9aabc0; --line:#26364d;
-  --navy:#dbeafe; --blue:#69a7df; --blue2:#86bff0;
-  --header1:#071c33; --header2:#0b3d68; --header3:#135b8d;
-  --green:#4ade80; --amber:#fbbf24; --red:#f87171;
-  --shadow:0 12px 32px rgba(0,0,0,.24);
-  --input:#0c1728; --tablehead:#162338; --hover:#152238;
+ --bg:#0c141d;--surface:#121d28;--surface-2:#172431;--surface-3:#1d2c3b;
+ --text:#edf3f9;--muted:#a9b8c8;--line:#2b3b4b;--brand:#78b7e7;--brand-2:#9acbf4;
+ --brand-soft:#193247;--ok:#55c994;--ok-soft:#12392b;--warn:#efbd61;--warn-soft:#3a2d12;
+ --bad:#f27b7b;--bad-soft:#422027;--purple:#b59aff;--purple-soft:#2b2049;
+ --shadow:0 10px 32px rgba(0,0,0,.2);
+ --chart-text:#f1f5f9;--chart-muted:#c3cfda;--chart-grid:rgba(203,213,225,.20);
+ --chart-zero:#637487;--chart-tooltip-bg:#f8fafc;--chart-tooltip-text:#172033;
 }
-body{
-  background:linear-gradient(180deg,var(--bg2) 0,var(--bg) 300px);
-  color:var(--text);
-  transition:background .25s ease,color .25s ease;
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);line-height:1.45}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--brand) 45%,transparent);outline-offset:2px}
+.container{width:min(1440px,calc(100% - 32px));margin:auto}
+.topbar{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.topbar-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.branding{display:flex;align-items:center;gap:13px;min-width:0}
+.brand-mark{width:42px;height:42px;border-radius:12px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;letter-spacing:-.04em;flex:0 0 auto}
+.branding h1{font-size:16px;line-height:1.15;margin:0;font-weight:800;letter-spacing:-.02em}
+.branding p{margin:4px 0 0;color:var(--muted);font-size:12px}
+.theme-btn{height:44px;min-width:44px;border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;display:grid;place-items:center}
+.theme-btn svg{width:20px;height:20px}
+main{padding:26px 0 42px}
+.context{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:12px;margin-bottom:18px}
+.context-card,.panel,.filter-box,.kpi,.campus-card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.context-card{padding:15px 17px}
+.context-label{font-size:11px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.context-value{margin-top:4px;font-size:15px;font-weight:750}
+.filter-box{padding:16px;margin-bottom:18px}
+.filter-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}
+.section-title{margin:0;font-size:16px;letter-spacing:-.015em}
+.filter-toggle{display:none}
+.filter-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr auto;gap:10px}
+.field{min-width:0}
+.field label{display:block;font-size:11px;color:var(--muted);font-weight:750;margin:0 0 6px}
+.field input,.field select{width:100%;height:44px;padding:0 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--text);min-width:0}
+.clear-btn{height:44px;align-self:end;padding:0 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--text);font-weight:700;white-space:nowrap}
+.filter-meta{display:flex;justify-content:space-between;align-items:center;margin-top:11px;font-size:12px;color:var(--muted)}
+.active-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--brand);margin-right:6px}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:18px}
+.kpi{padding:16px;min-width:0}
+.kpi-top{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.kpi-title{font-size:11px;text-transform:uppercase;letter-spacing:.055em;color:var(--muted);font-weight:800}
+.icon{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto}
+.icon svg{width:18px;height:18px}
+.icon.blue{background:var(--brand-soft);color:var(--brand)}.icon.green{background:var(--ok-soft);color:var(--ok)}
+.icon.amber{background:var(--warn-soft);color:var(--warn)}.icon.red{background:var(--bad-soft);color:var(--bad)}
+.icon.purple{background:var(--purple-soft);color:var(--purple)}
+.kpi-num{font-size:27px;font-weight:850;letter-spacing:-.04em;margin-top:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi-note{font-size:11px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.section{margin-top:18px}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:16px;margin:0 0 11px}
+.section-head p{margin:3px 0 0;color:var(--muted);font-size:12px}
+.campus-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.campus-card{padding:16px;position:relative;overflow:hidden}
+.campus-card.leader::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--brand)}
+.rank{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.campus-name{font-size:15px;font-weight:800;margin-top:6px}
+.campus-full{font-size:11px;color:var(--muted);min-height:31px;margin-top:2px}
+.campus-main{display:flex;justify-content:space-between;align-items:end;margin-top:13px}
+.campus-total{font-size:28px;font-weight:850;letter-spacing:-.04em}
+.campus-share{font-size:12px;color:var(--muted);font-weight:700}
+.stack{height:8px;border-radius:99px;background:var(--surface-3);display:flex;overflow:hidden;margin:11px 0}
+.stack i{height:100%;display:block}
+.stack .d{background:var(--ok)}.stack .a{background:var(--warn)}.stack .n{background:var(--bad)}
+.campus-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.stat{font-size:10px;color:var(--muted)}.stat b{display:block;color:var(--text);font-size:15px}
+.pred{margin-top:11px;font-size:11px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.pred strong{color:var(--text)}
+.charts-grid{display:grid;grid-template-columns:1.45fr .85fr;gap:14px}
+.panel{padding:17px;min-width:0}
+.panel.wide{grid-column:1/-1}
+.chart-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:10px}
+.chart-title{font-size:15px;font-weight:800;margin:0}
+.chart-sub{font-size:11px;color:var(--muted);margin:3px 0 0}
+.chart-wrap{position:relative;min-height:290px}
+.chart-wrap.tall{min-height:350px}
+.chart-svg{width:100%;height:100%;min-height:290px;display:block;overflow:visible}
+.chart-wrap.tall .chart-svg{min-height:350px}
+.legend{display:flex;flex-wrap:wrap;gap:7px 14px;margin-top:8px}
+.legend button{border:0;background:transparent;color:var(--text);display:flex;align-items:center;gap:7px;padding:4px 0;font-size:11px;font-weight:700;opacity:.48}
+.legend button.on{opacity:1}
+.legend i{width:9px;height:9px;border-radius:50%;display:block}
+.legend .label{white-space:nowrap}
+.donut-area{display:grid;grid-template-columns:1fr;justify-items:center}
+.donut-svg{width:min(300px,100%);height:260px}
+.donut-center-big{font-size:26px;font-weight:850;fill:var(--chart-text)}
+.donut-center-small{font-size:10px;fill:var(--chart-muted)}
+.donut-legend{width:100%;display:grid;gap:6px;margin-top:-2px}
+.donut-item{display:grid;grid-template-columns:auto 1fr auto auto;align-items:center;gap:8px;font-size:11px}
+.donut-dot{width:9px;height:9px;border-radius:50%}
+.donut-item .name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.donut-item .qty{font-weight:800}.donut-item .pct{color:var(--muted);min-width:42px;text-align:right}
+.table-panel{padding:0;overflow:hidden}
+.table-head{padding:17px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line)}
+.table-meta{font-size:11px;color:var(--muted)}
+.table-scroll{overflow:auto;max-height:650px}
+table{width:100%;border-collapse:collapse;min-width:780px}
+thead th{position:sticky;top:0;z-index:2;background:var(--surface-2);color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.05em;text-align:left;padding:11px 13px;border-bottom:1px solid var(--line);cursor:pointer;white-space:nowrap}
+tbody td{padding:12px 13px;border-bottom:1px solid var(--line);font-size:12px;vertical-align:middle}
+tbody tr:hover{background:var(--surface-2)}
+.pos{font-weight:850;color:var(--muted);width:60px}
+.name-cell{font-weight:750}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap}
+.badge.ok{background:var(--ok-soft);color:var(--ok)}.badge.warn{background:var(--warn-soft);color:var(--warn)}.badge.bad{background:var(--bad-soft);color:var(--bad)}
+.mobile-list{display:none}
+.empty{padding:45px 18px;text-align:center;color:var(--muted);font-size:13px}
+.method{font-size:11px;color:var(--muted);padding:14px 0 0}
+.footer{padding:18px 0 35px;color:var(--muted);font-size:10px}
+.tooltip{position:fixed;z-index:50;pointer-events:none;background:var(--chart-tooltip-bg);color:var(--chart-tooltip-text);border-radius:10px;padding:9px 11px;box-shadow:0 10px 30px rgba(0,0,0,.18);font-size:11px;max-width:230px;opacity:0;transform:translateY(4px);transition:opacity .12s ease,transform .12s ease}
+.tooltip.show{opacity:1;transform:none}
+.tooltip-title{font-weight:800;margin-bottom:5px}
+.tooltip-row{display:flex;justify-content:space-between;gap:16px;margin-top:2px}
+.tooltip-row span:last-child{font-weight:800}
+.chart-empty{height:290px;display:grid;place-items:center;color:var(--muted);font-size:12px;border:1px dashed var(--line);border-radius:12px}
+@media(max-width:1200px){.kpis{grid-template-columns:repeat(3,1fr)}.campus-grid{grid-template-columns:repeat(2,1fr)}.filter-grid{grid-template-columns:1.5fr 1fr 1fr 1fr}.clear-btn{grid-column:auto}}
+@media(max-width:900px){.context{grid-template-columns:1fr 1fr}.charts-grid{grid-template-columns:1fr}.panel.wide{grid-column:auto}.filter-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){
+ .container{width:min(100% - 24px,1440px)}.topbar-inner{min-height:64px}.brand-mark{width:38px;height:38px;border-radius:10px}.branding h1{font-size:14px}.branding p{font-size:10px}main{padding-top:16px}
+ .context{grid-template-columns:1fr;gap:8px}.context-card{padding:12px 14px}.filter-box{padding:12px}.filter-head{margin-bottom:0}.filter-toggle{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 10px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);color:var(--text);font-weight:750;font-size:12px}
+ .filter-content{display:none;margin-top:12px}.filter-content.open{display:block}.filter-grid{grid-template-columns:1fr}.filter-meta{align-items:flex-start;gap:8px;flex-direction:column}
+ .kpis{grid-template-columns:1fr 1fr;gap:8px}.kpi{padding:13px}.kpi-num{font-size:22px}.kpi-note{font-size:10px}.icon{width:30px;height:30px}
+ .campus-grid{grid-template-columns:1fr}.charts-grid{gap:10px}.panel{padding:13px}.chart-wrap{min-height:270px}.chart-svg{min-height:270px}.chart-wrap.tall{min-height:330px}.chart-wrap.tall .chart-svg{min-height:330px}
+ .table-scroll{display:none}.mobile-list{display:block}.table-head{padding:14px}.mobile-card{padding:14px;border-bottom:1px solid var(--line)}.mobile-top{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.mobile-name{font-size:13px;font-weight:800;line-height:1.25}.mobile-pos{font-size:11px;font-weight:850;color:var(--muted)}.mobile-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.mobile-label{font-size:9px;text-transform:uppercase;color:var(--muted);font-weight:800;letter-spacing:.05em}.mobile-value{font-size:11px;font-weight:700;margin-top:2px}.mobile-date{margin-top:10px;font-size:10px;color:var(--muted)}
+ .method{padding:12px 2px 0}
 }
-.card,.table-card{background:var(--card);border-color:var(--line);box-shadow:var(--shadow)}
-.header{background:linear-gradient(135deg,var(--header1),var(--header2) 55%,var(--header3))}
-.section-title,.campus-name{color:var(--text)}
-.kpi-label,.sub,.compare-note,.footer,.metric-row{color:var(--muted)}
-input,select{background:var(--input);color:var(--text);border-color:var(--line)}
-th{background:var(--tablehead);color:var(--muted);border-color:var(--line)}
-td{border-color:var(--line)}
-tr:hover td{background:var(--hover)}
-.table-scroll{border-color:var(--line)}
-.publication-date small{color:var(--muted)}
-.highlight{background:linear-gradient(180deg,var(--card),var(--card2));border-color:var(--line)}
-.rank-pill{background:var(--tablehead);color:var(--text)}
-.campus-badge{background:rgba(23,105,170,.12);color:var(--blue2)}
-.level-v{background:rgba(49,94,168,.15);color:#5f9be0}
-.level-vi{background:rgba(105,65,198,.15);color:#a78bfa}
-.level-iii{background:rgba(22,112,74,.15);color:#5ee6a1}
-.pill{background:rgba(23,105,170,.12);color:var(--blue2)}
-
-
-.theme-toggle{
-  position:absolute;right:22px;top:20px;z-index:5;
-  display:inline-flex;align-items:center;gap:7px;
-  min-width:92px;justify-content:center;
-  border:1px solid rgba(255,255,255,.24);
-  background:rgba(255,255,255,.12);color:#fff;
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-radius:999px;padding:8px 12px;
-  font-size:11px;font-weight:800;cursor:pointer;
-  transition:all .2s ease;
-}
-.theme-toggle:hover{background:rgba(255,255,255,.2);transform:translateY(-1px)}
-#themeIcon{font-size:16px;line-height:1}
-@media(max-width:650px){
-  .theme-toggle{right:12px;top:12px;min-width:40px;width:40px;height:40px;padding:0}
-  #themeLabel{display:none}
-  .header h1{padding-right:45px}
-}
-
-
-.header,.card,.theme-toggle,input,select,.campus-card,.table-scroll,.rank-pill,.pill,.campus-badge,.status-badge,.level-badge{
-  transition:background-color .25s ease,border-color .25s ease,color .25s ease,box-shadow .25s ease,transform .2s ease;
-}
-.campus-card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(15,35,60,.10)}
-html[data-theme="dark"] .campus-card:hover{box-shadow:0 12px 28px rgba(0,0,0,.28)}
-html[data-theme="dark"] .icon-blue{background:rgba(105,167,223,.14);color:#8fc5f3}
-html[data-theme="dark"] .icon-gold{background:rgba(251,191,36,.13);color:#f6c85f}
-html[data-theme="dark"] .icon-green{background:rgba(74,222,128,.13);color:#6ee7a1}
-html[data-theme="dark"] .icon-amber{background:rgba(251,191,36,.13);color:#f6c85f}
-
-
-/* ===== SENIOR / EXECUTIVE VISUAL SYSTEM ===== */
-:root{
-  --accent:#0b4f8a;
-  --accent-2:#1769aa;
-  --accent-soft:rgba(23,105,170,.10);
-  --success:#16845a;
-  --warning:#b7791f;
-  --danger:#c24141;
-  --grid:rgba(100,116,139,.16);
-  --tooltip:#111827;
-}
-html[data-theme="dark"]{
-  --accent:#78b6e8;
-  --accent-2:#9acbf4;
-  --accent-soft:rgba(120,182,232,.12);
-  --success:#52c991;
-  --warning:#f2bd55;
-  --danger:#f17a7a;
-  --grid:rgba(148,163,184,.16);
-  --tooltip:#f8fafc;
-}
-body{letter-spacing:-.005em}
-.container{max-width:1540px;padding-top:24px}
-.header{
-  padding:31px 34px;
-  border-radius:18px;
-  box-shadow:0 18px 44px rgba(9,47,84,.16);
-}
-.header h1{font-size:26px;font-weight:800;letter-spacing:-.035em}
-.header p{max-width:920px}
-.grid{gap:12px;margin:14px 0}
-.card{
-  border-radius:14px;
-  box-shadow:0 4px 18px rgba(15,35,60,.055);
-}
-.kpi-card{
-  min-height:124px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-}
-.kpi{font-variant-numeric:tabular-nums}
-.section-title{
-  font-size:14px;
-  font-weight:800;
-  letter-spacing:-.01em;
-}
-.compare{gap:12px}
-.campus-card{
-  border-radius:13px;
-  box-shadow:0 3px 14px rgba(15,35,60,.045);
-}
-.campus-card:hover{transform:translateY(-2px)}
-.chart-grid{gap:12px}
-.chart-wrap,.daily-chart-wrap{height:300px}
-.daily-card{margin-top:12px}
-.daily-caption{font-size:10px}
-.table-card{margin-top:12px}
-.table-scroll{border-radius:12px}
-th{font-weight:850}
-td{font-variant-numeric:tabular-nums}
-.filters{margin-bottom:11px}
-input,select{height:40px}
-.footer{font-size:10px}
-
-/* Chart interaction */
-.chart-svg{overflow:visible}
-.chart-hit{cursor:crosshair}
-.chart-hit:hover{filter:brightness(1.05)}
-.chart-dot{cursor:pointer}
-.chart-dot:hover{stroke-width:3}
-.chart-bar{cursor:pointer}
-.chart-bar:hover{opacity:.82}
-.chart-slice{cursor:pointer;transition:opacity .15s ease,transform .15s ease;transform-box:fill-box;transform-origin:center}
-.chart-slice:hover{opacity:.82}
-.chart-legend-item{cursor:default}
-.chart-axis{font-family:Segoe UI,Arial,sans-serif;font-size:10px;fill:var(--muted)}
-.chart-value{font-family:Segoe UI,Arial,sans-serif;font-size:10px;font-weight:800;fill:var(--text)}
-.chart-gridline{stroke:var(--grid);stroke-width:1}
-.chart-zero{stroke:var(--line);stroke-width:1}
-
-/* Custom tooltip */
-#chartTooltip{
-  position:fixed;
-  z-index:9999;
-  pointer-events:none;
-  min-width:165px;
-  max-width:260px;
-  padding:10px 12px;
-  border-radius:10px;
-  background:rgba(17,24,39,.96);
-  color:#fff;
-  box-shadow:0 10px 28px rgba(0,0,0,.22);
-  font-family:Segoe UI,Arial,sans-serif;
-  font-size:11px;
-  line-height:1.45;
-  opacity:0;
-  transform:translateY(4px);
-  transition:opacity .12s ease,transform .12s ease;
-}
-#chartTooltip.show{opacity:1;transform:translateY(0)}
-#chartTooltip .tt-title{font-weight:800;font-size:12px;margin-bottom:5px}
-#chartTooltip .tt-row{display:flex;justify-content:space-between;gap:16px;color:#dbe5f0}
-#chartTooltip .tt-value{font-weight:800;color:#fff}
-html[data-theme="dark"] #chartTooltip{background:rgba(248,250,252,.98);color:#172033}
-html[data-theme="dark"] #chartTooltip .tt-row{color:#475569}
-html[data-theme="dark"] #chartTooltip .tt-value{color:#172033}
-
+@media(min-width:641px){.filter-content{display:block!important}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
 </style>
-
-<style>
-@media(max-width:650px){
-  .table-scroll{max-height:620px;overflow-x:auto!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch}
-  table{display:table!important;width:850px!important;min-width:850px!important}
-  thead{display:table-header-group!important}
-  tbody{display:table-row-group!important}
-  tr{display:table-row!important}
-  th,td{display:table-cell!important;white-space:nowrap!important}
-  tbody td:before{display:none!important}
-}
-</style></head>
+</head>
 <body>
-<div class="container">
-<header class="header">
-<button id="themeToggle" class="theme-toggle" type="button" aria-label="Alternar tema" title="Alternar modo claro/escuro">
-  <span id="themeIcon">☾</span>
-  <span id="themeLabel">Escuro</span>
-</button>
-<h1>Memoriais RSC-PCCTAE — Comparativo por Campus</h1><p>Visão executiva dos memoriais publicados, comparando <strong>volume, situação e nível de RSC</strong> entre os campi.</p></header>
+<header class="topbar">
+ <div class="container topbar-inner">
+  <div class="branding">
+   <div class="brand-mark" aria-hidden="true">UFPI</div>
+   <div><h1>Memoriais RSC-PCCTAE — Comparativo por Campus</h1><p>Monitoramento executivo dos memoriais institucionais publicados</p></div>
+  </div>
+  <button class="theme-btn" id="themeBtn" aria-label="Alternar tema" title="Alternar tema"></button>
+ </div>
+</header>
 
-<section class="grid">
-<div class="card kpi-card"><div class="kpi-icon ib">▦</div><div class="kpi-label">Total de memoriais</div><div class="kpi" id="total">—</div></div>
-<div class="sub">participação no total</div></div>
-<div class="card kpi-card"><div class="kpi-icon igr">✓</div><div class="kpi-label">Deferidos</div><div class="kpi" id="deferidos">—</div><div class="sub" id="deferidosPct"></div></div>
-<div class="card kpi-card"><div class="kpi-icon ia">⏳</div><div class="kpi-label">Em andamento</div><div class="kpi" id="andamento">—</div></div>
-</section>
+<main class="container">
+ <section class="context" aria-label="Contexto da base">
+  <article class="context-card"><div class="context-label">Base analisada</div><div class="context-value" id="ctxTotal">—</div></article>
+  <article class="context-card"><div class="context-label">Período de publicação</div><div class="context-value" id="ctxPeriod">—</div></article>
+  <article class="context-card"><div class="context-label">Última atualização identificada</div><div class="context-value" id="ctxUpdated">—</div></article>
+ </section>
 
-<section class="card">
-<h2 class="section-title">Comparação direta entre os campi</h2>
-<div class="compare" id="campusCards"></div>
-<div class="compare-note">A comparação usa a quantidade de memoriais identificados por campus na base enviada. “Deferido” e “Em Andamento” são os status encontrados nos registros.</div>
-</section>
+ <section class="filter-box" aria-labelledby="filterTitle">
+  <div class="filter-head">
+   <div><h2 class="section-title" id="filterTitle">Filtros</h2><div class="filter-meta"><span id="filterCount">—</span><span id="activeFilter"><span class="active-dot"></span>Sem filtros ativos</span></div></div>
+   <button class="filter-toggle" id="filterToggle" aria-expanded="false" aria-controls="filterContent">Filtros <span id="filterChevron">⌄</span></button>
+  </div>
+  <div class="filter-content" id="filterContent">
+   <div class="filter-grid">
+    <div class="field"><label for="search">Pesquisar servidor</label><input id="search" type="search" placeholder="Digite o nome…" autocomplete="off"></div>
+    <div class="field"><label for="campusFilter">Campus</label><select id="campusFilter"><option value="">Todos os campi</option></select></div>
+    <div class="field"><label for="levelFilter">Nível de RSC</label><select id="levelFilter"><option value="">Todos os níveis</option></select></div>
+    <div class="field"><label for="statusFilter">Status</label><select id="statusFilter"><option value="">Todos os status</option></select></div>
+    <button class="clear-btn" id="clearBtn" type="button">Limpar filtros</button>
+   </div>
+  </div>
+ </section>
 
+ <section class="kpis" id="kpis" aria-label="Indicadores principais"></section>
 
-<section class="card daily-card">
-  <h2 class="section-title">Evolução diária das publicações</h2><div class="sub">Quantidade de memoriais publicados por dia, com uma série independente para cada campus.</div>
-  <div class="daily-chart-wrap"><svg id="dailyLine" viewBox="0 0 1000 300" preserveAspectRatio="none" aria-label="Série diária de memoriais publicados"></svg></div>
-  <div class="daily-caption">Quantidade de memoriais publicados por dia, com uma série para cada campus.</div>
-</section>
-<section class="chart-grid">
-<div class="card"><h2 class="section-title">Participação dos campi</h2><div class="sub">Distribuição do volume total de memoriais na base.</div><div class="chart-wrap"><svg id="campusDonut" viewBox="0 0 600 275"></svg></div></div>
-<div class="card"><h2 class="section-title">Situação por campus</h2><div class="sub">Comparação entre deferidos, em andamento e indeferidos.</div><div class="chart-wrap"><svg id="statusCampus" viewBox="0 0 600 275"></svg></div></div>
-<div class="card"><h2 class="section-title">Nível de RSC por campus</h2><div class="sub">Distribuição dos níveis registrados em cada campus.</div><div class="chart-wrap"><svg id="levelCampus" viewBox="0 0 600 275"></svg></div></div>
-</section>
+ <section class="section">
+  <div class="section-head"><div><h2 class="section-title">Comparação entre campi</h2><p>Volume, participação, situação e nível predominante.</p></div></div>
+  <div class="campus-grid" id="campus"></div>
+ </section>
 
-<section class="card table-card">
-<h2 class="section-title">Ranking completo de publicações</h2>
-<div class="filters"><input id="search" type="search" placeholder="Pesquisar servidor..."><select id="campusFilter"><option value="">Todos os campi</option></select><select id="levelFilter"><option value="">Todos os níveis</option></select><select id="statusFilter"><option value="">Todos os status</option><option>Deferido</option><option>Indeferido</option><option>Em Andamento</option></select></div>
-<div class="table-scroll"><table><thead><tr><th>Pos.</th><th>Servidor</th><th>Nível</th><th>Campus</th><th>Publicação</th><th>Status</th></tr></thead><tbody id="tbody"></tbody></table></div>
-</section>
-<div class="footer">Base: arquivo de memoriais enviado nesta conversa. Critério de campus: código associado ao registro (CMPP, CAFS, CSHNB ou CPCE). Ordenação do ranking: data e hora de publicação, da mais antiga para a mais recente.</div>
-</div>
-<div id="chartTooltip" role="tooltip"></div>
+ <section class="section">
+  <div class="charts-grid">
+   <article class="panel wide">
+    <div class="chart-head"><div><h2 class="chart-title">Evolução diária das publicações</h2><p class="chart-sub">Uma série independente por campus · data e hora de publicação.</p></div></div>
+    <div class="chart-wrap tall" id="dailyWrap"><svg class="chart-svg" id="dailyChart" role="img" aria-label="Evolução diária das publicações por campus"></svg></div>
+    <div class="legend" id="dailyLegend" aria-label="Legenda interativa dos campi"></div>
+   </article>
+   <article class="panel">
+    <div class="chart-head"><div><h2 class="chart-title">Participação dos campi</h2><p class="chart-sub">Quantidade absoluta e percentual do recorte.</p></div></div>
+    <div class="donut-area"><svg class="donut-svg" id="donutChart" viewBox="0 0 300 260" role="img" aria-label="Participação dos campi"></svg><div class="donut-legend" id="donutLegend"></div></div>
+   </article>
+   <article class="panel">
+    <div class="chart-head"><div><h2 class="chart-title">Situação por campus</h2><p class="chart-sub">Distribuição dos status no recorte atual.</p></div></div>
+    <div class="chart-wrap" id="statusWrap"><svg class="chart-svg" id="statusChart" role="img" aria-label="Situação dos memoriais por campus"></svg></div>
+    <div class="legend" id="statusLegend"></div>
+   </article>
+   <article class="panel">
+    <div class="chart-head"><div><h2 class="chart-title">Nível de RSC por campus</h2><p class="chart-sub">Comparação dos níveis realmente presentes na base.</p></div></div>
+    <div class="chart-wrap" id="levelWrap"><svg class="chart-svg" id="levelChart" role="img" aria-label="Níveis de RSC por campus"></svg></div>
+    <div class="legend" id="levelLegend"></div>
+   </article>
+  </div>
+ </section>
+
+ <section class="section">
+  <article class="panel table-panel">
+   <div class="table-head"><div><h2 class="section-title">Ranking de publicações</h2><div class="table-meta" id="tableMeta">—</div></div></div>
+   <div class="table-scroll"><table id="rankingTable"><thead><tr>
+    <th data-sort="pos">Posição</th><th data-sort="name">Servidor</th><th data-sort="campus">Campus</th><th data-sort="level">RSC</th><th data-sort="status">Status</th><th data-sort="dt">Publicação</th>
+   </tr></thead><tbody></tbody></table></div>
+   <div class="mobile-list" id="mobileList"></div>
+  </article>
+  <p class="method">Ranking ordenado da publicação mais antiga para a mais recente, considerando data e hora. Após aplicar filtros, a posição é recalculada dentro do recorte exibido.</p>
+ </section>
+</main>
+<footer class="container footer">Fonte: base de memoriais institucionais publicados da UFPI. Dados exibidos conforme os registros disponíveis na base analisada.</footer>
+<div class="tooltip" id="tooltip" role="status" aria-live="polite"></div>
+
 <script>
-const rows=[{"name": "GLAUCIA NONATO PORTO", "level": "V", "campus": "CSHNB", "date": "03/08/2026", "time": "17:29", "status": "Deferido", "dt": "2026-08-03T17:29:00", "rank": 1}, {"name": "JOSIVAN BERNARDES DE ARAÚJO", "level": "VI", "campus": "CSHNB", "date": "03/08/2026", "time": "17:32", "status": "Deferido", "dt": "2026-08-03T17:32:00", "rank": 2}, {"name": "DELMÁRCIO DE MOURA SOUSA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "17:33", "status": "Deferido", "dt": "2026-08-03T17:33:00", "rank": 3}, {"name": "ANA KAROLINA SARAIVA DA SILVA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "17:47", "status": "Deferido", "dt": "2026-08-03T17:47:00", "rank": 4}, {"name": "MARIA ELENICE PEREIRA DA SILVA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "17:49", "status": "Deferido", "dt": "2026-08-03T17:49:00", "rank": 5}, {"name": "FRANCISCO KALIVAN OLIVEIRA BEZERRA", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "17:56", "status": "Deferido", "dt": "2026-08-03T17:56:00", "rank": 6}, {"name": "ÊNIO CLAY DE ARAUJO RIOTINTO", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "18:14", "status": "Deferido", "dt": "2026-08-03T18:14:00", "rank": 7}, {"name": "JAKELINE LEAL EVANGELISTA", "level": "V", "campus": "CSHNB", "date": "03/08/2026", "time": "18:18", "status": "Deferido", "dt": "2026-08-03T18:18:00", "rank": 8}, {"name": "WALTON VALDOMIRO LUZ", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "18:22", "status": "Deferido", "dt": "2026-08-03T18:22:00", "rank": 9}, {"name": "FRANCISCA NILCELIA MACEDO BARROSO", "level": "VI", "campus": "CSHNB", "date": "03/08/2026", "time": "18:28", "status": "Deferido", "dt": "2026-08-03T18:28:00", "rank": 10}, {"name": "RAIANE SILVA DE SOUSA", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "18:40", "status": "Deferido", "dt": "2026-08-03T18:40:00", "rank": 11}, {"name": "ALLINE VASCONCELOS DE MORAES MELLO CAVALCANTI NEGRINHO", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "18:42", "status": "Deferido", "dt": "2026-08-03T18:42:00", "rank": 12}, {"name": "ERIKA MONTEIRO MESQUITA DE ALMEIDA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "18:44", "status": "Deferido", "dt": "2026-08-03T18:44:00", "rank": 13}, {"name": "ANTÔNIO LUIS DE SOUSA NUNES", "level": "VI", "campus": "CAFS", "date": "03/08/2026", "time": "19:04", "status": "Deferido", "dt": "2026-08-03T19:04:00", "rank": 14}, {"name": "DENISE LEAL REIS", "level": "V", "campus": "CAFS", "date": "03/08/2026", "time": "19:09", "status": "Deferido", "dt": "2026-08-03T19:09:00", "rank": 15}, {"name": "ILANA MARIA DE MOURA SOUSA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "19:53", "status": "Deferido", "dt": "2026-08-03T19:53:00", "rank": 16}, {"name": "RHUBENS EWALD MOURA RIBEIRO", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "19:56", "status": "Em Andamento", "dt": "2026-08-03T19:56:00", "rank": 17}, {"name": "ALEX DOS SANTOS ALVES", "level": "VI", "campus": "CAFS", "date": "03/08/2026", "time": "20:01", "status": "Deferido", "dt": "2026-08-03T20:01:00", "rank": 18}, {"name": "ELIANE DA CRUZ MAGALHAES XAVIER", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "20:50", "status": "Deferido", "dt": "2026-08-03T20:50:00", "rank": 19}, {"name": "JÔDE VECTURINE VIEIRA DE ARAÚJO CASTRO", "level": "VI", "campus": "CSHNB", "date": "03/08/2026", "time": "20:51", "status": "Deferido", "dt": "2026-08-03T20:51:00", "rank": 20}, {"name": "LUCYANA OLIVEIRA BARBOSA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "21:10", "status": "Deferido", "dt": "2026-08-03T21:10:00", "rank": 21}, {"name": "FERNANDO ANTONIO DA SILVA", "level": "V", "campus": "CSHNB", "date": "03/08/2026", "time": "21:28", "status": "Em Andamento", "dt": "2026-08-03T21:28:00", "rank": 22}, {"name": "PATRICK ABREU DE OLIVEIRA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "21:32", "status": "Deferido", "dt": "2026-08-03T21:32:00", "rank": 23}, {"name": "LUCIO PADUA REIS", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "21:36", "status": "Em Andamento", "dt": "2026-08-03T21:36:00", "rank": 24}, {"name": "WASHINGTON LUIS MENEZES MOURA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "22:06", "status": "Em Andamento", "dt": "2026-08-03T22:06:00", "rank": 25}, {"name": "FRANCIJANE DE OLIVEIRA BARBOSA", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "22:15", "status": "Em Andamento", "dt": "2026-08-03T22:15:00", "rank": 26}, {"name": "CARLA ADRIANA RODRIGUES DE SOUSA BRITO", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "22:42", "status": "Em Andamento", "dt": "2026-08-03T22:42:00", "rank": 27}, {"name": "MARINA FREIRE MIRANDA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "22:47", "status": "Em Andamento", "dt": "2026-08-03T22:47:00", "rank": 28}, {"name": "JAMES DA LUZ DIAS", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "23:09", "status": "Em Andamento", "dt": "2026-08-03T23:09:00", "rank": 29}, {"name": "SIMONNE SARAIVA NUNES SANTANA", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "23:09", "status": "Em Andamento", "dt": "2026-08-03T23:09:00", "rank": 30}, {"name": "MARCIO FRANK RODRIGUES", "level": "VI", "campus": "CAFS", "date": "03/08/2026", "time": "23:21", "status": "Deferido", "dt": "2026-08-03T23:21:00", "rank": 31}, {"name": "ERICA CECILIA DE SOUSA SOARES", "level": "VI", "campus": "CMPP", "date": "03/08/2026", "time": "23:21", "status": "Em Andamento", "dt": "2026-08-03T23:21:00", "rank": 32}, {"name": "ADNNY FERNANDA LIMA CAMPOS", "level": "V", "campus": "CMPP", "date": "03/08/2026", "time": "23:42", "status": "Em Andamento", "dt": "2026-08-03T23:42:00", "rank": 33}, {"name": "NONATO RODRIGUES DE SALES CARVALHO", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "06:36", "status": "Em Andamento", "dt": "2026-08-04T06:36:00", "rank": 34}, {"name": "LORENA CARVALHO PEREIRA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "07:40", "status": "Em Andamento", "dt": "2026-08-04T07:40:00", "rank": 35}, {"name": "IARA LUCIA RODRIGUES BARBOSA SANTIAGO", "level": "V", "campus": "CAFS", "date": "04/08/2026", "time": "08:23", "status": "Deferido", "dt": "2026-08-04T08:23:00", "rank": 36}, {"name": "LUANA ANDRADE DA COSTA", "level": "VI", "campus": "CPCE", "date": "04/08/2026", "time": "08:26", "status": "Em Andamento", "dt": "2026-08-04T08:26:00", "rank": 37}, {"name": "SHYARA SANTOS VIEIRA", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "09:14", "status": "Em Andamento", "dt": "2026-08-04T09:14:00", "rank": 38}, {"name": "ADISON ALMEIDA DO NASCIMENTO", "level": "VI", "campus": "CAFS", "date": "04/08/2026", "time": "09:42", "status": "Deferido", "dt": "2026-08-04T09:42:00", "rank": 39}, {"name": "AMANDO SANTOS ARAÚJO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "10:18", "status": "Em Andamento", "dt": "2026-08-04T10:18:00", "rank": 40}, {"name": "VALERIA NOGUEIRA DE AREIA LEAO SARMENTO", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "10:19", "status": "Em Andamento", "dt": "2026-08-04T10:19:00", "rank": 41}, {"name": "WILSON SANTIAGO DE ARAÚJO", "level": "V", "campus": "CAFS", "date": "04/08/2026", "time": "10:22", "status": "Em Andamento", "dt": "2026-08-04T10:22:00", "rank": 42}, {"name": "FRANCISCA DAS CHAGAS DA SILVA MOTA", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "10:32", "status": "Em Andamento", "dt": "2026-08-04T10:32:00", "rank": 43}, {"name": "KLEBER CRAVEIRO DA CUNHA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "10:58", "status": "Em Andamento", "dt": "2026-08-04T10:58:00", "rank": 44}, {"name": "GAIO SOUSA QUARESMA", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "10:59", "status": "Em Andamento", "dt": "2026-08-04T10:59:00", "rank": 45}, {"name": "CLAUDIANE ALVES DA SILVA", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "11:06", "status": "Em Andamento", "dt": "2026-08-04T11:06:00", "rank": 46}, {"name": "MARIA DE JESUS ARAUJO RAMOS VIANA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "11:22", "status": "Em Andamento", "dt": "2026-08-04T11:22:00", "rank": 47}, {"name": "HERMÍNIO JOSÉ DA ROCHA NETO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "11:34", "status": "Em Andamento", "dt": "2026-08-04T11:34:00", "rank": 48}, {"name": "MARIA JOSÉ CASTRO DIÓGENES", "level": "VI", "campus": "CPCE", "date": "04/08/2026", "time": "11:37", "status": "Em Andamento", "dt": "2026-08-04T11:37:00", "rank": 49}, {"name": "ADALGISA COSTA MELO", "level": "VI", "campus": "CAFS", "date": "04/08/2026", "time": "11:46", "status": "Deferido", "dt": "2026-08-04T11:46:00", "rank": 50}, {"name": "EDINARA CONRADO LOPES FLORENTINO", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "11:47", "status": "Deferido", "dt": "2026-08-04T11:47:00", "rank": 51}, {"name": "SAYONARA LEAL BRITO", "level": "V", "campus": "CSHNB", "date": "04/08/2026", "time": "12:08", "status": "Em Andamento", "dt": "2026-08-04T12:08:00", "rank": 52}, {"name": "IANA MOURA CRONEMBERGER", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "12:09", "status": "Em Andamento", "dt": "2026-08-04T12:09:00", "rank": 53}, {"name": "SANMYA PATRÍCIA SILVA SANTOS", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "12:21", "status": "Em Andamento", "dt": "2026-08-04T12:21:00", "rank": 54}, {"name": "LIVIA FERNANDA LEAL MACEDO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "12:32", "status": "Em Andamento", "dt": "2026-08-04T12:32:00", "rank": 55}, {"name": "SAMIRA DA SILVA MACIEL", "level": "VI", "campus": "CAFS", "date": "04/08/2026", "time": "12:38", "status": "Deferido", "dt": "2026-08-04T12:38:00", "rank": 56}, {"name": "LEONARDO DE SOUSA PAIVA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "12:43", "status": "Em Andamento", "dt": "2026-08-04T12:43:00", "rank": 57}, {"name": "MARIA ELIZANA MARTINS DE MENESES CARVALHO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "12:53", "status": "Em Andamento", "dt": "2026-08-04T12:53:00", "rank": 58}, {"name": "ARIANE CAVALCANTE LIMA", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "12:56", "status": "Em Andamento", "dt": "2026-08-04T12:56:00", "rank": 59}, {"name": "ANDERSON JOSÉ DA SILVA", "level": "VI", "campus": "CAFS", "date": "04/08/2026", "time": "13:15", "status": "Deferido", "dt": "2026-08-04T13:15:00", "rank": 60}, {"name": "TARCISO ATAIDE DE SALES JUNIOR", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "13:37", "status": "Em Andamento", "dt": "2026-08-04T13:37:00", "rank": 61}, {"name": "MAIRA DANUSE SANTOS DE OLIVEIRA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "13:45", "status": "Em Andamento", "dt": "2026-08-04T13:45:00", "rank": 62}, {"name": "ARILANNE KELLYNE BARBOZA VILARINHO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "14:32", "status": "Em Andamento", "dt": "2026-08-04T14:32:00", "rank": 63}, {"name": "DELSON FERREIRA BONFIM", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "14:55", "status": "Em Andamento", "dt": "2026-08-04T14:55:00", "rank": 64}, {"name": "KELIANA DE SOUSA CARVALHO", "level": "V", "campus": "CAFS", "date": "04/08/2026", "time": "14:59", "status": "Deferido", "dt": "2026-08-04T14:59:00", "rank": 65}, {"name": "ANDERSON HENRIQUE MIRANDA DA SILVA", "level": "V", "campus": "CSHNB", "date": "04/08/2026", "time": "15:12", "status": "Em Andamento", "dt": "2026-08-04T15:12:00", "rank": 66}, {"name": "ULISSES DE CARVALHO MEIRELES", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "15:21", "status": "Em Andamento", "dt": "2026-08-04T15:21:00", "rank": 67}, {"name": "CHRYSTIANE CAMPELO DA SILVA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "15:55", "status": "Em Andamento", "dt": "2026-08-04T15:55:00", "rank": 68}, {"name": "IGOR SILVA PINTO", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "16:27", "status": "Em Andamento", "dt": "2026-08-04T16:27:00", "rank": 69}, {"name": "RAFAELLA SA CARVALHO SOUSA", "level": "VI", "campus": "CSHNB", "date": "04/08/2026", "time": "16:30", "status": "Em Andamento", "dt": "2026-08-04T16:30:00", "rank": 70}, {"name": "ELIZETH LEAL DE SOUSA", "level": "V", "campus": "CSHNB", "date": "04/08/2026", "time": "16:46", "status": "Em Andamento", "dt": "2026-08-04T16:46:00", "rank": 71}, {"name": "MATHEUS DE MENESES CAMPANHÃ SOUZA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "16:50", "status": "Em Andamento", "dt": "2026-08-04T16:50:00", "rank": 72}, {"name": "MAURICIO RIBEIRO SENA", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "18:15", "status": "Em Andamento", "dt": "2026-08-04T18:15:00", "rank": 73}, {"name": "ZELIA GUIMARAES DE OLIVEIRA PINHEIRO", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "18:16", "status": "Em Andamento", "dt": "2026-08-04T18:16:00", "rank": 74}, {"name": "RODRIGO CARVALHO SOUSA", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "18:21", "status": "Em Andamento", "dt": "2026-08-04T18:21:00", "rank": 75}, {"name": "EDER DE SOUSA CARVALHO", "level": "V", "campus": "CSHNB", "date": "04/08/2026", "time": "19:20", "status": "Em Andamento", "dt": "2026-08-04T19:20:00", "rank": 76}, {"name": "GUSTAVO ALVES DE ARAUJO", "level": "III", "campus": "CMPP", "date": "04/08/2026", "time": "19:31", "status": "Em Andamento", "dt": "2026-08-04T19:31:00", "rank": 77}, {"name": "RAFAELLA SANTIAGO SOUSA FREITAS", "level": "VI", "campus": "CMPP", "date": "04/08/2026", "time": "21:30", "status": "Em Andamento", "dt": "2026-08-04T21:30:00", "rank": 78}, {"name": "FILIPE HUDSON DE MACEDO PAZ", "level": "V", "campus": "CMPP", "date": "04/08/2026", "time": "22:14", "status": "Em Andamento", "dt": "2026-08-04T22:14:00", "rank": 79}, {"name": "ITALBERTO FIGUEIRA DANTAS", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "00:20", "status": "Em Andamento", "dt": "2026-08-05T00:20:00", "rank": 80}, {"name": "ELIZIANE OLIVEIRA DE LIMA", "level": "VI", "campus": "CAFS", "date": "05/08/2026", "time": "04:07", "status": "Em Andamento", "dt": "2026-08-05T04:07:00", "rank": 81}, {"name": "FRANCISCO SAVIO DE MOURA MARTINS", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "04:14", "status": "Em Andamento", "dt": "2026-08-05T04:14:00", "rank": 82}, {"name": "TARCISIO GOMES DE LACERDA", "level": "V", "campus": "CSHNB", "date": "05/08/2026", "time": "08:37", "status": "Deferido", "dt": "2026-08-05T08:37:00", "rank": 83}, {"name": "ALAN MARQUES DE SOUSA", "level": "V", "campus": "CSHNB", "date": "05/08/2026", "time": "09:18", "status": "Em Andamento", "dt": "2026-08-05T09:18:00", "rank": 84}, {"name": "RICARDO DE ARAÚJO", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "09:37", "status": "Em Andamento", "dt": "2026-08-05T09:37:00", "rank": 85}, {"name": "SELMA MARIA DOS REIS", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "10:18", "status": "Em Andamento", "dt": "2026-08-05T10:18:00", "rank": 86}, {"name": "DANNYLO RODRIGUES DE SOUSA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "10:34", "status": "Em Andamento", "dt": "2026-08-05T10:34:00", "rank": 87}, {"name": "DANIELA ROSA ALVES DA SILVA PEREIRA", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "10:38", "status": "Em Andamento", "dt": "2026-08-05T10:38:00", "rank": 88}, {"name": "VANECY MATIAS DA SILVA", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "10:59", "status": "Em Andamento", "dt": "2026-08-05T10:59:00", "rank": 89}, {"name": "ALLAN KARDEC MACEDO DE MIRANDA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "11:00", "status": "Em Andamento", "dt": "2026-08-05T11:00:00", "rank": 90}, {"name": "IVANILDO FRANCISCO DA LUZ", "level": "V", "campus": "CSHNB", "date": "05/08/2026", "time": "11:07", "status": "Em Andamento", "dt": "2026-08-05T11:07:00", "rank": 91}, {"name": "WELLINGTON SILVA LIMA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "11:20", "status": "Em Andamento", "dt": "2026-08-05T11:20:00", "rank": 92}, {"name": "JOCIEL DE CARVALHO SANTOS", "level": "V", "campus": "CAFS", "date": "05/08/2026", "time": "11:28", "status": "Em Andamento", "dt": "2026-08-05T11:28:00", "rank": 93}, {"name": "FRANCISCA COSTA DA SILVA", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "11:47", "status": "Em Andamento", "dt": "2026-08-05T11:47:00", "rank": 94}, {"name": "ANA KLISSE SILVA ARAUJO", "level": "VI", "campus": "CSHNB", "date": "05/08/2026", "time": "14:20", "status": "Em Andamento", "dt": "2026-08-05T14:20:00", "rank": 95}, {"name": "TICIARA DE SOUSA E SILVA FERREIRA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "15:17", "status": "Em Andamento", "dt": "2026-08-05T15:17:00", "rank": 96}, {"name": "JOSÉ MAURO GOMES DE JESÚS", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "16:39", "status": "Em Andamento", "dt": "2026-08-05T16:39:00", "rank": 97}, {"name": "RENATA GONCALVES DE OLIVEIRA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "17:15", "status": "Em Andamento", "dt": "2026-08-05T17:15:00", "rank": 98}, {"name": "MARCOS VINICIUS NUNES SAMPAIO", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "17:23", "status": "Em Andamento", "dt": "2026-08-05T17:23:00", "rank": 99}, {"name": "HELVIDIO FERNANDES DE OLIVEIRA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "17:54", "status": "Em Andamento", "dt": "2026-08-05T17:54:00", "rank": 100}, {"name": "KLEYSON MATOS SILVA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "18:08", "status": "Em Andamento", "dt": "2026-08-05T18:08:00", "rank": 101}, {"name": "LARISSA NAIANA MENDES DE SOUSA", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "18:30", "status": "Em Andamento", "dt": "2026-08-05T18:30:00", "rank": 102}, {"name": "JOSE ALVES DE MACEDO NETO", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "18:54", "status": "Em Andamento", "dt": "2026-08-05T18:54:00", "rank": 103}, {"name": "MARIA LARA CRISTINA SANTOS DE MACÊDO", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "19:11", "status": "Em Andamento", "dt": "2026-08-05T19:11:00", "rank": 104}, {"name": "SÂMIA ALVES DOS SANTOS", "level": "VI", "campus": "CMPP", "date": "05/08/2026", "time": "21:41", "status": "Em Andamento", "dt": "2026-08-05T21:41:00", "rank": 105}, {"name": "LUIZ ANTONIO DE MENESES WAQUIM SILVA", "level": "V", "campus": "CMPP", "date": "05/08/2026", "time": "23:17", "status": "Em Andamento", "dt": "2026-08-05T23:17:00", "rank": 106}, {"name": "CANDICE DE OLIVEIRA ALEXANDRINO", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "02:39", "status": "Em Andamento", "dt": "2026-08-06T02:39:00", "rank": 107}, {"name": "SEBASTIAO SILVA CHAVES", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "07:09", "status": "Em Andamento", "dt": "2026-08-06T07:09:00", "rank": 108}, {"name": "PEDRO FEITOSA BARROS", "level": "V", "campus": "CAFS", "date": "06/08/2026", "time": "09:27", "status": "Em Andamento", "dt": "2026-08-06T09:27:00", "rank": 109}, {"name": "ANDRE LUIZ DE MORAES CORREIA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "09:31", "status": "Em Andamento", "dt": "2026-08-06T09:31:00", "rank": 110}, {"name": "ALBERTO SILVA DE OLIVEIRA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "10:28", "status": "Em Andamento", "dt": "2026-08-06T10:28:00", "rank": 111}, {"name": "BRUNA MARIA MARTINS RIBEIRO MASCARENHAS", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "10:34", "status": "Em Andamento", "dt": "2026-08-06T10:34:00", "rank": 112}, {"name": "ROMULO JOSE PEREIRA LIMA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "11:19", "status": "Em Andamento", "dt": "2026-08-06T11:19:00", "rank": 113}, {"name": "ANATHÁLIA CRISTINA SANTANA DE SOUSA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "11:29", "status": "Em Andamento", "dt": "2026-08-06T11:29:00", "rank": 114}, {"name": "KAMYLA LOPES NUNES SOBREIRO", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "11:37", "status": "Em Andamento", "dt": "2026-08-06T11:37:00", "rank": 115}, {"name": "TAMYRES MAYANE NORBERTA DE MOURA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "11:45", "status": "Em Andamento", "dt": "2026-08-06T11:45:00", "rank": 116}, {"name": "NILMAR DIAS DE ARAUJO", "level": "VI", "campus": "CPCE", "date": "06/08/2026", "time": "11:49", "status": "Em Andamento", "dt": "2026-08-06T11:49:00", "rank": 117}, {"name": "DEBORA LARIELLY RAMALHO DA SILVA RIBEIRO", "level": "V", "campus": "CAFS", "date": "06/08/2026", "time": "12:34", "status": "Em Andamento", "dt": "2026-08-06T12:34:00", "rank": 118}, {"name": "GLEYCE MARIA SIMPLÍCIO REVOREDO", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "12:51", "status": "Em Andamento", "dt": "2026-08-06T12:51:00", "rank": 119}, {"name": "FRANCISCO ALEXANDRO SILVA DOS SANTOS", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "13:02", "status": "Em Andamento", "dt": "2026-08-06T13:02:00", "rank": 120}, {"name": "RANGEL DE SALES MEIRELES", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "14:56", "status": "Em Andamento", "dt": "2026-08-06T14:56:00", "rank": 121}, {"name": "GUSTAVO CARDOSO TELES DODTH", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "15:25", "status": "Em Andamento", "dt": "2026-08-06T15:25:00", "rank": 122}, {"name": "MARIA JOSE CARVALHO SILVA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "15:34", "status": "Em Andamento", "dt": "2026-08-06T15:34:00", "rank": 123}, {"name": "PAULO RICARDO FIRMIANO DA CUNHA", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "15:40", "status": "Em Andamento", "dt": "2026-08-06T15:40:00", "rank": 124}, {"name": "LIVIA MARIA SILVA TEIXEIRA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "15:42", "status": "Em Andamento", "dt": "2026-08-06T15:42:00", "rank": 125}, {"name": "JESSIANE RODRIGUES ROCHA", "level": "V", "campus": "CSHNB", "date": "06/08/2026", "time": "16:34", "status": "Em Andamento", "dt": "2026-08-06T16:34:00", "rank": 126}, {"name": "BELCHIOR DA SILVA MARTINS", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "17:38", "status": "Em Andamento", "dt": "2026-08-06T17:38:00", "rank": 127}, {"name": "LUANE PEREIRA DE CARVALHO", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "17:49", "status": "Em Andamento", "dt": "2026-08-06T17:49:00", "rank": 128}, {"name": "NICOLE FERNANDA ROCHA SILVA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "18:29", "status": "Em Andamento", "dt": "2026-08-06T18:29:00", "rank": 129}, {"name": "KATIANE MARIA DE ARAUJO CARVALHO", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "18:45", "status": "Em Andamento", "dt": "2026-08-06T18:45:00", "rank": 130}, {"name": "CREMILDA MONTEIRO LIMA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "19:05", "status": "Em Andamento", "dt": "2026-08-06T19:05:00", "rank": 131}, {"name": "ANA LÍDIA BEZERRA MATIAS VASCONCELOS", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "19:24", "status": "Em Andamento", "dt": "2026-08-06T19:24:00", "rank": 132}, {"name": "JOCIEDE DA SILVA REIS", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "20:06", "status": "Em Andamento", "dt": "2026-08-06T20:06:00", "rank": 133}, {"name": "ADRIANA A'URY SILVA LIMA LOPES", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "20:58", "status": "Em Andamento", "dt": "2026-08-06T20:58:00", "rank": 134}, {"name": "FILIPE SOARES VIANA", "level": "VI", "campus": "CMPP", "date": "06/08/2026", "time": "21:14", "status": "Em Andamento", "dt": "2026-08-06T21:14:00", "rank": 135}, {"name": "MARTA SUANE TEIXEIRA PEREIRA DE SENA FREITAS", "level": "V", "campus": "CMPP", "date": "06/08/2026", "time": "21:21", "status": "Em Andamento", "dt": "2026-08-06T21:21:00", "rank": 136}, {"name": "LHAIS SUELEN SOARES LEAL", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "00:08", "status": "Em Andamento", "dt": "2026-08-07T00:08:00", "rank": 137}, {"name": "HELENILDA NUNES SOARES DE BRITO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "00:43", "status": "Em Andamento", "dt": "2026-08-07T00:43:00", "rank": 138}, {"name": "LARISSA LOPES OLIVEIRA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "07:29", "status": "Em Andamento", "dt": "2026-08-07T07:29:00", "rank": 139}, {"name": "LUCAS RÊGO ALVES", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "07:50", "status": "Em Andamento", "dt": "2026-08-07T07:50:00", "rank": 140}, {"name": "DIRCEU RODRIGUES LOPES", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "09:22", "status": "Em Andamento", "dt": "2026-08-07T09:22:00", "rank": 141}, {"name": "JOYCE ELÂNY DOS SANTOS SILVA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "09:44", "status": "Em Andamento", "dt": "2026-08-07T09:44:00", "rank": 142}, {"name": "HENRIQUE MAURICIO DA SILVA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "11:05", "status": "Em Andamento", "dt": "2026-08-07T11:05:00", "rank": 143}, {"name": "ALDO RHAK ALVES ALEXANDRE", "level": "V", "campus": "CSHNB", "date": "07/08/2026", "time": "11:23", "status": "Em Andamento", "dt": "2026-08-07T11:23:00", "rank": 144}, {"name": "LUIS EDUARDO SOARES LOPES", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "11:29", "status": "Em Andamento", "dt": "2026-08-07T11:29:00", "rank": 145}, {"name": "KARINA CARDOSO DE SOUSA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "11:34", "status": "Em Andamento", "dt": "2026-08-07T11:34:00", "rank": 146}, {"name": "RICHARD ATILA DE SOUSA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "13:30", "status": "Em Andamento", "dt": "2026-08-07T13:30:00", "rank": 147}, {"name": "MARCOS VINICIUS SOARES SENNA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "14:02", "status": "Em Andamento", "dt": "2026-08-07T14:02:00", "rank": 148}, {"name": "MARCO AURÉLIO MEDEIROS DO NASCIMENTO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "14:28", "status": "Em Andamento", "dt": "2026-08-07T14:28:00", "rank": 149}, {"name": "HAMILTON JOSE BARBOSA NASCIMENTO", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "14:44", "status": "Em Andamento", "dt": "2026-08-07T14:44:00", "rank": 150}, {"name": "AUGUSTO DOS SANTOS BRAGANCA NETO", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "15:19", "status": "Em Andamento", "dt": "2026-08-07T15:19:00", "rank": 151}, {"name": "MOISES MOURA DA SILVA", "level": "III", "campus": "CSHNB", "date": "07/08/2026", "time": "15:26", "status": "Deferido", "dt": "2026-08-07T15:26:00", "rank": 152}, {"name": "KELSON SOARES BRITO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "15:55", "status": "Em Andamento", "dt": "2026-08-07T15:55:00", "rank": 153}, {"name": "MIQUÉIAS SOUSA SILVA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "16:29", "status": "Em Andamento", "dt": "2026-08-07T16:29:00", "rank": 154}, {"name": "DELCILENE DE SOUSA MELO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "16:42", "status": "Em Andamento", "dt": "2026-08-07T16:42:00", "rank": 155}, {"name": "ERICA FERNANDA MIRANDA SOUSA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "16:48", "status": "Em Andamento", "dt": "2026-08-07T16:48:00", "rank": 156}, {"name": "FABIOLA NUNES BRASILINO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "16:52", "status": "Em Andamento", "dt": "2026-08-07T16:52:00", "rank": 157}, {"name": "VALDECI OTAVIANO DO NASCIMENTO", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "17:00", "status": "Em Andamento", "dt": "2026-08-07T17:00:00", "rank": 158}, {"name": "JOSANE DE MENESES VELOSO MIRANDA", "level": "VI", "campus": "CSHNB", "date": "07/08/2026", "time": "17:10", "status": "Em Andamento", "dt": "2026-08-07T17:10:00", "rank": 159}, {"name": "TARIANNA LUSTOSA SANTOS", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "17:33", "status": "Em Andamento", "dt": "2026-08-07T17:33:00", "rank": 160}, {"name": "JONAS RAFAEL DE LIMA SOUSA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "17:48", "status": "Em Andamento", "dt": "2026-08-07T17:48:00", "rank": 161}, {"name": "FELIPE BANDEIRA ROCHA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "17:49", "status": "Em Andamento", "dt": "2026-08-07T17:49:00", "rank": 162}, {"name": "RAIMUNDA VIRGÍNIA SILVA", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "17:49", "status": "Em Andamento", "dt": "2026-08-07T17:49:00", "rank": 163}, {"name": "VANESSA MELO CASTELO BRANCO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "18:02", "status": "Em Andamento", "dt": "2026-08-07T18:02:00", "rank": 164}, {"name": "MARIA DOS REMEDIOS ALVES MONTEIRO", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "18:28", "status": "Em Andamento", "dt": "2026-08-07T18:28:00", "rank": 165}, {"name": "LOURISA PEREIRA SANTOS", "level": "V", "campus": "CAFS", "date": "07/08/2026", "time": "19:18", "status": "Em Andamento", "dt": "2026-08-07T19:18:00", "rank": 166}, {"name": "SHISLENE GOMES ARAUJO AMORIM", "level": "VI", "campus": "CMPP", "date": "07/08/2026", "time": "19:40", "status": "Em Andamento", "dt": "2026-08-07T19:40:00", "rank": 167}, {"name": "LIVIA DANIELE DOS SANTOS COSTA", "level": "V", "campus": "CMPP", "date": "07/08/2026", "time": "21:12", "status": "Em Andamento", "dt": "2026-08-07T21:12:00", "rank": 168}, {"name": "LÚCIA DE FÁTIMA DA LUZ COELHO", "level": "VI", "campus": "CMPP", "date": "08/08/2026", "time": "02:41", "status": "Em Andamento", "dt": "2026-08-08T02:41:00", "rank": 169}, {"name": "ANA CRISTINA GUIMARAES CARVALHO", "level": "VI", "campus": "CMPP", "date": "08/08/2026", "time": "14:47", "status": "Em Andamento", "dt": "2026-08-08T14:47:00", "rank": 170}, {"name": "JOARA DA SILVA ARAÚJO", "level": "VI", "campus": "CMPP", "date": "08/08/2026", "time": "17:36", "status": "Em Andamento", "dt": "2026-08-08T17:36:00", "rank": 171}, {"name": "REGINALDO DE SOUSA ANDRADE", "level": "VI", "campus": "CSHNB", "date": "09/08/2026", "time": "11:55", "status": "Em Andamento", "dt": "2026-08-09T11:55:00", "rank": 172}, {"name": "ANA CLAUDIA LOPES ARAUJO", "level": "V", "campus": "CMPP", "date": "09/08/2026", "time": "13:30", "status": "Em Andamento", "dt": "2026-08-09T13:30:00", "rank": 173}, {"name": "MICHELLY DE CASTRO BANDEIRA", "level": "V", "campus": "CMPP", "date": "09/08/2026", "time": "14:02", "status": "Em Andamento", "dt": "2026-08-09T14:02:00", "rank": 174}, {"name": "MARIA DO PERPETUO SOCORRO MOURA COIMBRA", "level": "VI", "campus": "CMPP", "date": "09/08/2026", "time": "20:48", "status": "Em Andamento", "dt": "2026-08-09T20:48:00", "rank": 175}, {"name": "FLORA DANIELLE RIBEIRO GALVÃO DE SÁ", "level": "V", "campus": "CMPP", "date": "09/08/2026", "time": "22:32", "status": "Em Andamento", "dt": "2026-08-09T22:32:00", "rank": 176}, {"name": "MARIA RITA BARBOSA DE SOUSA", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "00:15", "status": "Em Andamento", "dt": "2026-08-10T00:15:00", "rank": 177}, {"name": "SAVIA RENATA CARVALHO BRAGA DO VALE", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "09:59", "status": "Em Andamento", "dt": "2026-08-10T09:59:00", "rank": 178}, {"name": "IONARA DE MOURA SANTOS", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "10:40", "status": "Em Andamento", "dt": "2026-08-10T10:40:00", "rank": 179}, {"name": "THIAGO ABEL TEIXEIRA ROCHA", "level": "V", "campus": "CSHNB", "date": "10/08/2026", "time": "10:53", "status": "Em Andamento", "dt": "2026-08-10T10:53:00", "rank": 180}, {"name": "DELLANO JOSE GADELHA SANTOS", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "11:43", "status": "Em Andamento", "dt": "2026-08-10T11:43:00", "rank": 181}, {"name": "FABIO NAPOLEAO DO REGO PAIVA DIAS", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "12:39", "status": "Em Andamento", "dt": "2026-08-10T12:39:00", "rank": 182}, {"name": "JOSEFINA MARIA DE LOURDES NUNES DOS SANTOS SARAIVA", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "13:44", "status": "Em Andamento", "dt": "2026-08-10T13:44:00", "rank": 183}, {"name": "ELISIENE BORGES LEAL", "level": "VI", "campus": "CSHNB", "date": "10/08/2026", "time": "14:51", "status": "Em Andamento", "dt": "2026-08-10T14:51:00", "rank": 184}, {"name": "JOIMARA LIMA SANTOS", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "16:04", "status": "Em Andamento", "dt": "2026-08-10T16:04:00", "rank": 185}, {"name": "EDILAYANE DE MENESES SOUSA SENA", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "16:24", "status": "Em Andamento", "dt": "2026-08-10T16:24:00", "rank": 186}, {"name": "ALBENIR REGO BARBOSA", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "16:59", "status": "Em Andamento", "dt": "2026-08-10T16:59:00", "rank": 187}, {"name": "RIGOBERTO VELOSO DE CARVALHO", "level": "VI", "campus": "CMPP", "date": "10/08/2026", "time": "17:13", "status": "Em Andamento", "dt": "2026-08-10T17:13:00", "rank": 188}, {"name": "ADRIANA LOPES DA SILVA", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "18:30", "status": "Em Andamento", "dt": "2026-08-10T18:30:00", "rank": 189}, {"name": "ANNA KATARINE FERREIRA LIMA NEIVA", "level": "VI", "campus": "CSHNB", "date": "10/08/2026", "time": "21:01", "status": "Em Andamento", "dt": "2026-08-10T21:01:00", "rank": 190}, {"name": "GLEIDIANY DA COSTA MOREIRA", "level": "VI", "campus": "CAFS", "date": "10/08/2026", "time": "21:15", "status": "Em Andamento", "dt": "2026-08-10T21:15:00", "rank": 191}, {"name": "GERCIANE MARIA DA COSTA SILVA", "level": "V", "campus": "CMPP", "date": "10/08/2026", "time": "23:34", "status": "Em Andamento", "dt": "2026-08-10T23:34:00", "rank": 192}, {"name": "MARIA DA CONCEIÇÃO ROCHA", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "07:56", "status": "Em Andamento", "dt": "2026-08-11T07:56:00", "rank": 193}, {"name": "ROSÂNGELA FEITOSA DE FRANÇA", "level": "VI", "campus": "CAFS", "date": "11/08/2026", "time": "09:15", "status": "Em Andamento", "dt": "2026-08-11T09:15:00", "rank": 194}, {"name": "ALEXSANDRO SARAIVA DE MOURA", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "09:30", "status": "Em Andamento", "dt": "2026-08-11T09:30:00", "rank": 195}, {"name": "MARIA AUXILIADORA VILARINHO CASTELO BRANCO", "level": "VI", "campus": "CMPP", "date": "11/08/2026", "time": "09:50", "status": "Em Andamento", "dt": "2026-08-11T09:50:00", "rank": 196}, {"name": "DOMINGOS DE SOUSA CASTRO", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "10:01", "status": "Em Andamento", "dt": "2026-08-11T10:01:00", "rank": 197}, {"name": "SERVULO FERNANDES DA SILVA NETO", "level": "V", "campus": "CSHNB", "date": "11/08/2026", "time": "10:05", "status": "Em Andamento", "dt": "2026-08-11T10:05:00", "rank": 198}, {"name": "MILANE BATISTA DA SILVA", "level": "VI", "campus": "CMPP", "date": "11/08/2026", "time": "11:29", "status": "Em Andamento", "dt": "2026-08-11T11:29:00", "rank": 199}, {"name": "CARLENE CARVALHO LIMA", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "12:02", "status": "Em Andamento", "dt": "2026-08-11T12:02:00", "rank": 200}, {"name": "SILVIO ROBERTO LIMA DA SILVA", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "12:20", "status": "Em Andamento", "dt": "2026-08-11T12:20:00", "rank": 201}, {"name": "FRANCISCO MAURICIO DO NASCIMENTO", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "12:43", "status": "Em Andamento", "dt": "2026-08-11T12:43:00", "rank": 202}, {"name": "EVERTON GOMES DIAS", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "12:49", "status": "Em Andamento", "dt": "2026-08-11T12:49:00", "rank": 203}, {"name": "JOSE MARIA FREITAS MEDEIROS", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "14:45", "status": "Em Andamento", "dt": "2026-08-11T14:45:00", "rank": 204}, {"name": "CLESIA MARIA DE SOUSA BARBOSA", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "15:14", "status": "Em Andamento", "dt": "2026-08-11T15:14:00", "rank": 205}, {"name": "WALLAS DE FREITAS SOARES", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "15:22", "status": "Em Andamento", "dt": "2026-08-11T15:22:00", "rank": 206}, {"name": "EDILBERTO PEREIRA DE SOUZA", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "15:45", "status": "Em Andamento", "dt": "2026-08-11T15:45:00", "rank": 207}, {"name": "DANIELLE SANTOS MACIEL", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "15:56", "status": "Em Andamento", "dt": "2026-08-11T15:56:00", "rank": 208}, {"name": "SONIA REGINA MONTEIRO DE AZEVEDO", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "16:01", "status": "Em Andamento", "dt": "2026-08-11T16:01:00", "rank": 209}, {"name": "ANTONIO WIUSTON MARTINS FORTES", "level": "V", "campus": "CAFS", "date": "11/08/2026", "time": "16:32", "status": "Em Andamento", "dt": "2026-08-11T16:32:00", "rank": 210}, {"name": "RAFAEL DE SOUSA LEAL MARTINS MOURA", "level": "VI", "campus": "CMPP", "date": "11/08/2026", "time": "16:51", "status": "Em Andamento", "dt": "2026-08-11T16:51:00", "rank": 211}, {"name": "ALMIR BEZERRA DA LUZ", "level": "VI", "campus": "CAFS", "date": "11/08/2026", "time": "16:54", "status": "Em Andamento", "dt": "2026-08-11T16:54:00", "rank": 212}, {"name": "HERNANDES ANDRADE SILVA", "level": "VI", "campus": "CMPP", "date": "11/08/2026", "time": "17:02", "status": "Em Andamento", "dt": "2026-08-11T17:02:00", "rank": 213}, {"name": "RICARDO LIMA SOUSA", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "17:22", "status": "Em Andamento", "dt": "2026-08-11T17:22:00", "rank": 214}, {"name": "EMERSON RIBEIRO RAMOS", "level": "V", "campus": "CMPP", "date": "11/08/2026", "time": "18:06", "status": "Em Andamento", "dt": "2026-08-11T18:06:00", "rank": 215}, {"name": "ROBSON ARAUJO CASTELO BRANCO", "level": "V", "campus": "CMPP", "date": "12/08/2026", "time": "01:02", "status": "Em Andamento", "dt": "2026-08-12T01:02:00", "rank": 216}, {"name": "ATHAN GONCALVES CARVALHO SOUZA", "level": "V", "campus": "CAFS", "date": "12/08/2026", "time": "03:44", "status": "Em Andamento", "dt": "2026-08-12T03:44:00", "rank": 217}, {"name": "JOCIARA DE FATIMA LIMA", "level": "V", "campus": "CMPP", "date": "12/08/2026", "time": "08:53", "status": "Em Andamento", "dt": "2026-08-12T08:53:00", "rank": 218}];
-const campusOrder=["CMPP","CAFS","CSHNB","CPCE"];
-const campusCounts={}, statusByCampus={}, levelByCampus={}, statusCounts={}, levelCounts={};
-rows.forEach(r=>{
- campusCounts[r.campus]=(campusCounts[r.campus]||0)+1;
- statusByCampus[r.campus]??={}; statusByCampus[r.campus][r.status]=(statusByCampus[r.campus][r.status]||0)+1;
- levelByCampus[r.campus]??={}; levelByCampus[r.campus][r.level]=(levelByCampus[r.campus][r.level]||0)+1;
- statusCounts[r.status]=(statusCounts[r.status]||0)+1;
- levelCounts[r.level]=(levelCounts[r.level]||0)+1;
-});
-const campusNames={CMPP:"CMPP",CAFS:"CAFS",CSHNB:"CSHNB",CPCE:"CPCE"};
-document.getElementById("total").textContent=rows.length;
-
-document.getElementById("deferidos").textContent=statusCounts["Deferido"]||0;
-document.getElementById("deferidosPct").textContent=`${((statusCounts["Deferido"]||0)/rows.length*100).toFixed(1)}% do total`;
-document.getElementById("andamento").textContent=statusCounts["Em Andamento"]||0;
-
-const cards=document.getElementById("campusCards");
-campusOrder.filter(c=>campusCounts[c]).forEach(c=>{
- const total=campusCounts[c], def=statusByCampus[c]?.["Deferido"]||0, and=statusByCampus[c]?.["Em Andamento"]||0, ind=statusByCampus[c]?.["Indeferido"]||0;
- const pct=(total/rows.length*100).toFixed(1), dp=(def/total*100).toFixed(1);
- cards.innerHTML+=`<div class="campus-card """>
- <div class="campus-head"><div><div class="campus-name">${campusNames[c]}</div><span class="pill">${pct}% do total</span></div><div class="campus-total">${total}</div></div>
- <div class="bar"><span class="seg seg-def" style="width:${def/total*100}%"></span><span class="seg seg-and" style="width:${and/total*100}%"></span><span class="seg seg-ind" style="width:${ind/total*100}%"></span></div>
- <div class="metric-row"><span>Deferidos</span><strong>${def} (${dp}%)</strong></div>
- <div class="metric-row"><span>Em andamento</span><strong>${and}</strong></div>
- <div class="metric-row"><span>Indeferidos</span><strong>${ind}</strong></div>
- </div>`;
-});
-
-function opt(id,vals,labeler){const el=document.getElementById(id);vals.forEach(v=>{let o=document.createElement("option");o.value=v;o.textContent=labeler(v);el.appendChild(o)})}
-opt("campusFilter",campusOrder.filter(c=>campusCounts[c]),v=>v);
-opt("levelFilter",Object.keys(levelCounts).sort(),v=>"RSC-TAE "+v);
-
-function renderTable(){
- const q=document.getElementById("search").value.toLowerCase(),c=document.getElementById("campusFilter").value,l=document.getElementById("levelFilter").value,s=document.getElementById("statusFilter").value;
- const f=rows.filter(r=>(!q||r.name.toLowerCase().includes(q))&&(!c||r.campus===c)&&(!l||r.level===l)&&(!s||r.status===s));
- document.getElementById("tbody").innerHTML=f.map(r=>`<tr>
- <td data-label="Posição"><span class="rank-pill">${r.rank}</span></td><td data-label="Servidor"><strong>${r.name}</strong></td>
- <td data-label="Nível"><span class="level-badge level-${r.level.toLowerCase()}">RSC-TAE ${r.level}</span></td>
- <td data-label="Campus"><span class="campus-badge">${r.campus}</span></td>
- <td data-label="Publicação"><span class="publication-date"><strong>${r.date}</strong><small>${r.time}</small></span></td>
- <td data-label="Status"><span class="status-badge status-${r.status==="Deferido"?"deferido":r.status==="Indeferido"?"indeferido":"andamento"}">${r.status}</span></td></tr>`).join("");
-}
-["search","campusFilter","levelFilter","statusFilter"].forEach(id=>document.getElementById(id).addEventListener("input",renderTable));renderTable();
-
-
-function drawDailyLine(){
- const svg=document.getElementById("dailyLine");
- const data=[{"date": "03/08/2026", "CMPP": 23, "CAFS": 4, "CSHNB": 6, "CPCE": 0}, {"date": "04/08/2026", "CMPP": 28, "CAFS": 7, "CSHNB": 9, "CPCE": 2}, {"date": "05/08/2026", "CMPP": 21, "CAFS": 2, "CSHNB": 4, "CPCE": 0}, {"date": "06/08/2026", "CMPP": 26, "CAFS": 2, "CSHNB": 1, "CPCE": 1}, {"date": "07/08/2026", "CMPP": 28, "CAFS": 1, "CSHNB": 3, "CPCE": 0}, {"date": "08/08/2026", "CMPP": 3, "CAFS": 0, "CSHNB": 0, "CPCE": 0}, {"date": "09/08/2026", "CMPP": 4, "CAFS": 0, "CSHNB": 1, "CPCE": 0}, {"date": "10/08/2026", "CMPP": 12, "CAFS": 1, "CSHNB": 3, "CPCE": 0}, {"date": "11/08/2026", "CMPP": 13, "CAFS": 9, "CSHNB": 1, "CPCE": 0}, {"date": "12/08/2026", "CMPP": 2, "CAFS": 1, "CSHNB": 0, "CPCE": 0}];
- const campuses=["CMPP", "CAFS", "CSHNB", "CPCE"];
- const W=1000,H=300,L=55,R=22,T=30,B=52;
- const max=Math.max(...data.flatMap(d=>campuses.map(c=>d[c]||0)),1);
- const innerW=W-L-R, innerH=H-T-B;
- const x=i=>data.length===1?L+innerW/2:L+i*(innerW/(data.length-1));
- const y=v=>H-B-(v/max)*innerH;
- const colors=["#0b4f8a","#2e8b57","#8b5cf6","#d97706"];
- let s="";
+const ROWS=[{"name":"JOCIARA DE FATIMA LIMA","level":"V","campus_code":"CMPP","date":"12/08/2026","time":"08:53","status":"Em Andamento"},{"name":"ATHAN GONCALVES CARVALHO SOUZA","level":"V","campus_code":"CAFS","date":"12/08/2026","time":"03:44","status":"Em Andamento"},{"name":"ROBSON ARAUJO CASTELO BRANCO","level":"V","campus_code":"CMPP","date":"12/08/2026","time":"01:02","status":"Em Andamento"},{"name":"EMERSON RIBEIRO RAMOS","level":"V","campus_code":"CMPP","date":"11/08/2026","time":"18:06","status":"Em Andamento"},{"name":"RICARDO LIMA SOUSA","level":"V","campus_code":"CMPP","date":"11/08/2026","time":"17:22","status":"Em Andamento"},{"name":"HERNANDES ANDRADE SILVA","level":"VI","campus_code":"CMPP","date":"11/08/2026","time":"17:02","status":"Em Andamento"},{"name":"ALMIR BEZERRA DA LUZ","level":"VI","campus_code":"CAFS","date":"11/08/2026","time":"16:54","status":"Em Andamento"},{"name":"RAFAEL DE SOUSA LEAL MARTINS MOURA","level":"VI","campus_code":"CMPP","date":"11/08/2026","time":"16:51","status":"Em Andamento"},{"name":"ANTONIO WIUSTON MARTINS FORTES","level":"V","campus_code":"CAFS","date":"11/08/2026","time":"16:32","status":"Em Andamento"},{"name":"SONIA REGINA MONTEIRO DE AZEVEDO","level":"V","campus_code":"CMPP","date":"11/08/2026","time":"16:01","status":"Em Andamento"},{"name":"DANIELLE SANTOS MACIEL","level":"V","campus_code":"CMPP","date":"11/08/2026","time":"15:56","status":"Em Andamento"},{"name":"EDILBERTO PEREIRA DE SOUZA","level":"V","campus_code":"CAFS","date":"11/08/2026","time":"15:45","status":"Em Andamento"},{"name":"WALLAS DE FREITAS SOARES","level":"V","campus_code":"CAFS","date":"11/08/2026","time":"15:22","status":"Em Andamento"},{"name":"CLESIA MARIA DE SOUSA BARBOSA","level":"V","campus_code":"CAFS","date":"11/08/2026","time":"15:14","status":"Em Andamento"},{"name":"JOSE MARIA FREITAS MEDEIROS","level":"V","campus_code":"CAFS","date":"11/08/2026","time":"14:45","status":"Em Andamento"},{"name":"EVERTON GOMES DIAS","level":"V","campus_code":"CMPP","date":"11/08/2026","time":"12:49","status":"Em Andamento"},{"name":"FRANCISCO MAURICIO DO NASCIMENTO","level":"V","campus_code":"CMPP","date":"11/08/2026","time":"12:43","status":"Em Andamento"},{"name":"SILVIO ROBERTO LIMA DA SILVA","level":"V","campus_code":"CMPP","date":"11/08/2026","time":"12:20","status":"Em Andamento"},{"name":"CARLENE CARVALHO LIMA","level":"V","campus_code":"CAFS","date":"11/08/2026","time":"12:02","status":"Em Andamento"},{"name":"MILANE BATISTA DA SILVA","level":"VI","campus_code":"CMPP","date":"11/08/2026","time":"11:29","status":"Em Andamento"},{"name":"SERVULO FERNANDES DA SILVA NETO","level":"V","campus_code":"CSHNB","date":"11/08/2026","time":"10:05","status":"Em Andamento"},{"name":"DOMINGOS DE SOUSA CASTRO","level":"V","campus_code":"CMPP","date":"11/08/2026","time":"10:01","status":"Em Andamento"},{"name":"MARIA AUXILIADORA VILARINHO CASTELO BRANCO","level":"VI","campus_code":"CMPP","date":"11/08/2026","time":"09:50","status":"Em Andamento"},{"name":"ALEXSANDRO SARAIVA DE MOURA","level":"V","campus_code":"CMPP","date":"11/08/2026","time":"09:30","status":"Em Andamento"},{"name":"ROSÂNGELA FEITOSA DE FRANÇA","level":"VI","campus_code":"CAFS","date":"11/08/2026","time":"09:15","status":"Em Andamento"},{"name":"MARIA DA CONCEIÇÃO ROCHA","level":"V","campus_code":"CAFS","date":"11/08/2026","time":"07:56","status":"Em Andamento"},{"name":"GERCIANE MARIA DA COSTA SILVA","level":"V","campus_code":"CMPP","date":"10/08/2026","time":"23:34","status":"Em Andamento"},{"name":"GLEIDIANY DA COSTA MOREIRA","level":"VI","campus_code":"CAFS","date":"10/08/2026","time":"21:15","status":"Em Andamento"},{"name":"ANNA KATARINE FERREIRA LIMA NEIVA","level":"VI","campus_code":"CSHNB","date":"10/08/2026","time":"21:01","status":"Em Andamento"},{"name":"ADRIANA LOPES DA SILVA","level":"V","campus_code":"CMPP","date":"10/08/2026","time":"18:30","status":"Em Andamento"},{"name":"RIGOBERTO VELOSO DE CARVALHO","level":"VI","campus_code":"CMPP","date":"10/08/2026","time":"17:13","status":"Em Andamento"},{"name":"ALBENIR REGO BARBOSA","level":"VI","campus_code":"CMPP","date":"10/08/2026","time":"16:59","status":"Em Andamento"},{"name":"EDILAYANE DE MENESES SOUSA SENA","level":"VI","campus_code":"CMPP","date":"10/08/2026","time":"16:24","status":"Em Andamento"},{"name":"JOIMARA LIMA SANTOS","level":"VI","campus_code":"CMPP","date":"10/08/2026","time":"16:04","status":"Em Andamento"},{"name":"ELISIENE BORGES LEAL","level":"VI","campus_code":"CSHNB","date":"10/08/2026","time":"14:51","status":"Em Andamento"},{"name":"JOSEFINA MARIA DE LOURDES NUNES DOS SANTOS SARAIVA","level":"V","campus_code":"CMPP","date":"10/08/2026","time":"13:44","status":"Em Andamento"},{"name":"FABIO NAPOLEAO DO REGO PAIVA DIAS","level":"VI","campus_code":"CMPP","date":"10/08/2026","time":"12:39","status":"Em Andamento"},{"name":"DELLANO JOSE GADELHA SANTOS","level":"V","campus_code":"CMPP","date":"10/08/2026","time":"11:43","status":"Em Andamento"},{"name":"THIAGO ABEL TEIXEIRA ROCHA","level":"V","campus_code":"CSHNB","date":"10/08/2026","time":"10:53","status":"Em Andamento"},{"name":"IONARA DE MOURA SANTOS","level":"V","campus_code":"CMPP","date":"10/08/2026","time":"10:40","status":"Em Andamento"},{"name":"SAVIA RENATA CARVALHO BRAGA DO VALE","level":"V","campus_code":"CMPP","date":"10/08/2026","time":"09:59","status":"Em Andamento"},{"name":"MARIA RITA BARBOSA DE SOUSA","level":"VI","campus_code":"CMPP","date":"10/08/2026","time":"00:15","status":"Em Andamento"},{"name":"FLORA DANIELLE RIBEIRO GALVÃO DE SÁ","level":"V","campus_code":"CMPP","date":"09/08/2026","time":"22:32","status":"Em Andamento"},{"name":"MARIA DO PERPETUO SOCORRO MOURA COIMBRA","level":"VI","campus_code":"CMPP","date":"09/08/2026","time":"20:48","status":"Em Andamento"},{"name":"MICHELLY DE CASTRO BANDEIRA","level":"V","campus_code":"CMPP","date":"09/08/2026","time":"14:02","status":"Em Andamento"},{"name":"ANA CLAUDIA LOPES ARAUJO","level":"V","campus_code":"CMPP","date":"09/08/2026","time":"13:30","status":"Em Andamento"},{"name":"REGINALDO DE SOUSA ANDRADE","level":"VI","campus_code":"CSHNB","date":"09/08/2026","time":"11:55","status":"Em Andamento"},{"name":"JOARA DA SILVA ARAÚJO","level":"VI","campus_code":"CMPP","date":"08/08/2026","time":"17:36","status":"Em Andamento"},{"name":"ANA CRISTINA GUIMARAES CARVALHO","level":"VI","campus_code":"CMPP","date":"08/08/2026","time":"14:47","status":"Em Andamento"},{"name":"LÚCIA DE FÁTIMA DA LUZ COELHO","level":"VI","campus_code":"CMPP","date":"08/08/2026","time":"02:41","status":"Em Andamento"},{"name":"LIVIA DANIELE DOS SANTOS COSTA","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"21:12","status":"Em Andamento"},{"name":"SHISLENE GOMES ARAUJO AMORIM","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"19:40","status":"Em Andamento"},{"name":"LOURISA PEREIRA SANTOS","level":"V","campus_code":"CAFS","date":"07/08/2026","time":"19:18","status":"Em Andamento"},{"name":"MARIA DOS REMEDIOS ALVES MONTEIRO","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"18:28","status":"Em Andamento"},{"name":"VANESSA MELO CASTELO BRANCO","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"18:02","status":"Em Andamento"},{"name":"FELIPE BANDEIRA ROCHA","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"17:49","status":"Em Andamento"},{"name":"RAIMUNDA VIRGÍNIA SILVA","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"17:49","status":"Em Andamento"},{"name":"JONAS RAFAEL DE LIMA SOUSA","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"17:48","status":"Em Andamento"},{"name":"TARIANNA LUSTOSA SANTOS","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"17:33","status":"Em Andamento"},{"name":"JOSANE DE MENESES VELOSO MIRANDA","level":"VI","campus_code":"CSHNB","date":"07/08/2026","time":"17:10","status":"Em Andamento"},{"name":"VALDECI OTAVIANO DO NASCIMENTO","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"17:00","status":"Em Andamento"},{"name":"FABIOLA NUNES BRASILINO","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"16:52","status":"Em Andamento"},{"name":"ERICA FERNANDA MIRANDA SOUSA","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"16:48","status":"Em Andamento"},{"name":"DELCILENE DE SOUSA MELO","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"16:42","status":"Em Andamento"},{"name":"MIQUÉIAS SOUSA SILVA","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"16:29","status":"Em Andamento"},{"name":"KELSON SOARES BRITO","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"15:55","status":"Em Andamento"},{"name":"MOISES MOURA DA SILVA","level":"III","campus_code":"CSHNB","date":"07/08/2026","time":"15:26","status":"Deferido"},{"name":"AUGUSTO DOS SANTOS BRAGANCA NETO","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"15:19","status":"Em Andamento"},{"name":"HAMILTON JOSE BARBOSA NASCIMENTO","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"14:44","status":"Em Andamento"},{"name":"MARCO AURÉLIO MEDEIROS DO NASCIMENTO","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"14:28","status":"Em Andamento"},{"name":"MARCOS VINICIUS SOARES SENNA","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"14:02","status":"Em Andamento"},{"name":"RICHARD ATILA DE SOUSA","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"13:30","status":"Em Andamento"},{"name":"KARINA CARDOSO DE SOUSA","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"11:34","status":"Em Andamento"},{"name":"LUIS EDUARDO SOARES LOPES","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"11:29","status":"Em Andamento"},{"name":"ALDO RHAK ALVES ALEXANDRE","level":"V","campus_code":"CSHNB","date":"07/08/2026","time":"11:23","status":"Em Andamento"},{"name":"HENRIQUE MAURICIO DA SILVA","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"11:05","status":"Em Andamento"},{"name":"JOYCE ELÂNY DOS SANTOS SILVA","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"09:44","status":"Em Andamento"},{"name":"DIRCEU RODRIGUES LOPES","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"09:22","status":"Em Andamento"},{"name":"LUCAS RÊGO ALVES","level":"V","campus_code":"CMPP","date":"07/08/2026","time":"07:50","status":"Em Andamento"},{"name":"LARISSA LOPES OLIVEIRA","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"07:29","status":"Em Andamento"},{"name":"HELENILDA NUNES SOARES DE BRITO","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"00:43","status":"Em Andamento"},{"name":"LHAIS SUELEN SOARES LEAL","level":"VI","campus_code":"CMPP","date":"07/08/2026","time":"00:08","status":"Em Andamento"},{"name":"MARTA SUANE TEIXEIRA PEREIRA DE SENA FREITAS","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"21:21","status":"Em Andamento"},{"name":"FILIPE SOARES VIANA","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"21:14","status":"Em Andamento"},{"name":"ADRIANA A'URY SILVA LIMA LOPES","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"20:58","status":"Em Andamento"},{"name":"JOCIEDE DA SILVA REIS","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"20:06","status":"Em Andamento"},{"name":"ANA LÍDIA BEZERRA MATIAS VASCONCELOS","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"19:24","status":"Em Andamento"},{"name":"CREMILDA MONTEIRO LIMA","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"19:05","status":"Em Andamento"},{"name":"KATIANE MARIA DE ARAUJO CARVALHO","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"18:45","status":"Em Andamento"},{"name":"NICOLE FERNANDA ROCHA SILVA","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"18:29","status":"Em Andamento"},{"name":"LUANE PEREIRA DE CARVALHO","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"17:49","status":"Em Andamento"},{"name":"BELCHIOR DA SILVA MARTINS","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"17:38","status":"Em Andamento"},{"name":"JESSIANE RODRIGUES ROCHA","level":"V","campus_code":"CSHNB","date":"06/08/2026","time":"16:34","status":"Em Andamento"},{"name":"LIVIA MARIA SILVA TEIXEIRA","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"15:42","status":"Em Andamento"},{"name":"PAULO RICARDO FIRMIANO DA CUNHA","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"15:40","status":"Em Andamento"},{"name":"MARIA JOSE CARVALHO SILVA","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"15:34","status":"Em Andamento"},{"name":"GUSTAVO CARDOSO TELES DODTH","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"15:25","status":"Em Andamento"},{"name":"RANGEL DE SALES MEIRELES","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"14:56","status":"Em Andamento"},{"name":"FRANCISCO ALEXANDRO SILVA DOS SANTOS","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"13:02","status":"Em Andamento"},{"name":"GLEYCE MARIA SIMPLÍCIO REVOREDO","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"12:51","status":"Em Andamento"},{"name":"DEBORA LARIELLY RAMALHO DA SILVA RIBEIRO","level":"V","campus_code":"CAFS","date":"06/08/2026","time":"12:34","status":"Em Andamento"},{"name":"NILMAR DIAS DE ARAUJO","level":"VI","campus_code":"CPCE","date":"06/08/2026","time":"11:49","status":"Em Andamento"},{"name":"TAMYRES MAYANE NORBERTA DE MOURA","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"11:45","status":"Em Andamento"},{"name":"KAMYLA LOPES NUNES SOBREIRO","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"11:37","status":"Em Andamento"},{"name":"ANATHÁLIA CRISTINA SANTANA DE SOUSA","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"11:29","status":"Em Andamento"},{"name":"ROMULO JOSE PEREIRA LIMA","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"11:19","status":"Em Andamento"},{"name":"BRUNA MARIA MARTINS RIBEIRO MASCARENHAS","level":"VI","campus_code":"CMPP","date":"06/08/2026","time":"10:34","status":"Em Andamento"},{"name":"ALBERTO SILVA DE OLIVEIRA","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"10:28","status":"Em Andamento"},{"name":"ANDRE LUIZ DE MORAES CORREIA","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"09:31","status":"Em Andamento"},{"name":"PEDRO FEITOSA BARROS","level":"V","campus_code":"CAFS","date":"06/08/2026","time":"09:27","status":"Em Andamento"},{"name":"SEBASTIAO SILVA CHAVES","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"07:09","status":"Em Andamento"},{"name":"CANDICE DE OLIVEIRA ALEXANDRINO","level":"V","campus_code":"CMPP","date":"06/08/2026","time":"02:39","status":"Em Andamento"},{"name":"LUIZ ANTONIO DE MENESES WAQUIM SILVA","level":"V","campus_code":"CMPP","date":"05/08/2026","time":"23:17","status":"Em Andamento"},{"name":"SÂMIA ALVES DOS SANTOS","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"21:41","status":"Em Andamento"},{"name":"MARIA LARA CRISTINA SANTOS DE MACÊDO","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"19:11","status":"Em Andamento"},{"name":"JOSE ALVES DE MACEDO NETO","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"18:54","status":"Em Andamento"},{"name":"LARISSA NAIANA MENDES DE SOUSA","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"18:30","status":"Em Andamento"},{"name":"KLEYSON MATOS SILVA","level":"V","campus_code":"CMPP","date":"05/08/2026","time":"18:08","status":"Em Andamento"},{"name":"HELVIDIO FERNANDES DE OLIVEIRA","level":"V","campus_code":"CMPP","date":"05/08/2026","time":"17:54","status":"Em Andamento"},{"name":"MARCOS VINICIUS NUNES SAMPAIO","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"17:23","status":"Em Andamento"},{"name":"RENATA GONCALVES DE OLIVEIRA","level":"V","campus_code":"CMPP","date":"05/08/2026","time":"17:15","status":"Em Andamento"},{"name":"JOSÉ MAURO GOMES DE JESÚS","level":"V","campus_code":"CMPP","date":"05/08/2026","time":"16:39","status":"Em Andamento"},{"name":"TICIARA DE SOUSA E SILVA FERREIRA","level":"V","campus_code":"CMPP","date":"05/08/2026","time":"15:17","status":"Em Andamento"},{"name":"ANA KLISSE SILVA ARAUJO","level":"VI","campus_code":"CSHNB","date":"05/08/2026","time":"14:20","status":"Em Andamento"},{"name":"FRANCISCA COSTA DA SILVA","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"11:47","status":"Em Andamento"},{"name":"JOCIEL DE CARVALHO SANTOS","level":"V","campus_code":"CAFS","date":"05/08/2026","time":"11:28","status":"Em Andamento"},{"name":"WELLINGTON SILVA LIMA","level":"V","campus_code":"CMPP","date":"05/08/2026","time":"11:20","status":"Em Andamento"},{"name":"IVANILDO FRANCISCO DA LUZ","level":"V","campus_code":"CSHNB","date":"05/08/2026","time":"11:07","status":"Em Andamento"},{"name":"ALLAN KARDEC MACEDO DE MIRANDA","level":"V","campus_code":"CMPP","date":"05/08/2026","time":"11:00","status":"Em Andamento"},{"name":"VANECY MATIAS DA SILVA","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"10:59","status":"Em Andamento"},{"name":"DANIELA ROSA ALVES DA SILVA PEREIRA","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"10:38","status":"Em Andamento"},{"name":"DANNYLO RODRIGUES DE SOUSA","level":"V","campus_code":"CMPP","date":"05/08/2026","time":"10:34","status":"Em Andamento"},{"name":"SELMA MARIA DOS REIS","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"10:18","status":"Em Andamento"},{"name":"RICARDO DE ARAÚJO","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"09:37","status":"Em Andamento"},{"name":"ALAN MARQUES DE SOUSA","level":"V","campus_code":"CSHNB","date":"05/08/2026","time":"09:18","status":"Em Andamento"},{"name":"TARCISIO GOMES DE LACERDA","level":"V","campus_code":"CSHNB","date":"05/08/2026","time":"08:37","status":"Deferido"},{"name":"FRANCISCO SAVIO DE MOURA MARTINS","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"04:14","status":"Em Andamento"},{"name":"ELIZIANE OLIVEIRA DE LIMA","level":"VI","campus_code":"CAFS","date":"05/08/2026","time":"04:07","status":"Em Andamento"},{"name":"ITALBERTO FIGUEIRA DANTAS","level":"VI","campus_code":"CMPP","date":"05/08/2026","time":"00:20","status":"Em Andamento"},{"name":"FILIPE HUDSON DE MACEDO PAZ","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"22:14","status":"Em Andamento"},{"name":"RAFAELLA SANTIAGO SOUSA FREITAS","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"21:30","status":"Em Andamento"},{"name":"GUSTAVO ALVES DE ARAUJO","level":"III","campus_code":"CMPP","date":"04/08/2026","time":"19:31","status":"Em Andamento"},{"name":"EDER DE SOUSA CARVALHO","level":"V","campus_code":"CSHNB","date":"04/08/2026","time":"19:20","status":"Em Andamento"},{"name":"RODRIGO CARVALHO SOUSA","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"18:21","status":"Em Andamento"},{"name":"ZELIA GUIMARAES DE OLIVEIRA PINHEIRO","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"18:16","status":"Em Andamento"},{"name":"MAURICIO RIBEIRO SENA","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"18:15","status":"Em Andamento"},{"name":"MATHEUS DE MENESES CAMPANHÃ SOUZA","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"16:50","status":"Em Andamento"},{"name":"ELIZETH LEAL DE SOUSA","level":"V","campus_code":"CSHNB","date":"04/08/2026","time":"16:46","status":"Em Andamento"},{"name":"RAFAELLA SA CARVALHO SOUSA","level":"VI","campus_code":"CSHNB","date":"04/08/2026","time":"16:30","status":"Em Andamento"},{"name":"IGOR SILVA PINTO","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"16:27","status":"Em Andamento"},{"name":"CHRYSTIANE CAMPELO DA SILVA","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"15:55","status":"Em Andamento"},{"name":"ULISSES DE CARVALHO MEIRELES","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"15:21","status":"Em Andamento"},{"name":"ANDERSON HENRIQUE MIRANDA DA SILVA","level":"V","campus_code":"CSHNB","date":"04/08/2026","time":"15:12","status":"Em Andamento"},{"name":"KELIANA DE SOUSA CARVALHO","level":"V","campus_code":"CAFS","date":"04/08/2026","time":"14:59","status":"Deferido"},{"name":"DELSON FERREIRA BONFIM","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"14:55","status":"Em Andamento"},{"name":"ARILANNE KELLYNE BARBOZA VILARINHO","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"14:32","status":"Em Andamento"},{"name":"MAIRA DANUSE SANTOS DE OLIVEIRA","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"13:45","status":"Em Andamento"},{"name":"TARCISO ATAIDE DE SALES JUNIOR","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"13:37","status":"Em Andamento"},{"name":"ANDERSON JOSÉ DA SILVA","level":"VI","campus_code":"CAFS","date":"04/08/2026","time":"13:15","status":"Deferido"},{"name":"ARIANE CAVALCANTE LIMA","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"12:56","status":"Em Andamento"},{"name":"MARIA ELIZANA MARTINS DE MENESES CARVALHO","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"12:53","status":"Em Andamento"},{"name":"LEONARDO DE SOUSA PAIVA","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"12:43","status":"Em Andamento"},{"name":"SAMIRA DA SILVA MACIEL","level":"VI","campus_code":"CAFS","date":"04/08/2026","time":"12:38","status":"Deferido"},{"name":"LIVIA FERNANDA LEAL MACEDO","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"12:32","status":"Em Andamento"},{"name":"SANMYA PATRÍCIA SILVA SANTOS","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"12:21","status":"Em Andamento"},{"name":"IANA MOURA CRONEMBERGER","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"12:09","status":"Em Andamento"},{"name":"SAYONARA LEAL BRITO","level":"V","campus_code":"CSHNB","date":"04/08/2026","time":"12:08","status":"Em Andamento"},{"name":"EDINARA CONRADO LOPES FLORENTINO","level":"VI","campus_code":"CSHNB","date":"04/08/2026","time":"11:47","status":"Deferido"},{"name":"ADALGISA COSTA MELO","level":"VI","campus_code":"CAFS","date":"04/08/2026","time":"11:46","status":"Deferido"},{"name":"MARIA JOSÉ CASTRO DIÓGENES","level":"VI","campus_code":"CPCE","date":"04/08/2026","time":"11:37","status":"Em Andamento"},{"name":"HERMÍNIO JOSÉ DA ROCHA NETO","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"11:34","status":"Em Andamento"},{"name":"MARIA DE JESUS ARAUJO RAMOS VIANA","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"11:22","status":"Em Andamento"},{"name":"CLAUDIANE ALVES DA SILVA","level":"VI","campus_code":"CSHNB","date":"04/08/2026","time":"11:06","status":"Em Andamento"},{"name":"GAIO SOUSA QUARESMA","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"10:59","status":"Em Andamento"},{"name":"KLEBER CRAVEIRO DA CUNHA","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"10:58","status":"Em Andamento"},{"name":"FRANCISCA DAS CHAGAS DA SILVA MOTA","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"10:32","status":"Em Andamento"},{"name":"WILSON SANTIAGO DE ARAÚJO","level":"V","campus_code":"CAFS","date":"04/08/2026","time":"10:22","status":"Em Andamento"},{"name":"VALERIA NOGUEIRA DE AREIA LEAO SARMENTO","level":"V","campus_code":"CMPP","date":"04/08/2026","time":"10:19","status":"Em Andamento"},{"name":"AMANDO SANTOS ARAÚJO","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"10:18","status":"Em Andamento"},{"name":"ADISON ALMEIDA DO NASCIMENTO","level":"VI","campus_code":"CAFS","date":"04/08/2026","time":"09:42","status":"Deferido"},{"name":"SHYARA SANTOS VIEIRA","level":"VI","campus_code":"CSHNB","date":"04/08/2026","time":"09:14","status":"Em Andamento"},{"name":"LUANA ANDRADE DA COSTA","level":"VI","campus_code":"CPCE","date":"04/08/2026","time":"08:26","status":"Em Andamento"},{"name":"IARA LUCIA RODRIGUES BARBOSA SANTIAGO","level":"V","campus_code":"CAFS","date":"04/08/2026","time":"08:23","status":"Deferido"},{"name":"LORENA CARVALHO PEREIRA","level":"VI","campus_code":"CMPP","date":"04/08/2026","time":"07:40","status":"Em Andamento"},{"name":"NONATO RODRIGUES DE SALES CARVALHO","level":"VI","campus_code":"CSHNB","date":"04/08/2026","time":"06:36","status":"Em Andamento"},{"name":"ADNNY FERNANDA LIMA CAMPOS","level":"V","campus_code":"CMPP","date":"03/08/2026","time":"23:42","status":"Em Andamento"},{"name":"MARCIO FRANK RODRIGUES","level":"VI","campus_code":"CAFS","date":"03/08/2026","time":"23:21","status":"Deferido"},{"name":"ERICA CECILIA DE SOUSA SOARES","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"23:21","status":"Em Andamento"},{"name":"JAMES DA LUZ DIAS","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"23:09","status":"Em Andamento"},{"name":"SIMONNE SARAIVA NUNES SANTANA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"23:09","status":"Em Andamento"},{"name":"MARINA FREIRE MIRANDA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"22:47","status":"Em Andamento"},{"name":"CARLA ADRIANA RODRIGUES DE SOUSA BRITO","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"22:42","status":"Em Andamento"},{"name":"FRANCIJANE DE OLIVEIRA BARBOSA","level":"V","campus_code":"CMPP","date":"03/08/2026","time":"22:15","status":"Em Andamento"},{"name":"WASHINGTON LUIS MENEZES MOURA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"22:06","status":"Em Andamento"},{"name":"LUCIO PADUA REIS","level":"V","campus_code":"CMPP","date":"03/08/2026","time":"21:36","status":"Em Andamento"},{"name":"PATRICK ABREU DE OLIVEIRA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"21:32","status":"Deferido"},{"name":"FERNANDO ANTONIO DA SILVA","level":"V","campus_code":"CSHNB","date":"03/08/2026","time":"21:28","status":"Em Andamento"},{"name":"LUCYANA OLIVEIRA BARBOSA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"21:10","status":"Deferido"},{"name":"JÔDE VECTURINE VIEIRA DE ARAÚJO CASTRO","level":"VI","campus_code":"CSHNB","date":"03/08/2026","time":"20:51","status":"Deferido"},{"name":"ELIANE DA CRUZ MAGALHAES XAVIER","level":"V","campus_code":"CMPP","date":"03/08/2026","time":"20:50","status":"Deferido"},{"name":"ALEX DOS SANTOS ALVES","level":"VI","campus_code":"CAFS","date":"03/08/2026","time":"20:01","status":"Deferido"},{"name":"RHUBENS EWALD MOURA RIBEIRO","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"19:56","status":"Em Andamento"},{"name":"ILANA MARIA DE MOURA SOUSA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"19:53","status":"Deferido"},{"name":"DENISE LEAL REIS","level":"V","campus_code":"CAFS","date":"03/08/2026","time":"19:09","status":"Deferido"},{"name":"ANTÔNIO LUIS DE SOUSA NUNES","level":"VI","campus_code":"CAFS","date":"03/08/2026","time":"19:04","status":"Deferido"},{"name":"ERIKA MONTEIRO MESQUITA DE ALMEIDA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"18:44","status":"Deferido"},{"name":"ALLINE VASCONCELOS DE MORAES MELLO CAVALCANTI NEGRINHO","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"18:42","status":"Deferido"},{"name":"RAIANE SILVA DE SOUSA","level":"V","campus_code":"CMPP","date":"03/08/2026","time":"18:40","status":"Deferido"},{"name":"FRANCISCA NILCELIA MACEDO BARROSO","level":"VI","campus_code":"CSHNB","date":"03/08/2026","time":"18:28","status":"Deferido"},{"name":"WALTON VALDOMIRO LUZ","level":"V","campus_code":"CMPP","date":"03/08/2026","time":"18:22","status":"Deferido"},{"name":"JAKELINE LEAL EVANGELISTA","level":"V","campus_code":"CSHNB","date":"03/08/2026","time":"18:18","status":"Deferido"},{"name":"ÊNIO CLAY DE ARAUJO RIOTINTO","level":"V","campus_code":"CMPP","date":"03/08/2026","time":"18:14","status":"Deferido"},{"name":"FRANCISCO KALIVAN OLIVEIRA BEZERRA","level":"V","campus_code":"CMPP","date":"03/08/2026","time":"17:56","status":"Deferido"},{"name":"MARIA ELENICE PEREIRA DA SILVA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"17:49","status":"Deferido"},{"name":"ANA KAROLINA SARAIVA DA SILVA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"17:47","status":"Deferido"},{"name":"DELMÁRCIO DE MOURA SOUSA","level":"VI","campus_code":"CMPP","date":"03/08/2026","time":"17:33","status":"Deferido"},{"name":"JOSIVAN BERNARDES DE ARAÚJO","level":"VI","campus_code":"CSHNB","date":"03/08/2026","time":"17:32","status":"Deferido"},{"name":"GLAUCIA NONATO PORTO","level":"V","campus_code":"CSHNB","date":"03/08/2026","time":"17:29","status":"Deferido"}];
+const CAMPUS_FULL={"CMPP":"Campus Ministro Petrônio Portella","CAFS":"Campus Amílcar Ferreira Sobral","CSHNB":"Campus Senador Helvídio Nunes de Barros","CPCE":"Campus Professora Cinobelina Elvas"};
+const CAMPUS_ORDER=["CMPP","CAFS","CSHNB","CPCE"];
+const STATUS_ORDER=["Deferido","Em Andamento","Indeferido"];
+const LEVEL_COLORS={III:"#16704a",IV:"#64748b",V:"#315ea8",VI:"#6841c6",VII:"#b54708"};
+const CAMPUS_COLORS={CMPP:"var(--c-cmpp)",CAFS:"var(--c-cafs)",CSHNB:"var(--c-cshnb)",CPCE:"var(--c-cpce)"};
+const STATUS_COLORS={"Deferido":"var(--ok)","Em Andamento":"var(--warn)","Indeferido":"var(--bad)"};
+const state={q:"",campus:"",level:"",status:"",sort:"dt",dir:1,visible:Object.fromEntries(CAMPUS_ORDER.map(c=>[c,true]))};
+let debounceTimer=null;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));
+const num=n=>new Intl.NumberFormat("pt-BR").format(n);
+const pct=(n,d)=>d?new Intl.NumberFormat("pt-BR",{style:"percent",minimumFractionDigits:1,maximumFractionDigits:1}).format(n/d):"0,0%";
+const dt=r=>{const [d,m,y]=r.date.split("/").map(Number),[h,min]=r.time.split(":").map(Number);return new Date(y,m-1,d,h,min)};
+const fmtDT=r=>`${r.date} · ${r.time}`;
+const campusName=c=>CAMPUS_FULL[c]||c;
+function icon(type){const p={
+ total:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/>',
+ check:'<path d="m5 12 4 4L19 6"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+ alert:'<path d="M12 4 3.5 19h17L12 4Z"/><path d="M12 9v4M12 16h.01"/>',
+ chart:'<path d="M4 19V5M4 19h16"/><path d="m7 15 4-5 3 3 5-7"/>',
+ campus:'<path d="M4 20h16M6 20V9l6-4 6 4v11M9 20v-6h6v6M8 10h.01M12 10h.01M16 10h.01"/>'};return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p[type]}</svg>`}
+function statusClass(s){return s==="Deferido"?"ok":s==="Indeferido"?"bad":"warn"}
+function filtered(){const q=state.q.trim().toLocaleLowerCase("pt-BR");return ROWS.filter(r=>(!q||r.name.toLocaleLowerCase("pt-BR").includes(q))&&(!state.campus||r.campus_code===state.campus)&&(!state.level||r.level===state.level)&&(!state.status||r.status===state.status))}
+function aggregate(data){const a={total:data.length,byCampus:{},byStatus:{},byLevel:{}};CAMPUS_ORDER.forEach(c=>a.byCampus[c]={total:0,Deferido:0,"Em Andamento":0,Indeferido:0,levels:{}});data.forEach(r=>{const c=a.byCampus[r.campus_code]||(a.byCampus[r.campus_code]={total:0,levels:{}});c.total++;c[r.status]=(c[r.status]||0)+1;c.levels[r.level]=(c.levels[r.level]||0)+1;a.byStatus[r.status]=(a.byStatus[r.status]||0)+1;a.byLevel[r.level]=(a.byLevel[r.level]||0)+1});return a}
+function renderKpis(data){const a=aggregate(data),cs=Object.entries(a.byCampus).filter(x=>x[1].total).sort((x,y)=>y[1].total-x[1].total)[0],d=a.byStatus.Deferido||0;const cards=[
+ ["Total de memoriais",a.total,"No recorte atual","total","blue"],
+ ["Deferidos",d,pct(d,a.total)+" de deferimento","check","green"],
+ ["Em andamento",a.byStatus["Em Andamento"]||0,pct(a.byStatus["Em Andamento"]||0,a.total)+" do recorte","clock","amber"],
+ ["Indeferidos",a.byStatus.Indeferido||0,"Registros indeferidos","alert","red"],
+ ["Deferimento",pct(d,a.total),"Proporção dos registros","chart","purple"],
+ ["Maior volume",cs?cs[0]:"—",cs?num(cs[1].total)+" memoriais":"Sem registros","campus","blue"]
+];$("kpis").innerHTML=cards.map(c=>`<article class="kpi"><div class="kpi-top"><span class="kpi-title">${esc(c[0])}</span><span class="icon ${c[4]}">${icon(c[3])}</span></div><div class="kpi-num">${esc(c[1])}</div><div class="kpi-note">${esc(c[2])}</div></article>`).join("")}
+function renderCampus(data){const a=aggregate(data),list=CAMPUS_ORDER.map(c=>[c,a.byCampus[c]]).filter(x=>x[1].total).sort((x,y)=>y[1].total-x[1].total);$("campus").innerHTML=list.length?list.map(([c,v],i)=>{const d=v.Deferido||0,x=v["Em Andamento"]||0,n=v.Indeferido||0,lv=Object.entries(v.levels).sort((a,b)=>b[1]-a[1])[0];return `<article class="campus-card ${i===0?"leader":""}"><div class="rank">#${i+1} · VOLUME</div><div class="campus-name">${esc(c)} · ${esc(campusName(c))}</div><div class="campus-full">${num(v.total)} memoriais · ${pct(v.total,a.total)} do recorte</div><div class="campus-main"><div class="campus-total">${num(v.total)}</div><div class="campus-share">${pct(v.total,a.total)}</div></div><div class="stack" aria-label="Situação: ${d} deferidos, ${x} em andamento, ${n} indeferidos"><i class="d" style="width:${v.total?d/v.total*100:0}%"></i><i class="a" style="width:${v.total?x/v.total*100:0}%"></i><i class="n" style="width:${v.total?n/v.total*100:0}%"></i></div><div class="campus-stats"><div class="stat"><b>${d}</b>Deferidos</div><div class="stat"><b>${x}</b>Andamento</div><div class="stat"><b>${n}</b>Indeferidos</div></div><div class="pred"><span>RSC predominante</span><strong>${lv?"RSC-TAE "+esc(lv[0]):"—"} · ${lv?lv[1]:0}</strong></div></article>`}).join(""):'<div class="empty">Nenhum campus possui registros neste recorte.</div>'}
+function svgText(x,y,text,size=11,anchor="middle",weight=600,fill="var(--chart-text)"){return `<text x="${x}" y="${y}" fill="${fill}" font-size="${size}" font-weight="${weight}" text-anchor="${anchor}">${esc(text)}</text>`}
+function showTip(e,title,rows){const t=$("tooltip");t.innerHTML=`<div class="tooltip-title">${esc(title)}</div>`+rows.map(r=>`<div class="tooltip-row"><span>${esc(r[0])}</span><span>${esc(r[1])}</span></div>`).join("");t.classList.add("show");moveTip(e)}
+function moveTip(e){const t=$("tooltip");let x=e.clientX+14,y=e.clientY+14;const r=t.getBoundingClientRect();if(x+r.width>innerWidth-10)x=e.clientX-r.width-14;if(y+r.height>innerHeight-10)y=e.clientY-r.height-14;t.style.left=x+"px";t.style.top=y+"px"}
+function hideTip(){$("tooltip").classList.remove("show")}
+function bindTips(){document.querySelectorAll("[data-tip]").forEach(el=>{el.addEventListener("mouseenter",e=>showTip(e,el.dataset.title,JSON.parse(el.dataset.rows)));el.addEventListener("mousemove",moveTip);el.addEventListener("mouseleave",hideTip)})}
+function chartDims(svg,defaultH=300){const w=Math.max(300,svg.parentElement.clientWidth||600);return [w,defaultH]}
+function renderDaily(data){const svg=$("dailyChart"),wrap=$("dailyWrap"),W=Math.max(320,wrap.clientWidth),H=window.innerWidth<640?330:350,L=45,R=15,T=18,B=42;const groups=CAMPUS_ORDER.filter(c=>state.visible[c]&&data.some(r=>r.campus_code===c));const dates=[...new Set(data.map(r=>r.date))].sort((a,b)=>{const aa=a.split("/").reverse().join("");const bb=b.split("/").reverse().join("");return aa.localeCompare(bb)});if(!data.length||!dates.length){svg.innerHTML="";wrap.innerHTML='<div class="chart-empty">Nenhum registro encontrado para o recorte atual.</div>';return}else if(!svg.parentElement) return; if(!wrap.querySelector("svg"))wrap.innerHTML='<svg class="chart-svg" id="dailyChart" role="img" aria-label="Evolução diária das publicações por campus"></svg>'; const s=$("dailyChart");const max=Math.max(1,...groups.flatMap(c=>dates.map(d=>data.filter(r=>r.campus_code===c&&r.date===d).length)));let out=`<rect x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="transparent"/>`;for(let i=0;i<=4;i++){const y=T+(H-T-B)*i/4;const val=Math.round(max*(1-i/4));out+=`<line x1="${L}" y1="${y}" x2="${W-R}" y2="${y}" stroke="var(--chart-grid)" stroke-width="1"/>`+svgText(L-8,y+4,val,10,"end",600,"var(--chart-muted)")}const step=dates.length>1?(W-L-R)/(dates.length-1):0;dates.forEach((d,i)=>{if(dates.length<=8||i===0||i===dates.length-1||i%Math.ceil(dates.length/6)===0){const x=L+i*step;out+=svgText(x,H-17,d.slice(0,5),10,"middle",600,"var(--chart-muted)")}});groups.forEach(c=>{const pts=dates.map((d,i)=>{const v=data.filter(r=>r.campus_code===c&&r.date===d).length;return [L+i*step,T+(H-T-B)*(1-v/max)]});out+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${CAMPUS_COLORS[c]}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`;pts.forEach((p,i)=>{const v=data.filter(r=>r.campus_code===c&&r.date===dates[i]).length;if(v)out+=`<circle data-tip data-title="${esc(campusName(c))}" data-rows='${esc(JSON.stringify([["Data",dates[i]],["Publicações",v]]))}' cx="${p[0]}" cy="${p[1]}" r="${window.innerWidth<640?3:4}" fill="${CAMPUS_COLORS[c]}" tabindex="0"/>`})});s.setAttribute("viewBox",`0 0 ${W} ${H}`);s.innerHTML=out;renderLegend(data);bindTips()}
+function renderLegend(data){$("dailyLegend").innerHTML=CAMPUS_ORDER.map(c=>`<button type="button" class="${state.visible[c]?"on":""}" data-campus="${c}" aria-pressed="${state.visible[c]}"><i style="background:${CAMPUS_COLORS[c]}"></i><span class="label">${esc(c)}</span></button>`).join("");$("dailyLegend").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{const c=b.dataset.campus;state.visible[c]=!state.visible[c];renderDaily(filtered())}))}
+function polar(cx,cy,r,a){const rad=(a-90)*Math.PI/180;return [cx+r*Math.cos(rad),cy+r*Math.sin(rad)]}
+function arcPath(cx,cy,r,a0,a1){const p0=polar(cx,cy,r,a1),p1=polar(cx,cy,r,a0),large=a1-a0>180?1:0;return `M ${p0[0]} ${p0[1]} A ${r} ${r} 0 ${large} 0 ${p1[0]} ${p1[1]}`}
+function renderDonut(data){const svg=$("donutChart"),a=aggregate(data),list=CAMPUS_ORDER.map(c=>[c,a.byCampus[c].total]).filter(x=>x[1]>0).sort((x,y)=>y[1]-x[1]);if(!list.length){svg.innerHTML='<text x="150" y="130" text-anchor="middle" fill="var(--chart-muted)" font-size="12">Nenhum registro</text>';$("donutLegend").innerHTML="";return}let start=0,total=a.total,out="";list.forEach(([c,v])=>{const ang=v/total*360;out+=`<path data-tip data-title="${esc(campusName(c))}" data-rows='${esc(JSON.stringify([["Quantidade",v],["Participação",pct(v,total)]]))}' d="${arcPath(150,120,82,start,start+ang-1)}" fill="none" stroke="${CAMPUS_COLORS[c]}" stroke-width="28" stroke-linecap="butt" tabindex="0"/>`;start+=ang});out+=`<text x="150" y="115" text-anchor="middle" class="donut-center-big">${num(total)}</text><text x="150" y="136" text-anchor="middle" class="donut-center-small">memoriais</text>`;svg.innerHTML=out;$("donutLegend").innerHTML=list.map(([c,v])=>`<div class="donut-item"><i class="donut-dot" style="background:${CAMPUS_COLORS[c]}"></i><span class="name">${esc(c)} · ${esc(campusName(c))}</span><span class="qty">${num(v)}</span><span class="pct">${pct(v,total)}</span></div>`).join("");bindTips()}
+function renderBars(data,kind){
+ const id=kind==="status"?"statusChart":"levelChart";
+ const svg=$(id), wrap=$(kind==="status"?"statusWrap":"levelWrap"), a=aggregate(data);
+ const keys=kind==="status"?STATUS_ORDER:Object.keys(a.byLevel).sort((x,y)=>Number(x)-Number(y));
+ const groups=CAMPUS_ORDER.filter(c=>a.byCampus[c].total>0);
+ if(!groups.length){wrap.innerHTML='<div class="chart-empty">Nenhum registro encontrado para o recorte atual.</div>';return}
+ if(!wrap.querySelector("svg")) wrap.innerHTML=`<svg class="chart-svg" id="${id}" role="img"></svg>`;
+ const s=$(id), W=Math.max(320,wrap.clientWidth), H=Math.max(260,groups.length*55+60), L=72,R=15,T=12,B=40;
+ const max=kind==="status"
+   ?Math.max(...groups.map(c=>a.byCampus[c].total),1)
+   :Math.max(...groups.flatMap(c=>keys.map(k=>a.byCampus[c].levels[k]||0)),1);
+ let out="";
  for(let i=0;i<=4;i++){
-   const yy=T+i*innerH/4, val=Math.round(max-(max*i/4));
-   s+=`<line x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}" stroke="var(--line)" stroke-width="1"/>`;
-   s+=`<text x="${L-10}" y="${yy+4}" font-family="Segoe UI,Arial" font-size="10" text-anchor="end" fill="var(--muted)">${val}</text>`;
+   const x=L+(W-L-R)*i/4;
+   out+=`<line x1="${x}" y1="${T}" x2="${x}" y2="${H-B}" stroke="var(--chart-grid)"/>`;
+   out+=svgText(x,H-13,Math.round(max*i/4),9,"middle",600,"var(--chart-muted)");
  }
- campuses.forEach((campus,ci)=>{
-   const pts=data.map((d,i)=>[x(i),y(d[campus]||0)]);
-   s+=`<polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${colors[ci]}" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round"/>`;
-   pts.forEach((p,i)=>{
-     s+=`<circle cx="${p[0]}" cy="${p[1]}" r="3.8" fill="${colors[ci]}" stroke="var(--card)" stroke-width="2"/>`;
-     if((data[i][campus]||0)>0) s+=`<title>${campus} — ${data[i].date}: ${data[i][campus]}</title>`;
-   });
+ groups.forEach((c,i)=>{
+   const y=T+i*55;
+   out+=svgText(L-9,y+18,c,10,"end",800);
+   if(kind==="status"){
+     let x=L;
+     keys.forEach(k=>{
+       const v=a.byCampus[c][k]||0, w=v/max*(W-L-R);
+       const rows=[["Quantidade",v],["Participação",pct(v,a.byCampus[c].total)]];
+       out+=`<rect data-tip data-title="${esc(c+" · "+k)}" data-rows='${esc(JSON.stringify(rows))}' x="${x}" y="${y}" width="${Math.max(0,w)}" height="30" rx="5" fill="${STATUS_COLORS[k]}"/>`;
+       if(w>34) out+=svgText(x+w/2,y+20,v,10,"middle",850,"#fff");
+       x+=w;
+     });
+   }else{
+     const slot=(W-L-R)/Math.max(keys.length,1);
+     keys.forEach((k,j)=>{
+       const v=a.byCampus[c].levels[k]||0, h=(v/max)*30, x=L+j*slot+3, w=slot-6;
+       const rows=[["Quantidade",v],["Participação",pct(v,a.byCampus[c].total)]];
+       out+=`<rect data-tip data-title="${esc(c+" · RSC-TAE "+k)}" data-rows='${esc(JSON.stringify(rows))}' x="${x}" y="${y+(30-h)}" width="${w}" height="${h}" rx="5" fill="${LEVEL_COLORS[k]||"var(--brand)"}" opacity="${v?1:.15}"/>`;
+       if(v) out+=svgText(x+w/2,y+24,v,10,"middle",850,"#fff");
+     });
+   }
  });
- const step=data.length<=18?1:Math.ceil(data.length/14);
- data.forEach((d,i)=>{
-   if(i%step===0 || i===data.length-1)
-     s+=`<text x="${x(i)}" y="${H-18}" font-family="Segoe UI,Arial" font-size="10" text-anchor="middle" fill="var(--muted)">${d.date.slice(0,5)}</text>`;
- });
- campuses.forEach((c,i)=>{
-   const lx=145+i*150;
-   s+=`<circle cx="${lx}" cy="14" r="5" fill="${colors[i]}"/>`;
-   s+=`<text x="${lx+10}" y="18" font-family="Segoe UI,Arial" font-size="10" font-weight="700" fill="var(--muted)">${c}</text>`;
- });
- svg.innerHTML=s;
+ s.setAttribute("viewBox",`0 0 ${W} ${H}`);
+ s.innerHTML=out;
+ const legend=$(kind==="status"?"statusLegend":"levelLegend");
+ legend.innerHTML=keys.map(k=>{
+   const color=kind==="status"?STATUS_COLORS[k]:(LEVEL_COLORS[k]||"var(--brand)");
+   const label=kind==="status"?k:"RSC-TAE "+k;
+   return `<div style="display:flex;align-items:center;gap:7px;font-size:11px;font-weight:700;color:var(--text)"><i style="width:9px;height:9px;border-radius:50%;background:${color}"></i>${esc(label)}</div>`;
+ }).join("");
+ bindTips();
 }
-drawDailyLine();
-
-
-function esc(v){
-  return String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
-}
-function txt(x,y,t,size=11,anchor="middle",weight="400",fill="var(--muted)"){
-  return `<text x="${x}" y="${y}" font-family="Segoe UI,Arial" font-size="${size}" text-anchor="${anchor}" font-weight="${weight}" fill="${fill}">${esc(t)}</text>`;
-}
-
-/* ---------- Tooltips ---------- */
-const tooltip=document.getElementById("chartTooltip");
-function showTip(e,title,rows){
-  tooltip.innerHTML=`<div class="tt-title">${esc(title)}</div>`+
-    rows.map(r=>`<div class="tt-row"><span>${esc(r[0])}</span><span class="tt-value">${esc(r[1])}</span></div>`).join("");
-  tooltip.classList.add("show");
-  moveTip(e);
-}
-function moveTip(e){
-  const pad=14, rect=tooltip.getBoundingClientRect();
-  let x=e.clientX+16, y=e.clientY+16;
-  if(x+rect.width>window.innerWidth-pad) x=e.clientX-rect.width-16;
-  if(y+rect.height>window.innerHeight-pad) y=e.clientY-rect.height-16;
-  tooltip.style.left=Math.max(pad,x)+"px";
-  tooltip.style.top=Math.max(pad,y)+"px";
-}
-function hideTip(){tooltip.classList.remove("show")}
-document.addEventListener("mousemove",e=>{
-  if(tooltip.classList.contains("show")) moveTip(e);
-});
-
-/* ---------- Donut ---------- */
-const donutColors=["#0b4f8a","#1769aa","#4f7cac","#8aa8c2","#b6c8d9","#64748b"];
-function donut(id,entries){
- const svg=document.getElementById(id),W=600,H=275,cx=175,cy=137,r=84,ir=54;
- const total=entries.reduce((a,b)=>a+b[1],0)||1;
- let a=-Math.PI/2,s="";
- entries.forEach(([lab,v],i)=>{
-   const d=v/total*Math.PI*2,e=a+d;
-   const x1=cx+r*Math.cos(a),y1=cy+r*Math.sin(a),x2=cx+r*Math.cos(e),y2=cy+r*Math.sin(e);
-   const ix1=cx+ir*Math.cos(a),iy1=cy+ir*Math.sin(a),ix2=cx+ir*Math.cos(e),iy2=cy+ir*Math.sin(e);
-   const lg=d>Math.PI?1:0;
-   const path=`M${x1} ${y1}A${r} ${r} 0 ${lg} 1 ${x2} ${y2}L${ix2} ${iy2}A${ir} ${ir} 0 ${lg} 0 ${ix1} ${iy1}Z`;
-   s+=`<path class="chart-slice" d="${path}" fill="${donutColors[i%donutColors.length]}" stroke="var(--card)" stroke-width="2"
-      data-tip-title="${esc(lab)}" data-tip-rows="${esc(JSON.stringify([["Memoriais",v],["Participação",(v/total*100).toFixed(1)+"%"]]))}"/>`;
-   a=e;
- });
- s+=txt(cx,cy-3,total,29,"middle","850","var(--text)");
- s+=txt(cx,cy+19,"memoriais",10,"middle","750","var(--muted)");
- entries.forEach(([lab,v],i)=>{
-   const y=68+i*39;
-   s+=`<circle cx="325" cy="${y-4}" r="5" fill="${donutColors[i%donutColors.length]}"/>`;
-   s+=txt(340,y,lab,11,"start","800","var(--text)");
-   s+=txt(340,y+16,`${v} • ${(v/total*100).toFixed(1)}%`,10,"start","600","var(--muted)");
- });
- svg.innerHTML=s;
-}
-
-/* ---------- Grouped bars ---------- */
-function groupedChart(id,groupObj,groups,keys){
- const svg=document.getElementById(id),W=600,H=275,left=48,right=18,top=30,bottom=48;
- const palette=["#16845a","#d69e2e","#c24141"];
- const max=Math.max(...groups.flatMap(g=>keys.map(k=>groupObj[g]?.[k]||0)),1);
- const step=(W-left-right)/groups.length,bw=step*.66;
- let s="";
- for(let i=0;i<=4;i++){
-   const yy=top+i*(H-top-bottom)/4;
-   const val=Math.round(max-(max*i/4));
-   s+=`<line class="chart-gridline" x1="${left}" y1="${yy}" x2="${W-right}" y2="${yy}"/>`;
-   s+=txt(left-9,yy+4,val,9,"end","600","var(--muted)");
- }
- groups.forEach((g,i)=>{
-   const x0=left+i*step+(step-bw)/2;
-   keys.forEach((k,j)=>{
-     const v=groupObj[g]?.[k]||0;
-     const h=v/max*(H-top-bottom);
-     const x=x0+j*bw/keys.length,w=bw/keys.length-3,y=H-bottom-h;
-     s+=`<rect class="chart-bar" x="${x}" y="${y}" width="${w}" height="${Math.max(h,0)}" rx="4"
-       fill="${palette[j]}" data-tip-title="${esc(g)}"
-       data-tip-rows="${esc(JSON.stringify([[k,String(v)],["Participação no campus",((v/(groupObj[g] ? Object.values(groupObj[g]).reduce((a,b)=>a+b,0):1))*100).toFixed(1)+"%"]]))}"/>`;
-     if(v) s+=txt(x+w/2,y-5,v,9,"middle","800","var(--text)");
-   });
-   s+=txt(x0+bw/2,H-20,g,10,"middle","800","var(--text)");
- });
- keys.forEach((k,j)=>{
-   const lx=105+j*155;
-   s+=`<circle cx="${lx}" cy="13" r="5" fill="${palette[j]}"/>`;
-   s+=txt(lx+10,17,k,10,"start","700","var(--muted)");
- });
- svg.innerHTML=s;
-}
-
-/* ---------- Level bars ---------- */
-function levelChart(){
- const svg=document.getElementById("levelCampus"),groups=campusOrder.filter(c=>campusCounts[c]),keys=["III","V","VI"];
- const palette=["#16704a","#315ea8","#6941c6"],W=600,H=275,left=48,right=18,top=30,bottom=48;
- const max=Math.max(...groups.flatMap(g=>keys.map(k=>levelByCampus[g]?.[k]||0)),1);
- const step=(W-left-right)/groups.length,bw=step*.68;let s="";
- for(let i=0;i<=4;i++){
-   const yy=top+i*(H-top-bottom)/4,val=Math.round(max-(max*i/4));
-   s+=`<line class="chart-gridline" x1="${left}" y1="${yy}" x2="${W-right}" y2="${yy}"/>`;
-   s+=txt(left-9,yy+4,val,9,"end","600","var(--muted)");
- }
- groups.forEach((g,i)=>{
-   const x0=left+i*step+(step-bw)/2;
-   keys.forEach((k,j)=>{
-     const v=levelByCampus[g]?.[k]||0,h=v/max*(H-top-bottom),x=x0+j*bw/3,w=bw/3-3,y=H-bottom-h;
-     s+=`<rect class="chart-bar" x="${x}" y="${y}" width="${w}" height="${Math.max(h,0)}" rx="4" fill="${palette[j]}"
-       data-tip-title="${esc(g)}" data-tip-rows="${esc(JSON.stringify([[`RSC-TAE ${k}`,String(v)],["Participação no campus",((v/(campusCounts[g]||1))*100).toFixed(1)+"%"]]))}"/>`;
-     if(v)s+=txt(x+w/2,y-5,v,9,"middle","800","var(--text)");
-   });
-   s+=txt(x0+bw/2,H-20,g,10,"middle","800","var(--text)");
- });
- keys.forEach((k,j)=>{
-   const lx=115+j*105;s+=`<circle cx="${lx}" cy="13" r="5" fill="${palette[j]}"/>`+txt(lx+10,17,k,10,"start","700","var(--muted)");
- });
- svg.innerHTML=s;
-}
-
-/* ---------- Daily line: one series per campus ---------- */
-function drawDailyLine(){
- const svg=document.getElementById("dailyLine");
- const data=DAILY_DATA;
- const campuses=["CMPP","CAFS","CSHNB","CPCE"];
- const colors=["#0b4f8a","#2e8b57","#8b5cf6","#d97706"];
- const W=1000,H=300,L=55,R=22,T=34,B=52;
- const max=Math.max(...data.flatMap(d=>campuses.map(c=>d[c]||0)),1);
- const innerW=W-L-R,innerH=H-T-B;
- const x=i=>data.length===1?L+innerW/2:L+i*(innerW/(data.length-1));
- const y=v=>H-B-(v/max)*innerH;
- let s="";
- for(let i=0;i<=4;i++){
-   const yy=T+i*innerH/4,val=Math.round(max-(max*i/4));
-   s+=`<line class="chart-gridline" x1="${L}" y1="${yy}" x2="${W-R}" y2="${yy}"/>`;
-   s+=txt(L-10,yy+4,val,9,"end","600","var(--muted)");
- }
- campuses.forEach((campus,ci)=>{
-   const pts=data.map((d,i)=>[x(i),y(d[campus]||0)]);
-   s+=`<polyline class="chart-hit" points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="${colors[ci]}" stroke-width="2.7" stroke-linejoin="round" stroke-linecap="round"/>`;
-   pts.forEach((p,i)=>{
-     const v=data[i][campus]||0;
-     s+=`<circle class="chart-dot" cx="${p[0]}" cy="${p[1]}" r="4.2" fill="${colors[ci]}" stroke="var(--card)" stroke-width="2"
-       data-tip-title="${esc(campus)} — ${esc(data[i].date)}"
-       data-tip-rows="${esc(JSON.stringify([["Memoriais publicados",String(v)]]))}"/>`;
-   });
- });
- const step=data.length<=18?1:Math.ceil(data.length/14);
- data.forEach((d,i)=>{
-   if(i%step===0||i===data.length-1)s+=txt(x(i),H-18,d.date.slice(0,5),10,"middle","600","var(--muted)");
- });
- campuses.forEach((c,i)=>{
-   const lx=145+i*150;
-   s+=`<circle cx="${lx}" cy="15" r="5" fill="${colors[i]}"/>`+txt(lx+10,19,c,10,"start","800","var(--muted)");
- });
- svg.innerHTML=s;
-}
-
-/* ---------- Bind tooltip events to all interactive chart marks ---------- */
-function bindChartTooltips(){
- document.querySelectorAll(".chart-slice,.chart-bar,.chart-dot").forEach(el=>{
-   el.addEventListener("mouseenter",e=>{
-     let rows=[];
-     try{rows=JSON.parse(el.getAttribute("data-tip-rows")||"[]")}catch(_){}
-     showTip(e,el.getAttribute("data-tip-title")||"Detalhes",rows);
-   });
-   el.addEventListener("mousemove",moveTip);
-   el.addEventListener("mouseleave",hideTip);
- });
-}
-
-/* Data supplied by the dashboard */
-const DAILY_DATA=[{"date": "03/08/2026", "CMPP": 23, "CAFS": 4, "CSHNB": 6, "CPCE": 0}, {"date": "04/08/2026", "CMPP": 28, "CAFS": 7, "CSHNB": 9, "CPCE": 2}, {"date": "05/08/2026", "CMPP": 21, "CAFS": 2, "CSHNB": 4, "CPCE": 0}, {"date": "06/08/2026", "CMPP": 26, "CAFS": 2, "CSHNB": 1, "CPCE": 1}, {"date": "07/08/2026", "CMPP": 28, "CAFS": 1, "CSHNB": 3, "CPCE": 0}, {"date": "08/08/2026", "CMPP": 3, "CAFS": 0, "CSHNB": 0, "CPCE": 0}, {"date": "09/08/2026", "CMPP": 4, "CAFS": 0, "CSHNB": 1, "CPCE": 0}, {"date": "10/08/2026", "CMPP": 12, "CAFS": 1, "CSHNB": 3, "CPCE": 0}, {"date": "11/08/2026", "CMPP": 13, "CAFS": 9, "CSHNB": 1, "CPCE": 0}, {"date": "12/08/2026", "CMPP": 2, "CAFS": 1, "CSHNB": 0, "CPCE": 0}];
-
-drawDailyLine();
-donut("campusDonut",Object.entries(campusCounts).sort((a,b)=>b[1]-a[1]));
-groupedChart("statusCampus",statusByCampus,campusOrder.filter(c=>campusCounts[c]),["Deferido","Em Andamento","Indeferido"]);
-levelChart();
-bindChartTooltips();
-
+function sortRows(data){return [...data].sort((a,b)=>{if(state.sort==="dt")return (dt(a)-dt(b))*state.dir;let av=state.sort==="name"?a.name:state.sort==="campus"?a.campus_code:state.sort==="level"?a.level:a.status;let bv=state.sort==="name"?b.name:state.sort==="campus"?b.campus_code:state.sort==="level"?b.level:b.status;return String(av).localeCompare(String(bv),"pt-BR")*state.dir})}
+function renderTable(data){const arr=sortRows(data),tbody=document.querySelector("#rankingTable tbody");$("tableMeta").textContent=arr.length?`${num(arr.length)} registro(s) no recorte atual`:"Nenhum registro encontrado";if(!arr.length){tbody.innerHTML="";$("mobileList").innerHTML='<div class="empty">Nenhum registro encontrado com os filtros atuais.</div>';return}tbody.innerHTML=arr.map((r,i)=>`<tr><td class="pos">#${i+1}</td><td class="name-cell">${esc(r.name)}</td><td>${esc(r.campus_code)}</td><td>RSC-TAE ${esc(r.level)}</td><td><span class="badge ${statusClass(r.status)}">${esc(r.status)}</span></td><td>${esc(fmtDT(r))}</td></tr>`).join("");$("mobileList").innerHTML=arr.map((r,i)=>`<article class="mobile-card"><div class="mobile-top"><div><div class="mobile-name">${esc(r.name)}</div><div class="mobile-date">Publicado em ${esc(fmtDT(r))}</div></div><div class="mobile-pos">#${i+1}</div></div><div class="mobile-grid"><div><div class="mobile-label">Campus</div><div class="mobile-value">${esc(r.campus_code)}</div></div><div><div class="mobile-label">Nível</div><div class="mobile-value">RSC-TAE ${esc(r.level)}</div></div><div><div class="mobile-label">Status</div><div class="mobile-value"><span class="badge ${statusClass(r.status)}">${esc(r.status)}</span></div></div></div></article>`).join("")}
+function updateContext(){const sorted=[...ROWS].sort((a,b)=>dt(a)-dt(b));$("ctxTotal").textContent=`${num(ROWS.length)} memoriais publicados`;$("ctxPeriod").textContent=`${sorted[0].date} a ${sorted.at(-1).date}`;$("ctxUpdated").textContent=fmtDT(sorted.at(-1))}
+function updateFilterOptions(){const camps=[...new Set(ROWS.map(r=>r.campus_code))],levels=[...new Set(ROWS.map(r=>r.level))].sort((a,b)=>Number(a)-Number(b)),stats=[...new Set(ROWS.map(r=>r.status))];$("campusFilter").innerHTML='<option value="">Todos os campi</option>'+camps.map(c=>`<option value="${esc(c)}">${esc(c)} · ${esc(campusName(c))}</option>`).join("");$("levelFilter").innerHTML='<option value="">Todos os níveis</option>'+levels.map(x=>`<option value="${esc(x)}">RSC-TAE ${esc(x)}</option>`).join("");$("statusFilter").innerHTML='<option value="">Todos os status</option>'+STATUS_ORDER.filter(x=>stats.includes(x)).map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("")}
+function updateMeta(data){$("filterCount").textContent=`${num(data.length)} registro(s) encontrado(s)`;const active=!!(state.q||state.campus||state.level||state.status);$("activeFilter").innerHTML=active?'<span class="active-dot"></span>Filtros ativos':'<span class="active-dot"></span>Sem filtros ativos';$("filterToggle").setAttribute("aria-label",active?"Filtros — há filtros ativos":"Filtros")}
+function renderAll(){const data=filtered();updateMeta(data);renderKpis(data);renderCampus(data);renderDaily(data);renderDonut(data);renderBars(data,"status");renderBars(data,"level");renderTable(data)}
+function setTheme(theme){document.documentElement.dataset.theme=theme;localStorage.setItem("rsc-theme",theme);$("themeBtn").innerHTML=theme==="dark"?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 15.2A8.5 8.5 0 1 1 8.8 3.5 6.7 6.7 0 0 0 20.5 15.2Z"/></svg>';renderAll()}
+$("themeBtn").addEventListener("click",()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark"));
+$("filterToggle").addEventListener("click",()=>{const el=$("filterContent"),open=el.classList.toggle("open");$("filterToggle").setAttribute("aria-expanded",open);$("filterChevron").textContent=open?"⌃":"⌄"});
+$("search").addEventListener("input",e=>{clearTimeout(debounceTimer);debounceTimer=setTimeout(()=>{state.q=e.target.value;renderAll()},180)});
+$("campusFilter").addEventListener("change",e=>{state.campus=e.target.value;renderAll()});
+$("levelFilter").addEventListener("change",e=>{state.level=e.target.value;renderAll()});
+$("statusFilter").addEventListener("change",e=>{state.status=e.target.value;renderAll()});
+$("clearBtn").addEventListener("click",()=>{state.q=state.campus=state.level=state.status="";$("search").value="";$("campusFilter").value="";$("levelFilter").value="";$("statusFilter").value="";renderAll()});
+document.querySelectorAll("#rankingTable thead th").forEach(th=>th.addEventListener("click",()=>{const key=th.dataset.sort;if(key==="pos")return;if(state.sort===key)state.dir*=-1;else{state.sort=key;state.dir=key==="dt"?1:1}renderTable(filtered())}));
+let resizeTimer;window.addEventListener("resize",()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(()=>renderAll(),120)});
+updateContext();updateFilterOptions();
+const saved=localStorage.getItem("rsc-theme");setTheme(saved==="dark"?"dark":"light");
 </script>
 </body>
 </html>
