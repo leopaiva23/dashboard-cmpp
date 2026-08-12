@@ -41,8 +41,57 @@ tr:hover td{background:#f7fbff}
 .footer{color:var(--muted);font-size:12px;margin:16px 2px}
 .legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-top:5px}
 .dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);margin-right:5px}
-@media(max-width:900px){.grid,.main{grid-template-columns:1fr 1fr}}
-@media(max-width:650px){.container{padding:14px}.grid,.main{grid-template-columns:1fr}.header h1{font-size:24px}}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(3,1fr)}.main{grid-template-columns:1fr}}
+@media(max-width:650px){.container{padding:14px}.grid,.main{grid-template-columns:1fr}.header{padding:24px}.header h1{font-size:22px}}
+
+.kpi-card{position:relative;overflow:hidden}
+.kpi-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:10px}
+.icon-blue{background:#e8f1fb;color:#0b4f8a}.icon-gold{background:#fff4d8;color:#a56a00}.icon-green{background:#e8f7ef;color:#15803d}.icon-amber{background:#fff7df;color:#b45309}
+.status-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:12px;font-weight:800}
+.status-badge:before{content:"";width:7px;height:7px;border-radius:50%}
+.status-deferido{background:#e9f8ef;color:#15803d}.status-deferido:before{background:#16a34a}
+.status-andamento{background:#fff5df;color:#b45309}.status-andamento:before{background:#f59e0b}
+.status-indeferido{background:#fdecec;color:#b91c1c}.status-indeferido:before{background:#dc2626}
+.level-badge{display:inline-flex;padding:5px 9px;border-radius:8px;font-size:12px;font-weight:800}
+.level-v{background:#eef4ff;color:#315ea8}.level-vi{background:#f1ecff;color:#6941c6}.level-iii{background:#edf8f3;color:#16704a}
+.rank-pill{display:inline-flex;min-width:34px;height:30px;padding:0 8px;align-items:center;justify-content:center;border-radius:9px;background:#f1f5f9;font-weight:850}
+
+/* ===== VISUAL EXECUTIVO ===== */
+:root{
+  --bg:#f3f6fa;--card:#fff;--text:#172033;--muted:#64748b;
+  --line:#e2e8f0;--navy:#123b63;--blue:#0b4f8a;--blue2:#1769aa;
+  --green:#15803d;--green-soft:#eaf7ef;--amber:#b45309;--amber-soft:#fff6df;
+  --red:#b91c1c;--red-soft:#fdecec;--shadow:0 10px 30px rgba(15,35,60,.07);
+}
+body{background:linear-gradient(180deg,#eef3f8 0,#f7f9fc 260px,#f3f6fa 100%)}
+.container{max-width:1480px;padding:30px 32px 36px}
+.header{
+  position:relative;overflow:hidden;border-radius:22px;padding:30px 34px;
+  background:linear-gradient(135deg,#092f54 0%,#0b4f8a 55%,#1769aa 100%);
+  box-shadow:0 16px 38px rgba(9,47,84,.18)
+}
+.header:after{content:"";position:absolute;width:260px;height:260px;border-radius:50%;
+  right:-80px;top:-130px;background:rgba(255,255,255,.08)}
+.header h1{font-size:28px;letter-spacing:-.02em;position:relative;z-index:1}
+.header p{font-size:13px;position:relative;z-index:1}
+.grid{grid-template-columns:repeat(5,1fr);gap:14px;margin:18px 0}
+.card{border:1px solid rgba(226,232,240,.95);border-radius:18px;padding:20px;box-shadow:var(--shadow)}
+.kpi-card{min-height:142px}
+.kpi-label{font-size:11px;font-weight:800;letter-spacing:.07em;color:#718096}
+.kpi{font-size:29px;letter-spacing:-.03em}
+.main{gap:16px}
+.section-title{font-size:15px;letter-spacing:.01em;color:#24364d}
+input,select{border-color:#d8e0ea;border-radius:10px;background:#fbfcfe}
+.table-card{margin-top:16px}
+.table-scroll{max-height:600px;border:1px solid #e1e7ef;border-radius:14px}
+table{border-radius:14px;overflow:hidden}
+th{background:#f4f7fb;color:#52657b;text-transform:uppercase;font-size:10px;letter-spacing:.06em}
+th,td{padding:12px 13px}
+tr:hover td{background:#f8fbff}
+.publication-date{display:inline-flex;flex-direction:column;gap:2px;line-height:1.1}
+.publication-date small{font-size:11px;color:#64748b;font-weight:600}
+.footer{border-top:1px solid #e1e7ef;padding-top:14px}
+
 </style>
 </head>
 <body>
@@ -53,9 +102,11 @@ tr:hover td{background:#f7fbff}
   </header>
 
   <section class="grid">
-    <div class="card"><div class="kpi-label">Total CMPP</div><div class="kpi" id="total">—</div></div>
-    <div class="card"><div class="kpi-label">1º publicado</div><div class="kpi" id="first">—</div><div id="firstName" class="kpi-label"></div></div>
-    <div class="card"><div class="kpi-label">Último publicado</div><div class="kpi" id="last">—</div><div id="lastName" class="kpi-label"></div></div><div class="card"><div class="kpi-label">Deferidos</div><div class="kpi" id="deferidos">—</div><div id="deferidosPct" class="kpi-label"></div></div><div class="card"><div class="kpi-label">Em andamento</div><div class="kpi" id="andamento">—</div></div>
+    <div class="card kpi-card"><div class="kpi-icon icon-blue">▦</div><div class="kpi-label">Total CMPP</div><div class="kpi" id="total">—</div></div>
+    <div class="card kpi-card"><div class="kpi-icon icon-gold">◷</div><div class="kpi-label">1º publicado</div><div class="kpi" id="first">—</div><div id="firstName" class="kpi-label"></div></div>
+    <div class="card kpi-card"><div class="kpi-icon icon-blue">↗</div><div class="kpi-label">Último publicado</div><div class="kpi" id="last">—</div><div id="lastName" class="kpi-label"></div></div>
+    <div class="card kpi-card"><div class="kpi-icon icon-green">✓</div><div class="kpi-label">Deferidos</div><div class="kpi" id="deferidos">—</div><div id="deferidosPct" class="kpi-label"></div></div>
+    <div class="card kpi-card"><div class="kpi-icon icon-amber">⏳</div><div class="kpi-label">Em andamento</div><div class="kpi" id="andamento">—</div></div>
   </section>
 
   <section class="main">
@@ -71,12 +122,12 @@ tr:hover td{background:#f7fbff}
   </section>
 
   <section class="card table-card">
-    <h2 class="section-title">Situação dos memoriais</h2>
+    <h2 class="section-title">Situação dos processos</h2>
     <div class="chart-wrap"><svg id="statusChart" viewBox="0 0 900 260" preserveAspectRatio="none"></svg></div>
   </section>
 
   <section class="card table-card">
-    <h2 class="section-title">Ranking completo</h2>
+    <h2 class="section-title">Ranking de publicações</h2>
     <div class="filters">
       <input id="search" type="search" placeholder="Pesquisar servidor...">
       <select id="levelFilter"><option value="">Todos os níveis</option></select>
@@ -84,7 +135,7 @@ tr:hover td{background:#f7fbff}
     </div>
     <div class="table-scroll">
       <table>
-        <thead><tr><th>Pos.</th><th>Servidor</th><th>Nível</th><th>Data</th><th>Hora</th><th>Status</th></tr></thead>
+        <thead><tr><th>Pos.</th><th>Servidor</th><th>Nível</th><th>Publicação</th><th>Status</th></tr></thead>
         <tbody id="tbody"></tbody>
       </table>
     </div>
@@ -133,12 +184,11 @@ function renderTable(){
   );
   document.getElementById('tbody').innerHTML=filtered.map(r=>`
     <tr>
-      <td><strong>${r.rank}</strong></td>
-      <td>${r.name}</td>
-      <td><span class="badge">RSC-TAE ${r.level}</span></td>
-      <td>${r.siape}CMPP</td>
-      <td>${r.date}</td>
-      <td>${r.time}</td><td><span class="badge">${r.status}</span></td>
+      <td><span class="rank-pill">${r.rank}</span></td>
+      <td><strong>${r.name}</strong></td>
+      <td><span class="level-badge level-${r.level.toLowerCase()}">RSC-TAE ${r.level}</span></td>
+      <td><span class="publication-date"><strong>${r.date}</strong><small>${r.time}</small></span></td>
+      <td><span class="status-badge status-${r.status === 'Deferido' ? 'deferido' : r.status === 'Indeferido' ? 'indeferido' : 'andamento'}">${r.status}</span></td>
     </tr>`).join('');
 }
 ['search','levelFilter','dayFilter','statusFilter'].forEach(id=>document.getElementById(id).addEventListener('input',renderTable));
