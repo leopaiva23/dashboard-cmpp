@@ -149,6 +149,48 @@ tbody tr:hover{background:var(--surface-2)}
 }
 @media(min-width:641px){.filter-content{display:block!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+
+/* Consulta individual da fila */
+.queue-person{
+  margin:14px 0 0;
+  padding:20px;
+  border:1px solid var(--line);
+  border-radius:16px;
+  background:linear-gradient(135deg,var(--surface),var(--surface-2));
+  box-shadow:var(--shadow);
+}
+.queue-person.hidden{display:none}
+.queue-person-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+.queue-person-kicker{font-size:10px;text-transform:uppercase;letter-spacing:.09em;font-weight:850;color:var(--brand)}
+.queue-person-name{margin-top:4px;font-size:20px;font-weight:850;color:var(--text)}
+.queue-person-note{font-size:11px;color:var(--muted);margin-top:4px}
+.queue-position{
+  min-width:112px;text-align:center;padding:12px 14px;border-radius:13px;
+  background:var(--brand-soft);border:1px solid color-mix(in srgb,var(--brand) 20%,var(--line));
+}
+.queue-position strong{display:block;font-size:30px;line-height:1;color:var(--brand)}
+.queue-position span{display:block;margin-top:5px;font-size:10px;font-weight:800;color:var(--muted);text-transform:uppercase}
+.queue-insights{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.queue-insight{padding:12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.queue-insight .label{font-size:10px;color:var(--muted);font-weight:750}
+.queue-insight .value{margin-top:5px;font-size:18px;font-weight:850;color:var(--text)}
+.queue-insight .small{margin-top:3px;font-size:10px;color:var(--muted)}
+.queue-person-details{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}
+.queue-detail{font-size:11px;color:var(--muted)}
+.queue-detail b{color:var(--text)}
+.queue-reassure{
+  margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--brand-soft);
+  color:var(--text);font-size:11px;line-height:1.5;
+}
+.queue-multiple{font-size:12px;color:var(--muted);padding:4px 0}
+.queue-multiple strong{color:var(--text)}
+@media(max-width:760px){
+ .queue-person-head{flex-direction:column}
+ .queue-position{width:100%;min-width:0}
+ .queue-insights{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .queue-person-details{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
 </style>
 </head>
 <body>
@@ -227,6 +269,37 @@ tbody tr:hover{background:var(--surface-2)}
    <div class="mobile-list" id="mobileList"></div>
   </article>
   <p class="method">Ranking ordenado da publicação mais antiga para a mais recente, considerando data e hora. Após aplicar filtros, a posição é recalculada dentro do recorte exibido.</p>
+ </section>
+
+ <section class="section" id="individualSection">
+  <article class="panel queue-person hidden" id="queuePerson" aria-live="polite">
+    <div class="queue-person-head">
+      <div>
+        <div class="queue-person-kicker">Acompanhamento individual</div>
+        <div class="queue-person-name" id="personName">—</div>
+        <div class="queue-person-note" id="personNote">Digite o nome no campo de pesquisa para consultar sua posição.</div>
+      </div>
+      <div class="queue-position">
+        <strong id="personPos">—</strong>
+        <span>posição atual</span>
+      </div>
+    </div>
+    <div class="queue-insights">
+      <div class="queue-insight"><div class="label">Pessoas à sua frente</div><div class="value" id="personAhead">—</div><div class="small">memoriais ainda em análise</div></div>
+      <div class="queue-insight"><div class="label">Pessoas atrás</div><div class="value" id="personBehind">—</div><div class="small">na fila atual</div></div>
+      <div class="queue-insight"><div class="label">Total em análise</div><div class="value" id="personTotal">—</div><div class="small">somente Em Andamento</div></div>
+      <div class="queue-insight"><div class="label">Já deferidos</div><div class="value" id="personDone">—</div><div class="small">fora da fila de análise</div></div>
+    </div>
+    <div class="queue-person-details">
+      <div><span>Campus</span><strong id="personCampus">—</strong></div>
+      <div><span>Nível</span><strong id="personLevel">—</strong></div>
+      <div><span>Publicação</span><strong id="personDate">—</strong></div>
+      <div><span>Tempo desde a publicação</span><strong id="personAge">—</strong></div>
+    </div>
+    <div class="queue-person-disclaimer">
+      <strong>Importante:</strong> a posição indica apenas a ordem relativa dos memoriais atualmente em análise. Ela não representa previsão de prazo para conclusão. Novos memoriais e mudanças de status podem alterar a posição.
+    </div>
+  </article>
  </section>
 
  <section class="section">
@@ -338,7 +411,55 @@ function renderQueue(data){const arr=data.filter(r=>r.status==="Em Andamento").s
 function updateContext(){const sorted=[...ROWS].sort((a,b)=>dt(a)-dt(b));$("ctxTotal").textContent=`${num(ROWS.length)} memoriais publicados`;$("ctxPeriod").textContent=`${sorted[0].date} a ${sorted.at(-1).date}`;$("ctxUpdated").textContent=fmtDT(sorted.at(-1))}
 function updateFilterOptions(){const camps=[...new Set(ROWS.map(r=>r.campus_code))],levels=[...new Set(ROWS.map(r=>r.level))].sort((a,b)=>Number(a)-Number(b)),stats=[...new Set(ROWS.map(r=>r.status))];$("campusFilter").innerHTML='<option value="">Todos os campi</option>'+camps.map(c=>`<option value="${esc(c)}">${esc(c)} · ${esc(campusName(c))}</option>`).join("");$("levelFilter").innerHTML='<option value="">Todos os níveis</option>'+levels.map(x=>`<option value="${esc(x)}">RSC-TAE ${esc(x)}</option>`).join("");$("statusFilter").innerHTML='<option value="">Todos os status</option>'+STATUS_ORDER.filter(x=>stats.includes(x)).map(x=>`<option value="${esc(x)}">${esc(x)}</option>`).join("")}
 function updateMeta(data){$("filterCount").textContent=`${num(data.length)} registro(s) encontrado(s)`;const active=!!(state.q||state.campus||state.level||state.status);$("activeFilter").innerHTML=active?'<span class="active-dot"></span>Filtros ativos':'<span class="active-dot"></span>Sem filtros ativos';$("filterToggle").setAttribute("aria-label",active?"Filtros — há filtros ativos":"Filtros")}
-function renderAll(){const data=filtered();updateMeta(data);renderKpis(data);renderCampus(data);renderDaily(data);renderDonut(data);renderBars(data,"status");renderBars(data,"level");renderTable(data);renderQueue(data)}
+function durationSince(dateValue){
+  const ms=Math.max(0,Date.now()-dateValue.getTime()),days=Math.floor(ms/86400000),hours=Math.floor(ms%86400000/3600000);
+  if(days>0)return `${days} dia${days===1?"":"s"} e ${hours}h`;
+  return `${hours}h`;
+}
+function renderPersonQueue(){
+  const box=$("queuePerson");
+  if(!box) return;
+  const q=state.q.trim();
+  if(!q){box.classList.add("hidden");return}
+  const qn=q.toLocaleLowerCase("pt-BR");
+  const allMatches=ROWS.filter(r=>r.name.toLocaleLowerCase("pt-BR").includes(qn));
+  const exactMatches=ROWS.filter(r=>r.name.toLocaleLowerCase("pt-BR")===qn);
+  const matches=exactMatches.length===1 ? exactMatches : allMatches;
+  if(matches.length!==1){
+    if(matches.length===0){box.classList.add("hidden");return}
+    $("personName").textContent=`${matches.length} pessoas encontradas`;
+    $("personNote").innerHTML=`Refine a pesquisa para visualizar uma posição individual.`;
+    $("personPos").textContent="—";
+    $("personAhead").textContent="—";$("personBehind").textContent="—";$("personTotal").textContent="—";$("personDone").textContent="—";
+    $("personCampus").textContent="—";$("personLevel").textContent="—";$("personDate").textContent="—";$("personAge").textContent="—";
+    box.classList.remove("hidden");return;
+  }
+  const person=matches[0];
+  const queue=ROWS.filter(r=>r.status==="Em Andamento").slice().sort((a,b)=>dt(a)-dt(b));
+  const idx=queue.findIndex(r=>r.name===person.name && r.date===person.date && r.time===person.time);
+  const inQueue=idx>=0;
+  const pos=inQueue?idx+1:null;
+  const ahead=inQueue?idx:null;
+  const behind=inQueue?queue.length-idx-1:null;
+  const deferidos=ROWS.filter(r=>r.status==="Deferido").length;
+  $("personName").textContent=person.name;
+  $("personNote").textContent=inQueue
+    ?"Posição calculada entre os memoriais Em Andamento, da publicação mais antiga para a mais recente."
+    :person.status==="Deferido"
+      ?"Este memorial foi deferido e, por isso, já saiu da fila de análise."
+      :"Este memorial não está atualmente na fila de análise.";
+  $("personPos").textContent=inQueue?`#${pos}`:"Fora";
+  $("personAhead").textContent=inQueue?num(ahead):"—";
+  $("personBehind").textContent=inQueue?num(behind):"—";
+  $("personTotal").textContent=num(queue.length);
+  $("personDone").textContent=num(deferidos);
+  $("personCampus").textContent=person.campus_code;
+  $("personLevel").textContent=`RSC-TAE ${person.level}`;
+  $("personDate").textContent=fmtDT(person);
+  $("personAge").textContent=durationSince(dt(person));
+  box.classList.remove("hidden");
+}
+function renderAll(){const data=filtered();updateMeta(data);renderPersonQueue();renderKpis(data);renderCampus(data);renderDaily(data);renderDonut(data);renderBars(data,"status");renderBars(data,"level");renderTable(data);renderQueue(data)}
 function setTheme(theme){document.documentElement.dataset.theme=theme;localStorage.setItem("rsc-theme",theme);$("themeBtn").innerHTML=theme==="dark"?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 15.2A8.5 8.5 0 1 1 8.8 3.5 6.7 6.7 0 0 0 20.5 15.2Z"/></svg>';renderAll()}
 $("themeBtn").addEventListener("click",()=>setTheme(document.documentElement.dataset.theme==="dark"?"light":"dark"));
 $("filterToggle").addEventListener("click",()=>{const el=$("filterContent"),open=el.classList.toggle("open");$("filterToggle").setAttribute("aria-expanded",open);$("filterChevron").textContent=open?"⌃":"⌄"});
