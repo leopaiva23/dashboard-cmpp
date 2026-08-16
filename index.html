@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="pt-BR" data-theme="light">
 <head>
@@ -190,6 +191,13 @@ tbody tr:hover{background:var(--surface-2)}
  .queue-person-details{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
+
+.queue-position-only{grid-template-columns:repeat(2,minmax(0,220px));justify-content:start}
+.queue-position-only .queue-insight{padding:14px 18px}
+.queue-position-only .queue-insight .value{font-size:24px}
+@media(max-width:760px){.queue-position-only{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.queue-position-only{grid-template-columns:1fr}}
+
 </style>
 
 <style>
@@ -304,11 +312,9 @@ tbody tr:hover{background:var(--surface-2)}
         <span>posição atual</span>
       </div>
     </div>
-    <div class="queue-insights">
-      <div class="queue-insight"><div class="label">Pessoas à sua frente</div><div class="value" id="personAhead">—</div><div class="small">memoriais ainda em análise</div></div>
-      <div class="queue-insight"><div class="label">Pessoas atrás</div><div class="value" id="personBehind">—</div><div class="small">na fila atual</div></div>
-      <div class="queue-insight"><div class="label">Em análise no seu campus</div><div class="value" id="personTotal">—</div><div class="small">somente Em Andamento</div></div>
-      <div class="queue-insight"><div class="label">Já deferidos no campus</div><div class="value" id="personDone">—</div><div class="small">fora da fila de análise</div></div>
+    <div class="queue-insights queue-position-only">
+      <div class="queue-insight"><div class="label">Pessoas à sua frente</div><div class="value" id="personAhead">—</div><div class="small">no seu campus</div></div>
+      <div class="queue-insight"><div class="label">Pessoas atrás</div><div class="value" id="personBehind">—</div><div class="small">no seu campus</div></div>
     </div>
     <div class="queue-person-details">
       <div><span>Campus</span><strong id="personCampus">—</strong></div>
@@ -450,7 +456,7 @@ function renderPersonQueue(){
     $("personName").textContent=`${matches.length} pessoas encontradas`;
     $("personNote").innerHTML=`Refine a pesquisa para visualizar uma posição individual.`;
     $("personPos").textContent="—";
-    $("personAhead").textContent="—";$("personBehind").textContent="—";$("personTotal").textContent="—";$("personDone").textContent="—";
+    $("personAhead").textContent="—";$("personBehind").textContent="—";
     $("personCampus").textContent="—";$("personLevel").textContent="—";$("personDate").textContent="—";$("personAge").textContent="—";
     box.classList.remove("hidden");return;
   }
@@ -492,8 +498,6 @@ function renderPersonQueue(){
 
   // O total exibido agora é o total EM ANÁLISE no campus da pessoa,
   // e não o total geral da UFPI.
-  $("personTotal").textContent = num(campusQueue.length);
-  $("personDone").textContent = num(deferidosCampus);
   $("personCampus").textContent = personCampus;
   $("personLevel").textContent = `RSC-TAE ${person.level}`;
   $("personDate").textContent = fmtDT(person);
